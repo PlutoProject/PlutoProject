@@ -41,7 +41,7 @@ import ink.pmc.framework.command.commandManager
 import ink.pmc.framework.command.getKotlinMethodArgumentParser
 import ink.pmc.framework.command.suggestion.PaperPrivilegedSuggestion
 import ink.pmc.framework.config.preconfiguredConfigLoaderBuilder
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.storage.saveResourceIfNotExisted
 import ink.pmc.menu.api.MenuManager
 import ink.pmc.menu.api.isMenuAvailable
@@ -112,7 +112,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
     override suspend fun onEnableAsync() {
         plugin = this
 
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(bukkitModule)
         }
 

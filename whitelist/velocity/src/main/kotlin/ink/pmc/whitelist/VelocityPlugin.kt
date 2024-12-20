@@ -11,7 +11,7 @@ import com.velocitypowered.api.proxy.ProxyServer
 import ink.pmc.framework.provider.Provider
 import ink.pmc.framework.command.annotationParser
 import ink.pmc.framework.command.commandManager
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.platform.proxy
 import ink.pmc.whitelist.models.MemberModel
 import ink.pmc.whitelist.models.WhitelistModel
@@ -41,7 +41,7 @@ class VelocityPlugin @Inject constructor(private val spc: SuspendingPluginContai
 
     @Inject
     fun velocityWhitelist(server: ProxyServer, logger: Logger, @DataDirectory dataDirectoryPath: Path) {
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(velocityModule)
         }
     }

@@ -9,7 +9,7 @@ import com.velocitypowered.api.proxy.ProxyServer
 import ink.pmc.essentials.velocity.EssentialsProxyConfig
 import ink.pmc.essentials.velocity.listeners.MessageListener
 import ink.pmc.framework.config.preconfiguredConfigLoaderBuilder
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.platform.saveResourceIfNotExisted
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -47,7 +47,7 @@ class VelocityPlugin @Inject constructor(spc: SuspendingPluginContainer) : KoinC
     @Inject
     fun essentials(server: ProxyServer, logger: Logger, @DataDirectory dataDirectoryPath: Path) {
         dataFolder = dataDirectoryPath.toFile()
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(velocityModule)
         }
         if (config.message.enabled) {

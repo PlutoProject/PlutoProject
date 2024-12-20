@@ -5,7 +5,7 @@ import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import com.sksamuel.hoplite.PropertySource
 import ink.pmc.framework.options.OptionsManager
 import ink.pmc.framework.config.preconfiguredConfigLoaderBuilder
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.jvm.findClass
 import ink.pmc.framework.storage.saveResourceIfNotExisted
 import ink.pmc.hypervisor.StatisticProviderType.NATIVE
@@ -66,7 +66,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         plugin = this
         pluginLogger = logger
 
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(bukkitModule)
         }
 

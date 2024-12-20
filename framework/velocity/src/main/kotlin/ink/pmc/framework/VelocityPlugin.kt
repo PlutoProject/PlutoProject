@@ -26,7 +26,7 @@ import ink.pmc.framework.rpc.RpcServer
 import ink.pmc.framework.command.annotationParser
 import ink.pmc.framework.command.commandManager
 import ink.pmc.framework.concurrent.cancelFrameworkScopes
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.platform.proxy
 import ink.pmc.framework.platform.proxyThread
 import ink.pmc.framework.platform.saveDefaultConfig
@@ -63,7 +63,7 @@ class VelocityPlugin @Inject constructor(private val spc: SuspendingPluginContai
         dataFolder = dataDirectoryPath.toFile().also {
             if (!it.exists()) it.mkdirs()
         }
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(commonModule, velocityModule)
         }
         Provider // 初始化

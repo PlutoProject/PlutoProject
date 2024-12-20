@@ -29,7 +29,7 @@ import ink.pmc.framework.command.annotationParser
 import ink.pmc.framework.command.commandManager
 import ink.pmc.framework.concurrent.cancelFrameworkScopes
 import ink.pmc.framework.hook.initPaperHooks
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.jvm.loadClassesInPackages
 import ink.pmc.framework.platform.paper
 import ink.pmc.framework.platform.paperThread
@@ -68,7 +68,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         frameworkDataFolder = dataFolder.apply { if (!exists()) mkdirs() }
         paperThread = Thread.currentThread()
         this.server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(commonModule, bukkitModule)
         }
         if (config.preload) preload()

@@ -4,7 +4,7 @@ import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import com.sksamuel.hoplite.PropertySource
 import ink.pmc.framework.options.OptionsManager
 import ink.pmc.framework.config.preconfiguredConfigLoaderBuilder
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import ink.pmc.framework.storage.saveResourceIfNotExisted
 import ink.pmc.menu.api.MenuManager
 import ink.pmc.menu.api.isMenuAvailable
@@ -30,7 +30,7 @@ class PaperPlugin : SuspendingJavaPlugin() {
 
     override suspend fun onEnableAsync() {
         plugin = this
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(sharedModule, bukkitModule)
         }
         loadLobbyWorld()

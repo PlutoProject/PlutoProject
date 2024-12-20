@@ -1,7 +1,7 @@
 package ink.pmc.railway
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
-import ink.pmc.framework.inject.startKoinIfNotPresent
+import ink.pmc.framework.inject.modifyExistedKoinOrCreate
 import org.bukkit.plugin.Plugin
 import org.koin.dsl.module
 
@@ -14,7 +14,7 @@ class PaperPlugin : SuspendingJavaPlugin() {
 
     override fun onEnable() {
         plugin = this
-        startKoinIfNotPresent {
+        modifyExistedKoinOrCreate {
             modules(bukkitModule)
         }
     }

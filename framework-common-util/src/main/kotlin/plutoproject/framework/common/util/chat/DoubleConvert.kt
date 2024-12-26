@@ -1,8 +1,8 @@
-package ink.pmc.framework.chat
+package plutoproject.framework.common.util.chat
 
 import java.text.DecimalFormat
 
-fun Double.currencyFormat(): String {
+fun Double.toCurrencyFormattedString(): String {
     val decimalFormat = DecimalFormat("#,##0.00")
     return decimalFormat.format(this)
 }

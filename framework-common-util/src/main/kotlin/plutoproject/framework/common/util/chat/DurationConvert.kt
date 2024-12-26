@@ -1,8 +1,11 @@
-package ink.pmc.framework.time
+package plutoproject.framework.common.util.chat
 
+import net.kyori.adventure.text.Component
 import kotlin.time.Duration
+import kotlin.time.toKotlinDuration
+import java.time.Duration as JavaDuration
 
-fun Duration.formatDuration(): String {
+fun Duration.toFormattedString(): String {
     val totalNanoseconds = inWholeNanoseconds
     val days = totalNanoseconds / 86_400_000_000_000
     val hours = (totalNanoseconds % 86_400_000_000_000) / 3_600_000_000_000
@@ -41,3 +44,9 @@ fun Duration.formatDuration(): String {
 
     return result.toString().trim()
 }
+
+fun JavaDuration.toFormattedString() = toKotlinDuration().toFormattedString()
+
+fun Duration.toFormattedComponent(): Component = Component.text(toFormattedString())
+
+fun JavaDuration.toFormattedComponent(): Component = Component.text(toFormattedString())

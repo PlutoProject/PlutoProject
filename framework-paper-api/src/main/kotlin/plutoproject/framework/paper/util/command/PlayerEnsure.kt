@@ -12,6 +12,7 @@ fun ensurePlayer(sender: CommandSender, action: Player.() -> Unit) {
     sender.action()
 }
 
+@JvmName("ensurePlayerReceiver")
 fun CommandSender.ensurePlayer(action: Player.() -> Unit) {
     ensurePlayer(this, action)
 }

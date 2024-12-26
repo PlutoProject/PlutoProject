@@ -1,6 +1,7 @@
-package ink.pmc.framework.chat
+package plutoproject.framework.common.util.chat.palette
 
 import com.catppuccin.Palette
+import plutoproject.framework.common.util.chat.toTextColor
 
 @Suppress("UNUSED")
 val mochaRosewater = Palette.MOCHA.rosewater.toTextColor()

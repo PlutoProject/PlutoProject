@@ -84,3 +84,6 @@ include("feature-proto")
 
 include("platform-paper")
 include("platform-velocity")
+
+include("framework")
+include(":framework:api")

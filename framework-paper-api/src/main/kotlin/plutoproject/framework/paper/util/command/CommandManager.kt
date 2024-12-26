@@ -11,6 +11,8 @@ val Plugin.commandManager: LegacyPaperCommandManager<CommandSender>
         ExecutionCoordinator.asyncCoordinator()
     ).apply {
         registerBrigadier()
+        // TODO: make this work
+        /*
         parserRegistry().apply {
             registerParser(bridgePlayerParser())
             registerParser(bridgeServerParser())
@@ -19,4 +21,5 @@ val Plugin.commandManager: LegacyPaperCommandManager<CommandSender>
             registerHandler(BridgePlayerNotFoundException::class.java, BridgePlayerNotFoundHandler)
             registerHandler(BridgeServerNotFoundException::class.java, BridgeServerNotFoundHandler)
         }
+        */
     }

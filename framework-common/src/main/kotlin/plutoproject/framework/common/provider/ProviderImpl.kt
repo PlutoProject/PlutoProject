@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import plutoproject.framework.common.api.provider.Provider
 import plutoproject.framework.common.config.ProviderConfig
+import plutoproject.framework.common.util.getFrameworkModuleDataFolder
 
 class ProviderImpl : Provider, KoinComponent {
     private val config by inject<ProviderConfig>()
@@ -20,7 +21,7 @@ class ProviderImpl : Provider, KoinComponent {
             MongoClient.Factory.create("mongodb://${mongoConfig.username}:${mongoConfig.password}@${mongoConfig.host}:${mongoConfig.port}/${mongoConfig.database}?uuidRepresentation=standard&connectTimeoutMS=0&timeoutMS=0")
         defaultMongoDatabase = mongoClient.getDatabase(mongoConfig.database)
         val geoIpConfig = config.geoIp
-        val dbFile = File(frameworkDataFolder, geoIpConfig.database)
+        val dbFile = getFrameworkModuleDataFolder("provider").resolve(geoIpConfig.database)
         check(dbFile.exists()) { "GeoIP database file not found" }
         geoIpDatabase = DatabaseReader.Builder(dbFile).build()
     }

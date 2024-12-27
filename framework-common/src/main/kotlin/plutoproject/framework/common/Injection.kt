@@ -12,15 +12,14 @@ import plutoproject.framework.common.api.rpc.RpcServer
 import plutoproject.framework.common.config.BridgeConfig
 import plutoproject.framework.common.config.ProviderConfig
 import plutoproject.framework.common.config.RpcConfig
+import plutoproject.framework.common.provider.ProviderImpl
 import plutoproject.framework.common.util.COMMON_FRAMEWORK_RESOURCE_PREFIX
 import plutoproject.framework.common.util.config.ConfigLoaderBuilder
 import plutoproject.framework.common.util.frameworkDataFolder
 import plutoproject.framework.common.util.jvm.extractFileFromJar
 
 inline fun <reified T : Any> getModuleConfig(resourcePrefix: String, id: String): T {
-    val file = frameworkDataFolder
-        .resolve(id)
-        .resolve("config.conf")
+    val file = frameworkDataFolder.resolve(id).resolve("config.conf")
     file.parentFile?.mkdirs()
     if (!(file.exists())) {
         extractFileFromJar("$resourcePrefix/$id/config.conf", file.toPath())

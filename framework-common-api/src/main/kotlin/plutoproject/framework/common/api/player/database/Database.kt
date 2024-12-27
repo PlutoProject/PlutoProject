@@ -1,11 +1,10 @@
-package ink.pmc.framework.player.db
+package plutoproject.framework.common.api.player.database
 
 import org.bson.BsonDocument
 import org.bson.BsonValue
 import java.util.*
 
 interface Database {
-
     val id: UUID
     val contents: BsonDocument
 
@@ -48,5 +47,4 @@ interface Database {
     fun clear()
 
     suspend fun update()
-
 }

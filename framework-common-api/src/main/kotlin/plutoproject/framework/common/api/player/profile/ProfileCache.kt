@@ -1,6 +1,6 @@
-package ink.pmc.framework.player.profile
+package plutoproject.framework.common.api.player.profile
 
-import ink.pmc.framework.inject.inlinedGet
+import plutoproject.framework.common.util.inject.inlinedGet
 import java.util.*
 
 interface ProfileCache {

@@ -1,4 +1,4 @@
-package ink.pmc.framework.player.profile
+package plutoproject.framework.common.api.player.profile
 
 import java.util.*
 

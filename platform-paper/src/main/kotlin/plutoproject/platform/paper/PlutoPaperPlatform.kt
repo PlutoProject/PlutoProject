@@ -3,8 +3,6 @@ package plutoproject.platform.paper
 import org.bukkit.plugin.java.JavaPlugin
 import plutoproject.framework.common.FrameworkCommonModule
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
-import plutoproject.framework.common.util.featureResourcePrefix
-import plutoproject.framework.common.util.frameworkResourcePrefix
 import plutoproject.framework.common.util.initPluginDataFolder
 import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
 import plutoproject.framework.common.util.serverThread
@@ -20,8 +18,6 @@ class PlutoPaperPlatform : JavaPlugin() {
         utilServer = server
         serverThread = Thread.currentThread()
         dataFolder.initPluginDataFolder()
-        featureResourcePrefix = "feature/paper/"
-        frameworkResourcePrefix = "framework/paper"
         modifyExistedKoinOrCreate {
             modules(FrameworkCommonModule, FrameworkPaperModule)
         }

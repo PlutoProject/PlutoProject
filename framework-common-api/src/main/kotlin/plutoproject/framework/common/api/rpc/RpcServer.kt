@@ -1,8 +1,8 @@
-package ink.pmc.framework.rpc
+package plutoproject.framework.common.api.rpc
 
-import ink.pmc.framework.inject.inlinedGet
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import plutoproject.framework.common.util.inject.inlinedGet
 
 interface RpcServer {
     companion object : RpcServer by inlinedGet()

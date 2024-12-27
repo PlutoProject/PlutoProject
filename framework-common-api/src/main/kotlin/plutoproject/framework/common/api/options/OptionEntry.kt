@@ -1,4 +1,4 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.api.options
 
 interface OptionEntry<T : Any> {
     val descriptor: OptionDescriptor<T>

@@ -1,9 +1,9 @@
-package ink.pmc.framework.options.factory
+package plutoproject.framework.common.api.options.factory
 
-import ink.pmc.framework.options.EntryValueType
-import ink.pmc.framework.options.Limitation
-import ink.pmc.framework.options.OptionDescriptor
-import ink.pmc.framework.inject.inlinedGet
+import plutoproject.framework.common.api.options.EntryValueType
+import plutoproject.framework.common.api.options.Limitation
+import plutoproject.framework.common.api.options.OptionDescriptor
+import plutoproject.framework.common.util.inject.inlinedGet
 
 interface OptionDescriptorFactory {
     companion object : OptionDescriptorFactory by inlinedGet()

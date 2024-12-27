@@ -7,17 +7,12 @@ lateinit var pluginDataFolder: File
 lateinit var featureDataFolder: File
 lateinit var frameworkDataFolder: File
 
-fun getFrameworkModuleDataFolder(id: String): File {
-    val file = frameworkDataFolder.resolve(id)
-    file.parentFile.mkdirs()
-    return file
-}
+fun getFrameworkModuleDataFolder(id: String) = frameworkDataFolder.resolve(id).also { it.mkdirs() }
+
+fun getFeatureDataFolder(id: String) = featureDataFolder.resolve(id).also { it.mkdirs() }
 
 fun File.initPluginDataFolder() {
-    pluginDataFolder = this
-    pluginDataFolder.mkdirs()
-    featureDataFolder = pluginDataFolder.resolve("feature${File.separator}")
-    frameworkDataFolder = pluginDataFolder.resolve("framework${File.separator}")
-    featureDataFolder.mkdirs()
-    featureDataFolder.mkdirs()
+    pluginDataFolder = this.also { it.mkdirs() }
+    featureDataFolder = pluginDataFolder.resolve("feature${File.separator}").also { it.mkdirs() }
+    frameworkDataFolder = pluginDataFolder.resolve("framework${File.separator}").also { it.mkdirs() }
 }

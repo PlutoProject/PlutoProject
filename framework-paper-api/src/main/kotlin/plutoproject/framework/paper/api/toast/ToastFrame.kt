@@ -1,8 +1,6 @@
-package ink.pmc.framework.visual.toast
+package plutoproject.framework.paper.api.toast
 
-@Suppress("UNUSED")
 enum class ToastFrame(val texture: String) {
-
     // 成就
     ADVENTURE("minecraft:textures/gui/advancements/backgrounds/adventure.png"),
     END("minecraft:textures/gui/advancements/backgrounds/end.png"),
@@ -29,5 +27,4 @@ enum class ToastFrame(val texture: String) {
     SEA_LANTERN("minecraft:textures/block/sea_lantern.png"),
     SNOW("minecraft:textures/block/snow.png"),
     STONE_BLOCK("minecraft:textures/block/stone.png"),
-
 }

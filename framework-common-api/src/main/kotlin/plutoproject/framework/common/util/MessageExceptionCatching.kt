@@ -1,4 +1,4 @@
-package plutoproject.framework.common.util.audience
+package plutoproject.framework.common.util
 
 import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
@@ -23,7 +23,7 @@ inline fun <T> T.catchException(
     }
 }
 
-inline fun <T> T.catchExceptionInteraction(audience: Audience? = null, action: T.() -> Unit) {
+inline fun <T> T.catchInteractiveException(audience: Audience? = null, action: T.() -> Unit) =
     catchException(
         audience = audience,
         onFailure = {
@@ -37,4 +37,3 @@ inline fun <T> T.catchExceptionInteraction(audience: Audience? = null, action: T
     ) {
         action()
     }
-}

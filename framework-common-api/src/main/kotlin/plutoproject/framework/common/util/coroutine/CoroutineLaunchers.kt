@@ -5,7 +5,7 @@ import kotlin.coroutines.CoroutineContext
 
 @Suppress("UNUSED")
 fun <T> runAsync(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend CoroutineScope.() -> T,
@@ -13,14 +13,14 @@ fun <T> runAsync(
 
 @Suppress("UNUSED")
 fun <T> runAsyncIO(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend CoroutineScope.() -> T,
 ): Deferred<T> = coroutineScope.async(Dispatchers.IO, coroutineStart) { block() }
 
 @Suppress("UNUSED")
 fun <T> runAsyncUnconfined(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend CoroutineScope.() -> T,
 ): Deferred<T> = coroutineScope.async(Dispatchers.Unconfined, coroutineStart) { block() }

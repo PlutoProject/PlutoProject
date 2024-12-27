@@ -1,7 +1,6 @@
-package ink.pmc.framework.dsl
+package plutoproject.framework.paper.util.dsl
 
 import ink.pmc.advkt.component.RootComponentKt
-import ink.pmc.framework.structure.Builder
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -12,8 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta
 
 typealias MetaModifier = ItemMeta.() -> Unit
 
-class ItemStackDsl(private var material: Material, private val amount: Int) : Builder<ItemStack> {
-
+class ItemStackDsl(private var material: Material, private val amount: Int) {
     var displayName: Component? = null
     private val lore = mutableListOf<Component>()
     private val enchantments = mutableMapOf<Enchantment, Int>()
@@ -60,8 +58,8 @@ class ItemStackDsl(private var material: Material, private val amount: Int) : Bu
         this.metaModifier = modifier
     }
 
-    override fun build(): ItemStack {
-        return ItemStack(material, amount)
+    fun build(): ItemStack =
+        ItemStack(material, amount)
             .apply {
                 editMeta {
                     it.displayName(displayName)
@@ -71,22 +69,20 @@ class ItemStackDsl(private var material: Material, private val amount: Int) : Bu
                 addEnchantments(this@ItemStackDsl.enchantments)
                 addItemFlags(*this@ItemStackDsl.itemFlags.toTypedArray())
             }
-    }
-
 }
 
-fun itemStack(material: Material, amount: Int = 1, block: ItemStackDsl.() -> Unit): ItemStack {
+fun ItemStack(material: Material, amount: Int = 1, block: ItemStackDsl.() -> Unit): ItemStack {
     return ItemStackDsl(material, amount).apply(block).build()
 }
 
-fun itemStack(material: Material, amount: Int = 1): ItemStack {
+fun ItemStack(material: Material, amount: Int = 1): ItemStack {
     return ItemStackDsl(material, amount).build()
 }
 
 fun Inventory.addItem(material: Material, amount: Int = 1, block: ItemStackDsl.() -> Unit) {
-    addItem(itemStack(material, amount, block))
+    addItem(ItemStack(material, amount, block))
 }
 
 fun Inventory.addItem(material: Material, amount: Int = 1) {
-    addItem(itemStack(material, amount))
+    addItem(plutoproject.framework.paper.util.dsl.ItemStack(material, amount))
 }

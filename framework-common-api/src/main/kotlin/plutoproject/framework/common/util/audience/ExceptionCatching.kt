@@ -1,12 +1,12 @@
-package ink.pmc.framework.player
+package plutoproject.framework.common.util.audience
 
 import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
-import ink.pmc.framework.frameworkLogger
-import ink.pmc.framework.chat.mochaMaroon
-import ink.pmc.framework.chat.mochaSubtext0
 import net.kyori.adventure.audience.Audience
+import plutoproject.framework.common.util.chat.palette.MOCHA_MAROON
+import plutoproject.framework.common.util.chat.palette.MOCHA_SUBTEXT_0
+import plutoproject.framework.common.util.logger.logger
 import java.util.logging.Level
 
 inline fun <T> T.catchException(
@@ -19,7 +19,7 @@ inline fun <T> T.catchException(
         action()
     }.onFailure {
         audience?.onFailure(it)
-        frameworkLogger.log(Level.SEVERE, failureLog, it)
+        logger.log(Level.SEVERE, failureLog, it)
     }
 }
 
@@ -28,9 +28,9 @@ inline fun <T> T.catchExceptionInteraction(audience: Audience? = null, action: T
         audience = audience,
         onFailure = {
             send {
-                text("处理交互时出现服务器内部错误") with mochaMaroon
+                text("处理交互时出现服务器内部错误") with MOCHA_MAROON
                 newline()
-                text("请将其反馈给管理组以便我们尽快解决") with mochaSubtext0
+                text("请将其反馈给管理组以便我们尽快解决") with MOCHA_SUBTEXT_0
             }
         },
         failureLog = "Exception caught while handling interaction"

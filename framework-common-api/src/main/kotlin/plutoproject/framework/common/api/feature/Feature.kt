@@ -15,7 +15,7 @@ interface Feature<S : Any, P : Any> {
 
     fun onDisable() {}
 
-    fun saveConfig(): File
+    fun saveConfig(resourcePrefix: String): File
 
-    fun saveResource(path: String): File
+    fun saveResource(resourcePrefix: String, path: String): File
 }

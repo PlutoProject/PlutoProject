@@ -83,4 +83,6 @@ include("platform-paper")
 include("platform-velocity")
 
 include("framework")
-include(":framework:api")
+include("framework:paper")
+include("framework:shared")
+include("framework:velocity")

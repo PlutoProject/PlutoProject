@@ -1,16 +1,15 @@
-package ink.pmc.framework.provider
+package plutoproject.framework.common.provider
 
 import com.maxmind.geoip2.DatabaseReader
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import ink.pmc.framework.FrameworkConfig
-import ink.pmc.framework.frameworkDataFolder
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import java.io.File
+import org.koin.core.component.inject
+import plutoproject.framework.common.api.provider.Provider
+import plutoproject.framework.common.config.ProviderConfig
 
 class ProviderImpl : Provider, KoinComponent {
-    private val config by lazy { get<FrameworkConfig>().provider }
+    private val config by inject<ProviderConfig>()
     override val mongoClient: MongoClient
     override val defaultMongoDatabase: MongoDatabase
     override val geoIpDatabase: DatabaseReader
@@ -18,7 +17,7 @@ class ProviderImpl : Provider, KoinComponent {
     init {
         val mongoConfig = config.mongo
         mongoClient =
-            MongoClient.create("mongodb://${mongoConfig.username}:${mongoConfig.password}@${mongoConfig.host}:${mongoConfig.port}/${mongoConfig.database}?uuidRepresentation=standard&connectTimeoutMS=0&timeoutMS=0")
+            MongoClient.Factory.create("mongodb://${mongoConfig.username}:${mongoConfig.password}@${mongoConfig.host}:${mongoConfig.port}/${mongoConfig.database}?uuidRepresentation=standard&connectTimeoutMS=0&timeoutMS=0")
         defaultMongoDatabase = mongoClient.getDatabase(mongoConfig.database)
         val geoIpConfig = config.geoIp
         val dbFile = File(frameworkDataFolder, geoIpConfig.database)

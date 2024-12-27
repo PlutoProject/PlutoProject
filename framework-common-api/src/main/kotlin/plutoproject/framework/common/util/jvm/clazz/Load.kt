@@ -1,4 +1,4 @@
-package plutoproject.framework.common.util.jvm
+package plutoproject.framework.common.util.jvm.clazz
 
 import io.github.classgraph.ClassGraph
 

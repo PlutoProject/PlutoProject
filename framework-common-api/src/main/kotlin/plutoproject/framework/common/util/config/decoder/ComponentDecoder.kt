@@ -1,4 +1,4 @@
-package ink.pmc.framework.config.decoder
+package plutoproject.framework.common.util.config.decoder
 
 import com.sksamuel.hoplite.*
 import com.sksamuel.hoplite.decoder.NullHandlingDecoder

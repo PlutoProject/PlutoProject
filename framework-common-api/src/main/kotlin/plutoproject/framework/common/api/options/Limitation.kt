@@ -1,4 +1,4 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.api.options
 
 interface Limitation<T> {
     fun match(value: T): Boolean

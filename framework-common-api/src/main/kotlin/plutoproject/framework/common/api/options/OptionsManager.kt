@@ -1,6 +1,6 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.api.options
 
-import ink.pmc.framework.inject.inlinedGet
+import plutoproject.framework.common.util.inject.inlinedGet
 import java.util.*
 
 interface OptionsManager {

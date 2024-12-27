@@ -1,4 +1,4 @@
-package plutoproject.framework.common.util.data
+package plutoproject.framework.common.util.data.flow
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow

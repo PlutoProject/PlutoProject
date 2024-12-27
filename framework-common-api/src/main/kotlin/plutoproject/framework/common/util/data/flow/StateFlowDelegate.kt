@@ -1,4 +1,4 @@
-package plutoproject.framework.common.util.data
+package plutoproject.framework.common.util.data.flow
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

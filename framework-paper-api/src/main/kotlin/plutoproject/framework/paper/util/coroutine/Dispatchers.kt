@@ -6,30 +6,30 @@ import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.Server
 import org.bukkit.entity.Entity
-import plutoproject.framework.paper.util.PLUGIN
-import plutoproject.framework.paper.util.SERVER
-import plutoproject.framework.paper.util.isFoliaEnvironment
+import plutoproject.framework.paper.util.plugin
+import plutoproject.framework.paper.util.server
+import plutoproject.framework.paper.util.IS_FOLIA
 import plutoproject.framework.paper.util.toNms
 import kotlin.coroutines.CoroutineContext
 
 private val GLOBAL_REGION_DISPATCHER = object : CoroutineDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        SERVER.globalRegionScheduler.execute(PLUGIN, block)
+        server.globalRegionScheduler.execute(plugin, block)
     }
 }
 
 val Server.coroutineContext: CoroutineContext
-    get() = if (isFoliaEnvironment) {
+    get() = if (IS_FOLIA) {
         GLOBAL_REGION_DISPATCHER
     } else {
-        SERVER.toNms().asCoroutineDispatcher()
+        server.toNms().asCoroutineDispatcher()
     }
 
 val Entity.coroutineContext: CoroutineContext
-    get() = if (isFoliaEnvironment) {
+    get() = if (IS_FOLIA) {
         object : CoroutineDispatcher() {
             override fun dispatch(context: CoroutineContext, block: Runnable) {
-                this@coroutineContext.scheduler.execute(PLUGIN, block, {}, 0L)
+                this@coroutineContext.scheduler.execute(plugin, block, {}, 0L)
             }
         }
     } else {
@@ -37,11 +37,11 @@ val Entity.coroutineContext: CoroutineContext
     }
 
 val Chunk.coroutineContext: CoroutineContext
-    get() = if (isFoliaEnvironment) {
+    get() = if (IS_FOLIA) {
         object : CoroutineDispatcher() {
             override fun dispatch(context: CoroutineContext, block: Runnable) {
                 val chunk = this@coroutineContext
-                SERVER.regionScheduler.execute(PLUGIN, chunk.world, chunk.x, chunk.z, block)
+                server.regionScheduler.execute(plugin, chunk.world, chunk.x, chunk.z, block)
             }
         }
     } else {

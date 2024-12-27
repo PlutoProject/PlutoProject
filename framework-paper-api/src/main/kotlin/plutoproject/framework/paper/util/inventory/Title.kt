@@ -1,6 +1,5 @@
-package ink.pmc.framework.inventory
+package plutoproject.framework.paper.util.inventory
 
-import ink.pmc.framework.player.sendPacket
 import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.text.Component
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket
@@ -8,7 +7,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.craftbukkit.inventory.CraftContainer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.InventoryView
-import org.bukkit.inventory.PlayerInventory
+import plutoproject.framework.paper.util.entity.player.sendPacket
 
 fun InventoryView.title(component: Component) {
     val player = player as Player
@@ -20,6 +19,3 @@ fun InventoryView.title(component: Component) {
     player.sendPacket(packet)
     serverPlayer.containerMenu.sendAllDataToRemote()
 }
-
-val PlayerInventory.isFull: Boolean
-    get() = !storageContents.contains(null)

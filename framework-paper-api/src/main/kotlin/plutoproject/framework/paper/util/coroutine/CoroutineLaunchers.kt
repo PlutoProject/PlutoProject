@@ -7,13 +7,13 @@ import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import plutoproject.framework.common.util.coroutine.COROUTINE_SCOPE
-import plutoproject.framework.paper.util.SERVER
+import plutoproject.framework.paper.util.server
 
 @Suppress("UNUSED")
 fun <T> runSync(
     coroutineScope: CoroutineScope = COROUTINE_SCOPE,
     block: suspend CoroutineScope.() -> T,
-) = coroutineScope.async(SERVER.coroutineContext) { block() }
+) = coroutineScope.async(server.coroutineContext) { block() }
 
 @Suppress("UNUSED")
 fun <T> Entity.runSync(
@@ -35,7 +35,7 @@ fun <T> Location.runSync(
 
 @Suppress("UNUSED")
 suspend fun <T> withSync(block: suspend CoroutineScope.() -> T) =
-    withContext(SERVER.coroutineContext) { block() }
+    withContext(server.coroutineContext) { block() }
 
 @Suppress("UNUSED")
 suspend fun <T> Entity.withSync(block: suspend CoroutineScope.() -> T) =

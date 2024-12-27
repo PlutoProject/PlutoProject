@@ -1,4 +1,4 @@
-package ink.pmc.framework.player
+package plutoproject.framework.paper.util.inventory.player
 
 import org.bukkit.entity.Item
 import org.bukkit.entity.Player

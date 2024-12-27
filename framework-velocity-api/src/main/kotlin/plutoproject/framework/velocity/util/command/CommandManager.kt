@@ -6,12 +6,12 @@ import com.velocitypowered.api.plugin.PluginContainer
 import org.incendo.cloud.SenderMapper
 import org.incendo.cloud.execution.ExecutionCoordinator
 import org.incendo.cloud.velocity.VelocityCommandManager
-import plutoproject.framework.velocity.util.SERVER
+import plutoproject.framework.velocity.util.server
 
 val PluginContainer.commandManager: VelocityCommandManager<CommandSource>
     get() = VelocityCommandManager(
         this,
-        SERVER,
+        server,
         ExecutionCoordinator.asyncCoordinator(),
         SenderMapper.identity()
     ).apply {

@@ -9,18 +9,18 @@ import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.proxy.plugin.PluginClassLoader
 import plutoproject.framework.common.api.dependency.VelocityDependencyResolver
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
-import plutoproject.framework.velocity.util.PLUGIN
-import plutoproject.framework.velocity.util.SERVER
+import plutoproject.framework.velocity.util.plugin
 import java.nio.file.Path
 import java.util.logging.Logger
+import plutoproject.framework.velocity.util.server as utilServer
 
 @Suppress("UNUSED")
 class PlutoVelocityPlatform {
     @Inject
     fun plutoVelocity(server: ProxyServer, logger: Logger, @DataDirectory dataDirectoryPath: Path) {
         loadDependencies(dataDirectoryPath.getCachePath())
-        PLUGIN = server.pluginManager.getPlugin("plutoproject").get()
-        SERVER = server
+        plugin = server.pluginManager.getPlugin("plutoproject").get()
+        utilServer = server
     }
 
     private fun loadDependencies(cachePath: Path) {

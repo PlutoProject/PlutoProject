@@ -1,4 +1,4 @@
-package ink.pmc.framework.serialize.bson
+package plutoproject.framework.common.util.data.serializer.bson
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -14,8 +14,8 @@ import org.bson.codecs.kotlinx.BsonEncoder
 import java.util.*
 
 @OptIn(ExperimentalSerializationApi::class)
-object BsonUUIDSerializer : KSerializer<UUID> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("uuid_bson", PrimitiveKind.STRING)
+object JavaUuidBsonSerializer : KSerializer<UUID> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("java_uuid_bson", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): UUID {
         return when (decoder) {

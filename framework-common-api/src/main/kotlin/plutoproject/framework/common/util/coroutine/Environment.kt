@@ -6,18 +6,18 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import java.util.logging.Logger
 
-private val LOGGER = Logger.getLogger("framework/common/util/coroutine/Environment")
+private val logger = Logger.getLogger("framework/common/util/coroutine/Environment")
 
 @OptIn(DelicateCoroutinesApi::class)
 fun shutdownCoroutineEnvironment() {
-    if (COROUTINE_SCOPE.isActive) {
-        COROUTINE_SCOPE.cancel()
+    if (PlutoCoroutineScope.isActive) {
+        PlutoCoroutineScope.cancel()
     }
     Dispatchers.shutdown()
     waitFinalize()
 }
 
 private fun waitFinalize() {
-    LOGGER.info("Wait 1s for finalizing...")
+    logger.info("Wait 1s for finalizing...")
     Thread.sleep(1000)
 }

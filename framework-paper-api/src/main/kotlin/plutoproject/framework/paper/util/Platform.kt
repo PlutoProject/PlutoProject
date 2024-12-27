@@ -4,7 +4,7 @@ import net.minecraft.server.MinecraftServer
 import org.bukkit.Server
 import org.bukkit.craftbukkit.CraftServer
 import org.bukkit.plugin.java.JavaPlugin
-import plutoproject.framework.common.util.jvm.clazz.findClass
+import plutoproject.framework.common.util.jvm.findClass
 
 val IS_FOLIA = findClass("io.papermc.paper.threadedregions.RegionizedServer") != null
 

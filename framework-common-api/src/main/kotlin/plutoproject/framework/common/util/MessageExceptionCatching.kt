@@ -4,9 +4,8 @@ import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
 import net.kyori.adventure.audience.Audience
-import plutoproject.framework.common.util.chat.palette.MOCHA_MAROON
-import plutoproject.framework.common.util.chat.palette.MOCHA_SUBTEXT_0
-import plutoproject.framework.common.util.logger.logger
+import plutoproject.framework.common.util.chat.palettes.MOCHA_MAROON
+import plutoproject.framework.common.util.chat.palettes.MOCHA_SUBTEXT_0
 import java.util.logging.Level
 
 inline fun <T> T.catchException(

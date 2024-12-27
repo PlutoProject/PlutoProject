@@ -5,12 +5,12 @@ import org.bukkit.Server
 import org.bukkit.craftbukkit.CraftServer
 import org.bukkit.plugin.java.JavaPlugin
 import plutoproject.framework.common.util.jvm.findClass
+import plutoproject.framework.common.util.serverThread
 
 val IS_FOLIA = findClass("io.papermc.paper.threadedregions.RegionizedServer") != null
 
 lateinit var plugin: JavaPlugin
 lateinit var server: Server
-lateinit var serverThread: Thread
 
 fun isAsync(): Boolean = Thread.currentThread() != serverThread
 

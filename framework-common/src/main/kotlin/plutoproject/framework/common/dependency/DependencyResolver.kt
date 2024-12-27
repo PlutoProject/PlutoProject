@@ -1,4 +1,4 @@
-package plutoproject.framework.common.api.dependency
+package plutoproject.framework.common.dependency
 
 import org.slf4j.LoggerFactory
 import xyz.jpenilla.gremlin.runtime.DependencyCache

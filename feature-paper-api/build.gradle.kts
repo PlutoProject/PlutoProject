@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
+    api(projects.frameworkPaperApi)
     api(projects.featureCommonApi)
 }

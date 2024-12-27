@@ -6,30 +6,30 @@ import kotlinx.coroutines.withContext
 import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.entity.Entity
-import plutoproject.framework.common.util.coroutine.COROUTINE_SCOPE
+import plutoproject.framework.common.util.coroutine.PlutoCoroutineScope
 import plutoproject.framework.paper.util.server
 
 @Suppress("UNUSED")
 fun <T> runSync(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     block: suspend CoroutineScope.() -> T,
 ) = coroutineScope.async(server.coroutineContext) { block() }
 
 @Suppress("UNUSED")
 fun <T> Entity.runSync(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     block: suspend CoroutineScope.() -> T,
 ) = coroutineScope.async(coroutineContext) { block() }
 
 @Suppress("UNUSED")
 fun <T> Chunk.runSync(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     block: suspend CoroutineScope.() -> T,
 ) = coroutineScope.async(coroutineContext) { block() }
 
 @Suppress("UNUSED")
 fun <T> Location.runSync(
-    coroutineScope: CoroutineScope = COROUTINE_SCOPE,
+    coroutineScope: CoroutineScope = PlutoCoroutineScope,
     block: suspend CoroutineScope.() -> T,
 ) = coroutineScope.async(coroutineContext) { block() }
 

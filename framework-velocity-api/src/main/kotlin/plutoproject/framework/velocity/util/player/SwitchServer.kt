@@ -1,12 +1,12 @@
-package ink.pmc.framework.player
+package plutoproject.framework.velocity.util.player
 
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder
 import com.velocitypowered.api.proxy.Player
-import ink.pmc.framework.platform.proxy
 import kotlinx.coroutines.future.await
+import plutoproject.framework.velocity.util.server
 
 suspend fun Player.switchServer(name: String): ConnectionRequestBuilder.Result {
-    val velocityServer = proxy.getServer(name).get()
-    val future = this.createConnectionRequest(velocityServer).connect()
+    val registeredServer = server.getServer(name).get()
+    val future = createConnectionRequest(registeredServer).connect()
     return future.await()
 }

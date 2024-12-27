@@ -1,14 +1,11 @@
-package ink.pmc.framework.visual.toast
+package plutoproject.framework.paper.api.toast
 
-import ink.pmc.framework.item.KeyedMaterial
 import net.kyori.adventure.text.Component
+import org.bukkit.Material
 
-@Suppress("UNUSED")
 interface Toast {
-
-    val icon: KeyedMaterial
+    val icon: Material
     val message: Component
     val type: ToastType
     val frame: ToastFrame
-
 }

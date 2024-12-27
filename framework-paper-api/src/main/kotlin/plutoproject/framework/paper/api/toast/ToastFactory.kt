@@ -1,15 +1,14 @@
-package ink.pmc.framework.visual.toast
+package plutoproject.framework.paper.api.toast
 
-import ink.pmc.framework.inject.inlinedGet
-import ink.pmc.framework.item.KeyedMaterial
 import net.kyori.adventure.text.Component
+import org.bukkit.Material
+import plutoproject.framework.common.util.inject.inlinedGet
 
-@Suppress("UNUSED")
 interface ToastFactory {
     companion object : ToastFactory by inlinedGet()
 
     fun of(
-        icon: KeyedMaterial,
+        icon: Material,
         message: Component,
         type: ToastType,
         frame: ToastFrame

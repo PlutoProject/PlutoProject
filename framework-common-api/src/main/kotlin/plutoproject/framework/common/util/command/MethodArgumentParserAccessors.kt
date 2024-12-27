@@ -3,7 +3,7 @@ package plutoproject.framework.common.util.command
 import org.incendo.cloud.CommandManager
 import org.incendo.cloud.annotations.parser.MethodArgumentParser
 import org.incendo.cloud.parser.ArgumentParser
-import plutoproject.framework.common.util.jvm.findClass
+import plutoproject.framework.common.util.jvm.clazz.findClass
 
 @Suppress("UNCHECKED_CAST", "UnusedReceiverParameter")
 fun <C, T> CommandManager<C>.getKotlinMethodArgumentParserClass(): Class<ArgumentParser<C, T>> =

@@ -7,8 +7,12 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.proxy.plugin.PluginClassLoader
-import plutoproject.framework.common.api.dependency.VelocityDependencyResolver
+import plutoproject.framework.common.dependency.VelocityDependencyResolver
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
+import plutoproject.framework.common.util.featureResourcePrefix
+import plutoproject.framework.common.util.frameworkResourcePrefix
+import plutoproject.framework.common.util.initPluginDataFolder
+import plutoproject.framework.common.util.serverThread
 import plutoproject.framework.velocity.util.plugin
 import java.nio.file.Path
 import java.util.logging.Logger
@@ -21,6 +25,10 @@ class PlutoVelocityPlatform {
         loadDependencies(dataDirectoryPath.getCachePath())
         plugin = server.pluginManager.getPlugin("plutoproject").get()
         utilServer = server
+        serverThread = Thread.currentThread()
+        dataDirectoryPath.toFile().initPluginDataFolder()
+        featureResourcePrefix = "feature/velocity"
+        frameworkResourcePrefix = "framework/velocity"
     }
 
     private fun loadDependencies(cachePath: Path) {

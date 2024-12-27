@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
+    api(projects.frameworkVelocityApi)
     api(projects.featureCommonApi)
 }

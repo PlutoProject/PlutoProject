@@ -1,11 +1,10 @@
-package ink.pmc.framework.player.db
+package plutoproject.framework.common.api.player.database
 
-import ink.pmc.framework.inject.inlinedGet
+import plutoproject.framework.common.util.inject.inlinedGet
 import java.util.*
 
-interface PlayerDb {
-
-    companion object : PlayerDb by inlinedGet()
+interface PlayerDB {
+    companion object : PlayerDB by inlinedGet()
 
     fun isLoaded(id: UUID): Boolean
 
@@ -26,5 +25,4 @@ interface PlayerDb {
     suspend fun create(id: UUID): Database
 
     suspend fun delete(id: UUID)
-
 }

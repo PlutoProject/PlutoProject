@@ -1,4 +1,4 @@
-package plutoproject.framework.common.api.player.profile
+package plutoproject.framework.common.api.profile
 
 import plutoproject.framework.common.util.inject.inlinedGet
 import java.util.*

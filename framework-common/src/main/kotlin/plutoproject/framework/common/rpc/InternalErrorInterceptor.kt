@@ -1,6 +1,5 @@
-package ink.pmc.framework.rpc
+package plutoproject.framework.common.rpc
 
-import ink.pmc.framework.frameworkLogger
 import io.grpc.*
 import java.util.logging.Level
 
@@ -16,7 +15,7 @@ object InternalErrorInterceptor : ServerInterceptor {
                 runCatching {
                     super.onHalfClose()
                 }.onFailure {
-                    frameworkLogger.log(
+                    logger.log(
                         Level.SEVERE,
                         "Exception in RPC call: ${call.methodDescriptor.fullMethodName}",
                         it

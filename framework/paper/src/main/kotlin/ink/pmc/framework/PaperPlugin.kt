@@ -20,7 +20,7 @@ import ink.pmc.framework.options.listeners.BukkitOptionsListener
 import ink.pmc.framework.options.startOptionsMonitor
 import ink.pmc.framework.options.stopOptionsMonitor
 import ink.pmc.framework.playerdb.BackendDatabaseNotifier
-import ink.pmc.framework.playerdb.DatabaseNotifier
+import plutoproject.framework.common.playerdb.DatabaseNotifier
 import ink.pmc.framework.playerdb.startPlayerDbMonitor
 import ink.pmc.framework.playerdb.stopPlayerDbMonitor
 import ink.pmc.framework.provider.Provider

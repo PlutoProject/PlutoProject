@@ -1,10 +1,10 @@
 package plutoproject.framework.common.bridge
 
 import plutoproject.framework.common.config.BridgeConfig
-import plutoproject.framework.common.util.inject.koin
+import plutoproject.framework.common.util.inject.Koin
 import java.util.logging.Level
 
-private val config by koin.inject<BridgeConfig>()
+private val config by Koin.inject<BridgeConfig>()
 
 fun debugInfo(message: String) {
     if (!config.debug) return

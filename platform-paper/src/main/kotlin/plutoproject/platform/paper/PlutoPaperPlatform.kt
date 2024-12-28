@@ -1,6 +1,6 @@
 package plutoproject.platform.paper
 
-import org.bukkit.plugin.java.JavaPlugin
+import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import plutoproject.framework.common.FrameworkCommonModule
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
 import plutoproject.framework.common.util.initPluginDataFolder
@@ -16,7 +16,7 @@ import plutoproject.framework.common.util.logger as utilLogger
 import plutoproject.framework.paper.util.server as utilServer
 
 @Suppress("UNUSED")
-class PlutoPaperPlatform : JavaPlugin() {
+class PlutoPaperPlatform : SuspendingJavaPlugin() {
     override fun onLoad() {
         plugin = this
         utilServer = server

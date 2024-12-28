@@ -8,14 +8,14 @@ import plutoproject.framework.common.api.rpc.RpcClient
 import plutoproject.framework.common.util.Empty
 import plutoproject.framework.common.util.coroutine.runAsyncIO
 import plutoproject.framework.common.util.data.convertToUuid
-import plutoproject.framework.proto.playerDatabase.PlayerDbRpcGrpcKt
-import plutoproject.framework.proto.playerDatabase.databaseIdentifier
+import plutoproject.framework.proto.playerdb.PlayerDBRpcGrpcKt.PlayerDBRpcCoroutineStub
+import plutoproject.framework.proto.playerdb.databaseIdentifier
 import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
 private lateinit var monitorJob: Job
 private val identity = UUID.randomUUID()
-private val stub = PlayerDbRpcGrpcKt.PlayerDbRpcCoroutineStub(RpcClient.channel)
+private val stub = PlayerDBRpcCoroutineStub(RpcClient.channel)
 
 fun sendUpdateNotification(id: UUID) {
     runAsyncIO {

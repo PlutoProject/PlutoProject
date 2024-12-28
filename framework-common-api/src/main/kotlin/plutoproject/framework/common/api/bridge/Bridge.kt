@@ -7,8 +7,6 @@ import plutoproject.framework.common.api.bridge.world.BridgeWorld
 import plutoproject.framework.common.util.inject.inlinedGet
 import java.util.*
 
-const val RESERVED_MASTER_ID = "_master"
-
 interface Bridge : PlayerLookup, ServerLookup {
     companion object : Bridge by inlinedGet()
 

@@ -56,11 +56,6 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         single<GuiManager> { GuiManagerImpl() }
         single<OptionsUpdateNotifier> { BackendOptionsUpdateNotifier() }
         single<DatabaseNotifier> { BackendDatabaseNotifier() }
-        single<ToastRenderer<Player>>(named("internal")) { NmsToastRenderer() }
-        single<TextDisplayManager> { TextDisplayManagerImpl() }
-        single<TextDisplayFactory> { TextDisplayFactoryImpl() }
-        single<TextDisplayRenderer>(named("internal")) { NmsTextDisplayRenderer() }
-        single<Bridge> { BackendBridge() }
     }
 
     override fun onLoad() {

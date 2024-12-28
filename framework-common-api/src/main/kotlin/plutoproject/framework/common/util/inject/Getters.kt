@@ -8,7 +8,7 @@ inline fun <reified T> inlinedGet(
     qualifier: Qualifier? = null,
     noinline parameters: ParametersDefinition? = null,
 ): T {
-    return Koin.get(qualifier, parameters)
+    return koin.get(qualifier, parameters)
 }
 
 @Suppress("UNUSED")

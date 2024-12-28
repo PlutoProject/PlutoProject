@@ -1,4 +1,4 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.paper.playerdb
 
 import org.koin.core.component.KoinComponent
 import plutoproject.framework.common.playerdb.DatabaseNotifier

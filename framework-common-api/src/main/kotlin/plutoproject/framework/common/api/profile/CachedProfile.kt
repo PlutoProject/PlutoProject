@@ -1,4 +1,4 @@
-package plutoproject.framework.common.api.player.profile
+package plutoproject.framework.common.api.profile
 
 import kotlinx.serialization.Serializable
 import plutoproject.framework.common.util.data.serializers.JavaUuidSerializer

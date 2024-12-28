@@ -18,7 +18,7 @@ import ink.pmc.framework.options.OptionsUpdateNotifier
 import ink.pmc.framework.options.ProxyOptionsUpdateNotifier
 import ink.pmc.framework.options.listeners.VelocityOptionsListener
 import ink.pmc.framework.options.proto.OptionsRpc
-import ink.pmc.framework.playerdb.DatabaseNotifier
+import plutoproject.framework.common.playerdb.DatabaseNotifier
 import ink.pmc.framework.playerdb.ProxyDatabaseNotifier
 import ink.pmc.framework.playerdb.proto.PlayerDbRpc
 import ink.pmc.framework.provider.Provider

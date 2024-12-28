@@ -1,4 +1,4 @@
-package plutoproject.framework.common.api.player.database
+package plutoproject.framework.common.api.playerdb
 
 import org.bson.BsonDocument
 import org.bson.BsonValue

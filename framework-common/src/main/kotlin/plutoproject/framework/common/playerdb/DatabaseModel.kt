@@ -1,10 +1,10 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.common.playerdb
 
-import ink.pmc.framework.player.db.Database
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.bson.BsonDocument
+import plutoproject.framework.common.api.playerdb.Database
 
 fun Database.toModel(): DatabaseModel {
     return DatabaseModel(id.toString(), contents)

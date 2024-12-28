@@ -1,11 +1,10 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.common.playerdb
 
-import ink.pmc.framework.frameworkLogger
-import ink.pmc.framework.player.db.Database
-import ink.pmc.framework.player.uuid
 import org.bson.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.playerdb.Database
+import plutoproject.framework.common.util.data.convertToUuid
 import java.util.*
 import java.util.logging.Level
 
@@ -19,7 +18,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
     private val repo by inject<DatabaseRepository>()
     private val databaseNotifier by inject<DatabaseNotifier>()
 
-    override val id: UUID = model.id.uuid
+    override val id: UUID = model.id.convertToUuid()
     override val contents: BsonDocument = model.contents.clone()
 
     private fun toBson(obj: Any?): BsonValue {
@@ -131,7 +130,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
         try {
             setBson(key, toBson(value))
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to set a value in $id's database (key=$key, value=$value)",
                 e
@@ -143,7 +142,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
         return try {
             fromBson(getBson(key))
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to get a value in $id's database (key=$key)",
                 e
@@ -167,7 +166,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
             }
             contents[key] = value
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to set a value in $id's database (key=$key, value=$value)",
                 e
@@ -182,7 +181,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
             }
             contents[key]
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to get a value in $id's database (key=$key)",
                 e
@@ -199,7 +198,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
             }
             contents.remove(key)
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to remove a value in $id's database (key=$key)",
                 e
@@ -250,7 +249,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
         return try {
             get(key) as List<T>?
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to get a list in $id's database (key=$key)",
                 e
@@ -263,7 +262,7 @@ class DatabaseImpl(model: DatabaseModel) : Database, KoinComponent {
         return try {
             get(key) as Map<String, T>?
         } catch (e: Exception) {
-            frameworkLogger.log(
+            logger.log(
                 Level.SEVERE,
                 "Failed to get a map in $id's database (key=$key)",
                 e

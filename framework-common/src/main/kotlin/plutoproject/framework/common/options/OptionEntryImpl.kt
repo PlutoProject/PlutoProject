@@ -1,11 +1,14 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.options
 
-import ink.pmc.framework.options.EntryValueType.*
-import ink.pmc.framework.options.models.OptionEntryModel
-import ink.pmc.framework.json.toObject
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializerOrNull
+import plutoproject.framework.common.api.options.EntryValueType.*
+import plutoproject.framework.common.api.options.OptionDescriptor
+import plutoproject.framework.common.api.options.OptionEntry
+import plutoproject.framework.common.api.options.OptionsManager
+import plutoproject.framework.common.options.models.OptionEntryModel
+import plutoproject.framework.common.util.data.json.convertJsonToObject
 
 @OptIn(InternalSerializationApi::class)
 @Suppress("UNCHECKED_CAST")
@@ -31,7 +34,7 @@ internal fun createEntryFromModel(model: OptionEntryModel): OptionEntry<*> {
                     Json.decodeFromString(kSerializer, model.value)
                 )
             } else {
-                OptionEntryImpl(descriptor as OptionDescriptor<Any>, model.value.toObject(objClass))
+                OptionEntryImpl(descriptor as OptionDescriptor<Any>, model.value.convertJsonToObject(objClass))
             }
         }
 

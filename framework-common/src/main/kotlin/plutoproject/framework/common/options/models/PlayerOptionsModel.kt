@@ -1,8 +1,8 @@
-package ink.pmc.framework.options.models
+package plutoproject.framework.common.options.models
 
-import ink.pmc.framework.options.PlayerOptions
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import plutoproject.framework.common.api.options.PlayerOptions
 
 internal fun PlayerOptions.toModel(): PlayerOptionsModel {
     return PlayerOptionsModel(player.toString(), entries.map { it.toModel() })

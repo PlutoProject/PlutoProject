@@ -14,7 +14,7 @@ import ink.pmc.framework.bridge.proxy.BridgeRpc
 import ink.pmc.framework.bridge.proxy.ProxyBridge
 import ink.pmc.framework.bridge.proxy.listeners.BridgePlayerListener
 import ink.pmc.framework.commands.RpcCommand
-import ink.pmc.framework.options.OptionsUpdateNotifier
+import plutoproject.framework.common.options.OptionsUpdateNotifier
 import ink.pmc.framework.options.ProxyOptionsUpdateNotifier
 import ink.pmc.framework.options.listeners.VelocityOptionsListener
 import ink.pmc.framework.options.proto.OptionsRpc

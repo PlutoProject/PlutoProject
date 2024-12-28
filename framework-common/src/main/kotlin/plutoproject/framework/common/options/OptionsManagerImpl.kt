@@ -1,8 +1,9 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.options
 
-import ink.pmc.framework.options.repositories.OptionsContainerRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.options.*
+import plutoproject.framework.common.options.repositories.OptionsContainerRepository
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 

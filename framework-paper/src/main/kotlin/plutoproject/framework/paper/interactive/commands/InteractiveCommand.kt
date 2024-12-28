@@ -1,14 +1,14 @@
-package ink.pmc.framework.interactive.commands
+package plutoproject.framework.paper.interactive.commands
 
 import cafe.adriel.voyager.navigator.Navigator
-import ink.pmc.framework.interactive.examples.ExampleScreen1
-import ink.pmc.framework.interactive.examples.ExampleScreen2
-import ink.pmc.framework.interactive.examples.ExampleScreen3
-import ink.pmc.framework.startInventory
-import ink.pmc.framework.command.ensurePlayer
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.framework.paper.api.interactive.startInventory
+import plutoproject.framework.paper.interactive.examples.ExampleComposable
+import plutoproject.framework.paper.interactive.examples.ExampleScreen1
+import plutoproject.framework.paper.interactive.examples.ExampleScreen2
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object InteractiveCommand {
@@ -34,7 +34,7 @@ object InteractiveCommand {
     @Permission(PERMISSION)
     fun CommandSender.example3() = ensurePlayer {
         startInventory {
-            ExampleScreen3()
+            ExampleComposable()
         }
     }
 }

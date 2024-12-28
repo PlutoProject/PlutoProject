@@ -1,24 +1,24 @@
-package ink.pmc.framework.interactive.inventory
+package plutoproject.framework.paper.interactive.inventory
 
 import androidx.compose.runtime.Applier
 import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
-import ink.pmc.framework.frameworkPaper
-import ink.pmc.framework.interactive.canvas.ClickHandler
-import ink.pmc.framework.interactive.canvas.ClickResult
-import ink.pmc.framework.interactive.canvas.GuiInventoryHolder
-import ink.pmc.framework.interactive.click.ClickScope
-import ink.pmc.framework.interactive.drag.DragScope
-import ink.pmc.framework.interactive.layout.InventoryNode
-import ink.pmc.framework.interactive.scope.BaseScope
-import ink.pmc.framework.concurrent.submitSync
-import ink.pmc.framework.interactive.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.bukkit.entity.Player
+import plutoproject.framework.paper.api.interactive.*
+import plutoproject.framework.paper.api.interactive.click.ClickHandler
+import plutoproject.framework.paper.api.interactive.click.ClickResult
+import plutoproject.framework.paper.api.interactive.click.ClickScope
+import plutoproject.framework.paper.api.interactive.drag.DragScope
+import plutoproject.framework.paper.api.interactive.layout.Constraints
+import plutoproject.framework.paper.api.interactive.node.InventoryNode
+import plutoproject.framework.paper.interactive.BaseScope
+import plutoproject.framework.paper.interactive.logger
+import plutoproject.framework.paper.interactive.uiRenderFailed
+import plutoproject.framework.paper.util.coroutine.runSync
 import java.util.logging.Level
 
 class InventoryScope(owner: Player, contents: ComposableFunction) : BaseScope<InventoryNode>(owner, contents) {
-
     override val rootNode: InventoryNode = InventoryNode()
     override val nodeApplier: Applier<InventoryNode> = InventoryNodeApplier(rootNode) {
         if (isDisposed) return@InventoryNodeApplier
@@ -74,8 +74,8 @@ class InventoryScope(owner: Player, contents: ComposableFunction) : BaseScope<In
     }
 
     private fun renderExceptionCallback(e: Throwable) {
-        owner.sendMessage(UI_RENDER_FAILED)
-        frameworkPaper.logger.log(Level.SEVERE, "Inventory render failed while rendering for ${owner.name}", e)
+        owner.sendMessage(uiRenderFailed)
+        logger.log(Level.SEVERE, "Inventory render failed while rendering for ${owner.name}", e)
         dispose()
     }
 
@@ -92,12 +92,11 @@ class InventoryScope(owner: Player, contents: ComposableFunction) : BaseScope<In
 
     override fun dispose() {
         if (isDisposed) return
-        submitSync {
-            if (!owner.isOnline) return@submitSync
+        runSync {
+            if (!owner.isOnline) return@runSync
             setPendingRefreshIfNeeded(true) // 防止 dispose 在事件中再次被调用造成 StackOverflowError
             owner.closeInventory()
         }
         super.dispose()
     }
-
 }

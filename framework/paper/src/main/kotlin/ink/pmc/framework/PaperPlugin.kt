@@ -3,7 +3,6 @@ package ink.pmc.framework
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import ink.pmc.framework.bridge.Bridge
-import ink.pmc.framework.bridge.backend.BackendBridge
 import ink.pmc.framework.bridge.backend.BridgeCommand
 import ink.pmc.framework.bridge.backend.listeners.BridgePlayerListener
 import ink.pmc.framework.bridge.backend.listeners.BridgeWorldListener
@@ -35,16 +34,11 @@ import ink.pmc.framework.platform.paper
 import ink.pmc.framework.platform.paperThread
 import ink.pmc.framework.storage.saveResourceIfNotExisted
 import ink.pmc.framework.visual.display.text.*
-import ink.pmc.framework.visual.display.text.renderers.NmsTextDisplayRenderer
-import ink.pmc.framework.visual.toast.ToastRenderer
-import ink.pmc.framework.visual.toast.renderers.NmsToastRenderer
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.entity.Player
 import org.incendo.cloud.minecraft.extras.parser.ComponentParser
 import org.incendo.cloud.parser.standard.StringParser
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import java.io.File
 
@@ -53,7 +47,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
     private val config by inject<FrameworkConfig>()
     private val bukkitModule = module {
         single<File>(FRAMEWORK_CONFIG) { saveResourceIfNotExisted("config.conf") }
-        single<GuiManager> { GuiManagerImpl() }
+
         single<OptionsUpdateNotifier> { BackendOptionsUpdateNotifier() }
         single<DatabaseNotifier> { BackendDatabaseNotifier() }
     }

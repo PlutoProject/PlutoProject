@@ -1,11 +1,12 @@
-package ink.pmc.framework.interactive.inventory
+package plutoproject.framework.paper.interactive.inventory
 
 import androidx.compose.runtime.AbstractApplier
-import ink.pmc.framework.interactive.layout.InventoryNode
+import plutoproject.framework.paper.api.interactive.node.InventoryNode
 
-class InventoryNodeApplier(root: InventoryNode, private val endChangesCallback: () -> Unit) :
-    AbstractApplier<InventoryNode>(root) {
-
+class InventoryNodeApplier(
+    root: InventoryNode,
+    private val endChangesCallback: () -> Unit
+) : AbstractApplier<InventoryNode>(root) {
     override fun onEndChanges() {
         endChangesCallback()
     }
@@ -38,5 +39,4 @@ class InventoryNodeApplier(root: InventoryNode, private val endChangesCallback: 
     override fun remove(index: Int, count: Int) {
         current.children.remove(index, count)
     }
-
 }

@@ -1,9 +1,9 @@
-package ink.pmc.framework.interactive
+package plutoproject.framework.paper.interactive
 
 import cafe.adriel.voyager.navigator.Navigator
-import ink.pmc.framework.frameworkPaper
-import ink.pmc.framework.interactive.inventory.InventoryScope
 import org.bukkit.entity.Player
+import plutoproject.framework.paper.api.interactive.*
+import plutoproject.framework.paper.interactive.inventory.InventoryScope
 import java.util.concurrent.ConcurrentHashMap
 
 class GuiManagerImpl : GuiManager {
@@ -28,7 +28,7 @@ class GuiManagerImpl : GuiManager {
 
     private fun disposeExistedScope(player: Player) {
         if (!has(player)) return
-        frameworkPaper.logger.warning("Player ${player.name} has running Inventory/Form scope, disposing it before launch another")
+        logger.warning("Player ${player.name} has running Inventory/Form scope, disposing it before launch another")
         dispose(player)
     }
 

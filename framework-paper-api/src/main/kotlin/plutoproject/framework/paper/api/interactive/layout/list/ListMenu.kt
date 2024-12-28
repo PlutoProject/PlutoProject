@@ -8,7 +8,7 @@ import ink.pmc.advkt.component.component
 import ink.pmc.advkt.component.italic
 import ink.pmc.advkt.component.text
 import org.bukkit.Material
-import plutoproject.framework.common.util.chat.palettes.MOCHA_SUBTEXT_0
+import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
 import plutoproject.framework.paper.api.interactive.*
 import plutoproject.framework.paper.api.interactive.components.Item
 import plutoproject.framework.paper.api.interactive.components.SeparatePageTuner
@@ -92,7 +92,7 @@ abstract class ListMenu<E, M : ListMenuModel<E>> : InteractiveScreen() {
                     Item(
                         material = Material.CHEST_MINECART,
                         name = component {
-                            text("正在加载...") with MOCHA_SUBTEXT_0 without italic()
+                            text("正在加载...") with mochaSubtext0 without italic()
                         }
                     )
                 }
@@ -105,7 +105,7 @@ abstract class ListMenu<E, M : ListMenuModel<E>> : InteractiveScreen() {
                     Item(
                         material = Material.MINECART,
                         name = component {
-                            text("这里没有内容 :(") with MOCHA_SUBTEXT_0 without italic()
+                            text("这里没有内容 :(") with mochaSubtext0 without italic()
                         }
                     )
                 }

@@ -1,16 +1,16 @@
-package ink.pmc.framework.options
+package plutoproject.framework.paper.options
 
-import ink.pmc.framework.frameworkLogger
-import ink.pmc.framework.options.proto.OptionsRpcGrpcKt
-import ink.pmc.framework.options.proto.optionsUpdateNotify
-import ink.pmc.framework.rpc.RpcClient
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.player.isBukkitOnline
-import ink.pmc.framework.player.uuid
-import ink.pmc.framework.proto.empty
 import io.grpc.StatusException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import org.bukkit.Bukkit
+import plutoproject.framework.common.api.options.OptionsManager
+import plutoproject.framework.common.api.rpc.RpcClient
+import plutoproject.framework.common.util.Empty
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.common.util.data.convertToUuid
+import plutoproject.framework.proto.options.OptionsRpcGrpcKt
+import plutoproject.framework.proto.options.optionsUpdateNotify
 import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -19,7 +19,7 @@ private val id: UUID = UUID.randomUUID()
 private val stub = OptionsRpcGrpcKt.OptionsRpcCoroutineStub(RpcClient.channel)
 
 fun sendContainerUpdateNotify(player: UUID) {
-    submitAsync {
+    runAsync {
         stub.notifyOptionsUpdate(optionsUpdateNotify {
             serverId = id.toString()
             this.player = player.toString()
@@ -28,15 +28,15 @@ fun sendContainerUpdateNotify(player: UUID) {
 }
 
 fun startOptionsMonitor() {
-    monitorJob = submitAsync {
+    monitorJob = runAsync {
         while (true) {
             try {
-                stub.monitorOptionsUpdate(empty).also {
-                    frameworkLogger.info("Try to connect options monitor stream")
+                stub.monitorOptionsUpdate(Empty).also {
+                    logger.info("Try to connect options monitor stream")
                 }.collect {
-                    val serverId = it.serverId.uuid
-                    val player = it.player.uuid
-                    if (!player.isBukkitOnline || serverId == id) {
+                    val serverId = it.serverId.convertToUuid()
+                    val player = it.player.convertToUuid()
+                    if (Bukkit.getPlayer(player) == null || serverId == id) {
                         return@collect
                     }
                     OptionsManager.reloadOptions(player)

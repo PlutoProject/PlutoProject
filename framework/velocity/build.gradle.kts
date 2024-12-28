@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     api(projects.frameworkVelocityApi)
-    api(project(":framework:shared"))
+    api(projects.frameworkCommon)
 }

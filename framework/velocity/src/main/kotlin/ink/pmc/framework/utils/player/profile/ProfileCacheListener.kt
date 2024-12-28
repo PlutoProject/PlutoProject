@@ -6,6 +6,7 @@ import ink.pmc.framework.player.profile.CachedProfile
 import ink.pmc.framework.player.profile.ProfileCache
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.profile.ProfileCacheRepository
 
 object ProfileCacheListener : KoinComponent {
     private val repo by inject<ProfileCacheRepository>()

@@ -1,10 +1,10 @@
-package ink.pmc.framework.options.repositories
+package plutoproject.framework.common.options.repositories
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.ReplaceOptions
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import ink.pmc.framework.options.models.PlayerOptionsModel
 import kotlinx.coroutines.flow.firstOrNull
+import plutoproject.framework.common.options.models.PlayerOptionsModel
 import java.util.*
 
 class OptionsContainerRepository(private val collection: MongoCollection<PlayerOptionsModel>) {

@@ -1,10 +1,10 @@
-package ink.pmc.framework.utils.player.profile
+package plutoproject.framework.common.profile
 
-import ink.pmc.framework.player.profile.CachedProfile
-import ink.pmc.framework.player.profile.ProfileCache
-import ink.pmc.framework.player.profile.MojangProfileFetcher
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.profile.CachedProfile
+import plutoproject.framework.common.api.profile.MojangProfileFetcher
+import plutoproject.framework.common.api.profile.ProfileCache
 import java.util.*
 
 class ProfileCacheImpl : ProfileCache, KoinComponent {

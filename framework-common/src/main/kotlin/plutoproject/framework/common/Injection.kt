@@ -13,8 +13,13 @@ import plutoproject.framework.common.api.rpc.RpcServer
 import plutoproject.framework.common.config.BridgeConfig
 import plutoproject.framework.common.config.ProviderConfig
 import plutoproject.framework.common.config.RpcConfig
+import plutoproject.framework.common.options.OptionDescriptorFactoryImpl
+import plutoproject.framework.common.options.OptionsManagerImpl
+import plutoproject.framework.common.options.repositories.OptionsContainerRepository
 import plutoproject.framework.common.playerdb.DatabaseRepository
 import plutoproject.framework.common.playerdb.PlayerDBImpl
+import plutoproject.framework.common.profile.ProfileCacheImpl
+import plutoproject.framework.common.profile.ProfileCacheRepository
 import plutoproject.framework.common.provider.ProviderImpl
 import plutoproject.framework.common.rpc.RpcClientImpl
 import plutoproject.framework.common.rpc.RpcServerImpl
@@ -44,9 +49,9 @@ val FrameworkCommonModule = module {
     single<RpcServer> { RpcServerImpl() }
     single<DatabaseRepository> { DatabaseRepository(Provider.getCollection("player_database_data")) }
     single<PlayerDB> { PlayerDBImpl() }
-    single<OptionsContainerRepository> { OptionsContainerRepository(getCollection("options_data")) }
+    single<OptionsContainerRepository> { OptionsContainerRepository(Provider.getCollection("options_data")) }
     single<OptionsManager> { OptionsManagerImpl() }
     single<OptionDescriptorFactory> { OptionDescriptorFactoryImpl() }
     single<ProfileCache> { ProfileCacheImpl() }
-    single<ProfileCacheRepository> { ProfileCacheRepository(getCollection("framework_utils_profile_cache")) }
+    single<ProfileCacheRepository> { ProfileCacheRepository(Provider.getCollection("framework_utils_profile_cache")) }
 }

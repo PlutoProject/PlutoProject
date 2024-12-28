@@ -1,11 +1,13 @@
-package ink.pmc.framework.bridge.world
+package plutoproject.framework.common.bridge.world
 
-import ink.pmc.framework.bridge.Bridge
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.LocationInfo
-import ink.pmc.framework.bridge.proto.locationInfo
-import ink.pmc.framework.bridge.server.BridgeServer
-import ink.pmc.framework.bridge.throwServerNotFound
-import ink.pmc.framework.bridge.throwWorldNotFound
+import plutoproject.framework.common.api.bridge.Bridge
+import plutoproject.framework.common.api.bridge.server.BridgeServer
+import plutoproject.framework.common.api.bridge.world.BridgeLocation
+import plutoproject.framework.common.api.bridge.world.BridgeWorld
+import plutoproject.framework.common.bridge.throwServerNotFound
+import plutoproject.framework.common.bridge.throwWorldNotFound
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.LocationInfo
+import plutoproject.framework.proto.bridge.locationInfo
 
 fun LocationInfo.createBridge(server: BridgeServer? = null, world: BridgeWorld? = null): BridgeLocation {
     val actualServer = server

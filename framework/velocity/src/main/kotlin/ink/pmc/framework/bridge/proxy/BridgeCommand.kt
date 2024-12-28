@@ -1,7 +1,7 @@
 package ink.pmc.framework.bridge.proxy
 
 import com.velocitypowered.api.command.CommandSource
-import ink.pmc.framework.bridge.AbstractBridgeCommand
+import plutoproject.framework.common.bridge.AbstractBridgeCommand
 import ink.pmc.framework.bridge.player.BridgePlayer
 import net.kyori.adventure.text.Component
 import org.incendo.cloud.annotation.specifier.Quoted

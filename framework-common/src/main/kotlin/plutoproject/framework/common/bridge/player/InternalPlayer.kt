@@ -1,10 +1,11 @@
-package ink.pmc.framework.bridge.player
+package plutoproject.framework.common.bridge.player
 
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerInfo
-import ink.pmc.framework.bridge.proto.playerInfo
-import ink.pmc.framework.bridge.server.BridgeServer
-import ink.pmc.framework.bridge.world.BridgeWorld
-import ink.pmc.framework.bridge.world.createInfo
+import plutoproject.framework.common.api.bridge.player.BridgePlayer
+import plutoproject.framework.common.api.bridge.server.BridgeServer
+import plutoproject.framework.common.api.bridge.world.BridgeWorld
+import plutoproject.framework.common.bridge.world.createInfo
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.PlayerInfo
+import plutoproject.framework.proto.bridge.playerInfo
 
 fun BridgePlayer.createInfoWithoutLocation(): PlayerInfo {
     val player = this
@@ -41,3 +42,4 @@ abstract class InternalPlayer : BridgePlayer {
         return result
     }
 }
+

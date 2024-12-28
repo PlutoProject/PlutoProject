@@ -3,7 +3,7 @@ package ink.pmc.framework.bridge.proxy.server
 import ink.pmc.framework.bridge.Bridge
 import ink.pmc.framework.bridge.RESERVED_MASTER_ID
 import ink.pmc.framework.bridge.server.BridgeGroup
-import ink.pmc.framework.bridge.server.InternalServer
+import plutoproject.framework.common.bridge.server.InternalServer
 import ink.pmc.framework.bridge.server.ServerState
 import ink.pmc.framework.bridge.server.ServerType
 import ink.pmc.framework.bridge.world.BridgeWorld

@@ -1,14 +1,14 @@
-package ink.pmc.framework.bridge.player
+package plutoproject.framework.common.bridge.player
 
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperationResult
-import ink.pmc.framework.bridge.proto.playerOperation
-import ink.pmc.framework.bridge.proto.soundInfo
-import ink.pmc.framework.bridge.proto.titleInfo
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.PlayerOperation
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.PlayerOperationResult
+import plutoproject.framework.proto.bridge.playerOperation
+import plutoproject.framework.proto.bridge.soundInfo
+import plutoproject.framework.proto.bridge.titleInfo
 import java.util.*
 
 abstract class RemotePlayer : InternalPlayer() {

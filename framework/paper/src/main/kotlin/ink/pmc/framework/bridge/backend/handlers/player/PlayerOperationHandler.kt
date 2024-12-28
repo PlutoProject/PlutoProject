@@ -8,15 +8,22 @@ import ink.pmc.framework.bridge.*
 import ink.pmc.framework.bridge.backend.bridgeStub
 import ink.pmc.framework.bridge.backend.handlers.NotificationHandler
 import ink.pmc.framework.bridge.backend.server.localServer
-import ink.pmc.framework.bridge.player.createInfoWithoutLocation
+import plutoproject.framework.common.bridge.player.createInfoWithoutLocation
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.Notification
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation.ContentCase.*
 import ink.pmc.framework.bridge.proto.playerOperationAck
-import ink.pmc.framework.bridge.world.createInfo
+import plutoproject.framework.common.bridge.world.createInfo
 import ink.pmc.framework.currentUnixTimestamp
 import ink.pmc.framework.player.uuid
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
+import plutoproject.framework.common.bridge.checkCommonResult
+import plutoproject.framework.common.bridge.debugInfo
+import plutoproject.framework.common.bridge.internalBridge
+import plutoproject.framework.common.bridge.throwContentNotSet
+import plutoproject.framework.common.bridge.throwLocalPlayerNotFound
+import plutoproject.framework.common.bridge.throwLocalWorldNotFound
+import plutoproject.framework.common.bridge.warn
 
 object PlayerOperationHandler : NotificationHandler {
     override suspend fun handle(request: Notification) {

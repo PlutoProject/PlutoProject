@@ -1,14 +1,13 @@
-package ink.pmc.framework.bridge
+package plutoproject.framework.common.bridge
 
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.*
-import ink.pmc.framework.frameworkLogger
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.*
 import java.util.logging.Level
 
 fun warn(block: () -> Nothing) {
     runCatching {
         block()
     }.onFailure {
-        frameworkLogger.log(Level.WARNING, "", it)
+        logger.log(Level.WARNING, "", it)
     }
 }
 

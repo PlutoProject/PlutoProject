@@ -2,12 +2,12 @@ package ink.pmc.framework.bridge.proxy.player
 
 import com.velocitypowered.api.proxy.Player
 import ink.pmc.framework.bridge.Bridge
-import ink.pmc.framework.bridge.player.InternalPlayer
+import plutoproject.framework.common.bridge.player.InternalPlayer
 import ink.pmc.framework.bridge.server.BridgeGroup
 import ink.pmc.framework.bridge.server.BridgeServer
 import ink.pmc.framework.bridge.server.ServerState
 import ink.pmc.framework.bridge.server.ServerType
-import ink.pmc.framework.bridge.warn
+import plutoproject.framework.common.bridge.warn
 import ink.pmc.framework.bridge.world.BridgeLocation
 import ink.pmc.framework.bridge.world.BridgeWorld
 import ink.pmc.framework.player.switchServer

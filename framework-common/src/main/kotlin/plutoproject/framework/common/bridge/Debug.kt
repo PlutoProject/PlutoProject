@@ -1,12 +1,10 @@
-package ink.pmc.framework.bridge
+package plutoproject.framework.common.bridge
 
-import ink.pmc.framework.FrameworkConfig
-import org.koin.java.KoinJavaComponent.getKoin
+import plutoproject.framework.common.config.BridgeConfig
+import plutoproject.framework.common.util.inject.Koin
 import java.util.logging.Level
-import java.util.logging.Logger
 
-private val config by lazy { getKoin().get<FrameworkConfig>().bridge }
-private val logger = Logger.getLogger("BridgeDebug")
+private val config by Koin.inject<BridgeConfig>()
 
 fun debugInfo(message: String) {
     if (!config.debug) return

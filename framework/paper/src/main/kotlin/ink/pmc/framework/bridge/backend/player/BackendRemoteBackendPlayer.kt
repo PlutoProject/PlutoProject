@@ -1,8 +1,8 @@
 package ink.pmc.framework.bridge.backend.player
 
 import ink.pmc.framework.bridge.backend.bridgeStub
-import ink.pmc.framework.bridge.checkPlayerOperationResult
-import ink.pmc.framework.bridge.player.RemoteBackendPlayer
+import plutoproject.framework.common.bridge.checkPlayerOperationResult
+import plutoproject.framework.common.bridge.player.RemoteBackendPlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperationResult
 import ink.pmc.framework.bridge.server.BridgeServer

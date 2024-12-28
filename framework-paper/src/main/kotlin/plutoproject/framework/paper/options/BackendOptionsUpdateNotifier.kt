@@ -1,4 +1,4 @@
-package ink.pmc.framework.options
+package plutoproject.framework.paper.options
 
 import plutoproject.framework.common.options.OptionsUpdateNotifier
 import java.util.*

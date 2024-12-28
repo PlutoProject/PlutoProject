@@ -1,7 +1,8 @@
 package plutoproject.platform.velocity
 
-import com.google.common.eventbus.Subscribe
+import com.github.shynixn.mccoroutine.velocity.SuspendingPluginContainer
 import com.google.inject.Inject
+import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.annotation.DataDirectory
@@ -12,8 +13,12 @@ import java.nio.file.Path
 import java.util.logging.Logger
 
 @Suppress("UNUSED")
-class PlutoVelocityBootstrap {
+class PlutoVelocityBootstrap @Inject constructor(spc: SuspendingPluginContainer) {
     private lateinit var platform: PlutoVelocityPlatform
+
+    init {
+        spc.initialize(this)
+    }
 
     @Inject
     fun plutoVelocity(server: ProxyServer, logger: Logger, @DataDirectory dataDirectoryPath: Path) {

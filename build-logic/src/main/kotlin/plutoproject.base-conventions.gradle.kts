@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("java")
     id("java-library")
@@ -36,10 +38,24 @@ configurations.all {
     }
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks.compileKotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+        javaParameters = true
+    }
+}
+
 dependencies {
-    api(libs.kotlin.stdlib)
+    api(libs.bundles.language)
     with(dependencyExtension) {
-        downloadIfRequired(libs.bundles.language)
         downloadIfRequired(libs.bundles.mongodb)
         downloadIfRequired(libs.bundles.nightconfig)
         downloadIfRequired(libs.bundles.bytebuddy)

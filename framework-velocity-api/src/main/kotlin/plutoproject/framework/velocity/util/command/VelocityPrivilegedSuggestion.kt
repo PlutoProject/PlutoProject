@@ -9,7 +9,6 @@ class VelocityPrivilegedSuggestion<T : CommandSource>(
     wrap: SuggestionProvider<T>,
     permission: String
 ) : PrivilegedSuggestion<T>(wrap, permission) {
-
     companion object {
         fun <T : CommandSource> of(
             wrap: SuggestionProvider<T>,
@@ -22,7 +21,6 @@ class VelocityPrivilegedSuggestion<T : CommandSource>(
     override fun hasPermission(context: CommandContext<T>, perm: String): Boolean {
         return context.sender().hasPermission(perm)
     }
-
 }
 
 fun <T : CommandSource> SuggestionProvider<T>.toPrivileged(permission: String) =

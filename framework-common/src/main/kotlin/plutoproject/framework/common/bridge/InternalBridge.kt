@@ -1,13 +1,19 @@
-package ink.pmc.framework.bridge
+package plutoproject.framework.common.bridge
 
-import ink.pmc.framework.bridge.player.InternalPlayer
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.*
-import ink.pmc.framework.bridge.server.*
-import ink.pmc.framework.bridge.world.InternalWorld
-import ink.pmc.framework.bridge.world.RemoteBackendWorld
-import ink.pmc.framework.bridge.world.createBridge
-import ink.pmc.framework.player.uuid
 import org.koin.java.KoinJavaComponent.getKoin
+import plutoproject.framework.common.api.bridge.Bridge
+import plutoproject.framework.common.api.bridge.server.BridgeServer
+import plutoproject.framework.common.api.bridge.server.ServerState
+import plutoproject.framework.common.api.bridge.server.ServerType
+import plutoproject.framework.common.bridge.player.InternalPlayer
+import plutoproject.framework.common.bridge.server.BridgeGroupImpl
+import plutoproject.framework.common.bridge.server.InternalServer
+import plutoproject.framework.common.bridge.server.RemoteBackendServer
+import plutoproject.framework.common.bridge.world.InternalWorld
+import plutoproject.framework.common.bridge.world.RemoteBackendWorld
+import plutoproject.framework.common.bridge.world.createBridge
+import plutoproject.framework.common.util.data.convertToUuid
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.*
 import java.util.*
 
 val internalBridge: InternalBridge
@@ -143,14 +149,14 @@ abstract class InternalBridge : Bridge {
 
     fun updateRemotePlayerInfo(info: PlayerInfo) {
         debugInfo("InternalBridge - updateRemotePlayerInfo called: $info")
-        val remotePlayer = getInternalRemoteBackendPlayer(info.uniqueId.uuid)
+        val remotePlayer = getInternalRemoteBackendPlayer(info.uniqueId.convertToUuid())
             ?: return warn { throwRemotePlayerNotFound(info.name) }
         remotePlayer.world = getInternalRemoteWorld(remotePlayer.server, info.world.name)
     }
 
     fun remotePlayerSwitchServer(info: PlayerInfo) {
         debugInfo("InternalBridge - remotePlayerSwitchServer called: $info")
-        val remotePlayer = getInternalRemoteBackendPlayer(info.uniqueId.uuid)
+        val remotePlayer = getInternalRemoteBackendPlayer(info.uniqueId.convertToUuid())
             ?: createRemotePlayer(info)
             ?: return
         val target = getInternalRemoteServer(info.server)

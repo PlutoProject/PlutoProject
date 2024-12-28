@@ -9,6 +9,8 @@ import ink.pmc.framework.bridge.server.*
 import ink.pmc.framework.platform.paper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import plutoproject.framework.common.bridge.server.BridgeGroupImpl
+import plutoproject.framework.common.bridge.server.InternalServer
 
 internal inline val localServer: BackendLocalServer
     get() = Bridge.local as BackendLocalServer

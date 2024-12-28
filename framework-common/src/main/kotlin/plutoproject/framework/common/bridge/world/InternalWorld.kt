@@ -1,8 +1,10 @@
-package ink.pmc.framework.bridge.world
+package plutoproject.framework.common.bridge.world
 
-import ink.pmc.framework.bridge.Bridge
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.WorldInfo
-import ink.pmc.framework.bridge.proto.worldInfo
+import plutoproject.framework.common.api.bridge.Bridge
+import plutoproject.framework.common.api.bridge.world.BridgeLocation
+import plutoproject.framework.common.api.bridge.world.BridgeWorld
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.WorldInfo
+import plutoproject.framework.proto.bridge.worldInfo
 
 fun BridgeWorld.createInfo(): WorldInfo {
     val world = this

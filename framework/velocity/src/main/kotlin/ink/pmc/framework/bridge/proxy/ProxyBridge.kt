@@ -1,15 +1,15 @@
 package ink.pmc.framework.bridge.proxy
 
-import ink.pmc.framework.bridge.InternalBridge
-import ink.pmc.framework.bridge.internalBridge
-import ink.pmc.framework.bridge.player.InternalPlayer
+import plutoproject.framework.common.bridge.InternalBridge
+import plutoproject.framework.common.bridge.internalBridge
+import plutoproject.framework.common.bridge.player.InternalPlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerInfo
 import ink.pmc.framework.bridge.proxy.player.ProxyRemoteBackendPlayer
 import ink.pmc.framework.bridge.proxy.server.ProxyLocalServer
 import ink.pmc.framework.bridge.server.BridgeServer
-import ink.pmc.framework.bridge.server.InternalServer
-import ink.pmc.framework.bridge.throwRemoteServerNotFound
-import ink.pmc.framework.bridge.warn
+import plutoproject.framework.common.bridge.server.InternalServer
+import plutoproject.framework.common.bridge.throwRemoteServerNotFound
+import plutoproject.framework.common.bridge.warn
 import ink.pmc.framework.platform.proxy
 import ink.pmc.framework.player.uuid
 

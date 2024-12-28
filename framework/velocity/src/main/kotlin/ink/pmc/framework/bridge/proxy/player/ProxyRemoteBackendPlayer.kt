@@ -1,7 +1,7 @@
 package ink.pmc.framework.bridge.proxy.player
 
 import com.velocitypowered.api.proxy.Player
-import ink.pmc.framework.bridge.player.RemoteBackendPlayer
+import plutoproject.framework.common.bridge.player.RemoteBackendPlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperationResult
 import ink.pmc.framework.bridge.proxy.BridgeRpc

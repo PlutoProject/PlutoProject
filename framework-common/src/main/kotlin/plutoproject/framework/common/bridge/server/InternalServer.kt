@@ -1,13 +1,15 @@
-package ink.pmc.framework.bridge.server
+package plutoproject.framework.common.bridge.server
 
-import ink.pmc.framework.bridge.Bridge
-import ink.pmc.framework.bridge.player.BridgePlayer
-import ink.pmc.framework.bridge.player.createInfoWithoutLocation
-import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.ServerInfo
-import ink.pmc.framework.bridge.proto.serverInfo
-import ink.pmc.framework.bridge.world.BridgeWorld
-import ink.pmc.framework.bridge.world.createInfo
-import ink.pmc.framework.datastructure.mutableConcurrentSetOf
+import plutoproject.framework.common.api.bridge.Bridge
+import plutoproject.framework.common.api.bridge.player.BridgePlayer
+import plutoproject.framework.common.api.bridge.server.BridgeServer
+import plutoproject.framework.common.api.bridge.server.ServerType
+import plutoproject.framework.common.api.bridge.world.BridgeWorld
+import plutoproject.framework.common.bridge.player.createInfoWithoutLocation
+import plutoproject.framework.common.bridge.world.createInfo
+import plutoproject.framework.common.util.data.collection.mutableConcurrentSetOf
+import plutoproject.framework.proto.bridge.BridgeRpcOuterClass.ServerInfo
+import plutoproject.framework.proto.bridge.serverInfo
 
 fun BridgeServer.createInfo(): ServerInfo {
     val server = this

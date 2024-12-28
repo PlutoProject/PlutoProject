@@ -1,14 +1,14 @@
 package ink.pmc.framework.bridge.backend.player
 
 import ink.pmc.framework.bridge.backend.bridgeStub
-import ink.pmc.framework.bridge.checkPlayerOperationResult
-import ink.pmc.framework.bridge.player.RemotePlayer
+import plutoproject.framework.common.bridge.checkPlayerOperationResult
+import plutoproject.framework.common.bridge.player.RemotePlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperationResult
 import ink.pmc.framework.bridge.server.BridgeServer
 import ink.pmc.framework.bridge.server.ServerState
 import ink.pmc.framework.bridge.server.ServerType
-import ink.pmc.framework.bridge.warn
+import plutoproject.framework.common.bridge.warn
 import ink.pmc.framework.bridge.world.BridgeLocation
 import ink.pmc.framework.bridge.world.BridgeWorld
 import kotlinx.coroutines.Deferred

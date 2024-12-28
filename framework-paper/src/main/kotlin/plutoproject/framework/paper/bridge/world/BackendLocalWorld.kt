@@ -13,7 +13,7 @@ import plutoproject.framework.common.api.bridge.world.BridgeWorld
 import plutoproject.framework.common.bridge.throwLocalWorldNotFound
 import plutoproject.framework.common.bridge.world.BridgeLocationImpl
 import plutoproject.framework.common.bridge.world.InternalWorld
-import plutoproject.framework.paper.api.worldAlias.alias
+import plutoproject.framework.paper.api.worldalias.alias
 import plutoproject.framework.paper.bridge.server.localServer
 
 internal fun BridgeWorld.getBukkit(): World {

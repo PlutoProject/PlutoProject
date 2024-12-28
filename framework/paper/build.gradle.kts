@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     api(projects.frameworkPaperApi)
-    api(project(":framework:shared"))
+    api(projects.frameworkCommon)
 }

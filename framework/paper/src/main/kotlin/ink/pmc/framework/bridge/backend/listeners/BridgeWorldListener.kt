@@ -4,11 +4,11 @@ import ink.pmc.framework.bridge.backend.bridgeStub
 import ink.pmc.framework.bridge.backend.server.localServer
 import ink.pmc.framework.bridge.backend.world.BackendLocalWorld
 import ink.pmc.framework.bridge.backend.world.getBridge
-import ink.pmc.framework.bridge.checkCommonResult
+import plutoproject.framework.common.bridge.checkCommonResult
 import ink.pmc.framework.bridge.proto.worldLoad
-import ink.pmc.framework.bridge.throwLocalWorldNotFound
-import ink.pmc.framework.bridge.warn
-import ink.pmc.framework.bridge.world.createInfo
+import plutoproject.framework.common.bridge.throwLocalWorldNotFound
+import plutoproject.framework.common.bridge.warn
+import plutoproject.framework.common.bridge.world.createInfo
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener

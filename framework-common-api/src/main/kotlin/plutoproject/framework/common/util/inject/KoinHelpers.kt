@@ -14,5 +14,5 @@ fun modifyExistedKoinOrCreate(declaration: KoinAppDeclaration): KoinApplication 
     return application.apply(declaration)
 }
 
-val KOIN: Koin
+val Koin: Koin
     get() = getKoin()

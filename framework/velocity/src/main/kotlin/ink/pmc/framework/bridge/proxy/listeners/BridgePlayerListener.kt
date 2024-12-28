@@ -5,17 +5,17 @@ import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.connection.DisconnectEvent
 import com.velocitypowered.api.event.connection.LoginEvent
 import com.velocitypowered.api.event.player.ServerPreConnectEvent
-import ink.pmc.framework.bridge.internalBridge
-import ink.pmc.framework.bridge.player.createInfoWithoutLocation
+import plutoproject.framework.common.bridge.internalBridge
+import plutoproject.framework.common.bridge.player.createInfoWithoutLocation
 import ink.pmc.framework.bridge.proto.notification
 import ink.pmc.framework.bridge.proto.playerDisconnect
 import ink.pmc.framework.bridge.proxy.BridgeRpc
 import ink.pmc.framework.bridge.proxy.player.ProxyLocalPlayer
 import ink.pmc.framework.bridge.proxy.player.ProxyRemoteBackendPlayer
 import ink.pmc.framework.bridge.proxy.server.localServer
-import ink.pmc.framework.bridge.server.InternalServer
-import ink.pmc.framework.bridge.throwRemoteServerNotFound
-import ink.pmc.framework.bridge.warn
+import plutoproject.framework.common.bridge.server.InternalServer
+import plutoproject.framework.common.bridge.throwRemoteServerNotFound
+import plutoproject.framework.common.bridge.warn
 
 object BridgePlayerListener {
     @Subscribe(order = PostOrder.FIRST)

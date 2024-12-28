@@ -4,8 +4,8 @@ import ink.pmc.framework.bridge.backend.bridgeStub
 import ink.pmc.framework.bridge.backend.world.BackendLocalWorld
 import ink.pmc.framework.bridge.backend.world.createBridge
 import ink.pmc.framework.bridge.backend.world.createBukkit
-import ink.pmc.framework.bridge.internalBridge
-import ink.pmc.framework.bridge.player.RemoteBackendPlayer
+import plutoproject.framework.common.bridge.internalBridge
+import plutoproject.framework.common.bridge.player.RemoteBackendPlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperation
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerOperationResult
 import ink.pmc.framework.bridge.server.BridgeServer

@@ -1,18 +1,18 @@
 package ink.pmc.framework.bridge.backend
 
-import ink.pmc.framework.bridge.InternalBridge
+import plutoproject.framework.common.bridge.InternalBridge
 import ink.pmc.framework.bridge.RESERVED_MASTER_ID
 import ink.pmc.framework.bridge.backend.player.BackendRemoteBackendPlayer
 import ink.pmc.framework.bridge.backend.player.BackendRemoteProxyPlayer
 import ink.pmc.framework.bridge.backend.server.BackendLocalServer
 import ink.pmc.framework.bridge.backend.server.BackendRemoteProxyServer
-import ink.pmc.framework.bridge.player.InternalPlayer
+import plutoproject.framework.common.bridge.player.InternalPlayer
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.PlayerInfo
 import ink.pmc.framework.bridge.proto.BridgeRpcOuterClass.ServerInfo
 import ink.pmc.framework.bridge.server.BridgeServer
-import ink.pmc.framework.bridge.server.InternalServer
-import ink.pmc.framework.bridge.throwRemoteServerNotFound
-import ink.pmc.framework.bridge.warn
+import plutoproject.framework.common.bridge.server.InternalServer
+import plutoproject.framework.common.bridge.throwRemoteServerNotFound
+import plutoproject.framework.common.bridge.warn
 import ink.pmc.framework.player.uuid
 
 class BackendBridge : InternalBridge() {

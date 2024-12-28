@@ -1,4 +1,4 @@
-package ink.pmc.framework.bridge
+package plutoproject.framework.common.bridge
 
 const val HEARTBEAT_CHECK_INTERVAL_SECS = 5L
 const val HEARTBEAT_SEND_INTERVAL_SECS = HEARTBEAT_CHECK_INTERVAL_SECS

@@ -12,6 +12,6 @@ dependencies {
 velocityPluginJson {
     id = "plutoproject"
     name = "PlutoProject"
-    main = "plutoproject.platform.velocity.PlutoVelocityPlatform"
+    main = "plutoproject.platform.velocity.PlutoVelocityBootstrap"
     authors = listOf("nostalfinals", "PlutoProject Contributors")
 }

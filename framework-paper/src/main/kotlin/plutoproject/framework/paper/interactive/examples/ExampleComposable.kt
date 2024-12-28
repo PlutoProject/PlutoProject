@@ -1,23 +1,23 @@
-package ink.pmc.framework.interactive.examples
+package plutoproject.framework.paper.interactive.examples
 
 import androidx.compose.runtime.Composable
 import ink.pmc.advkt.component.component
 import ink.pmc.advkt.component.italic
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
-import ink.pmc.framework.interactive.Item
-import ink.pmc.framework.interactive.Modifier
-import ink.pmc.framework.interactive.VerticalGrid
-import ink.pmc.framework.interactive.click.clickable
-import ink.pmc.framework.interactive.canvas.Chest
-import ink.pmc.framework.interactive.fillMaxSize
-import ink.pmc.framework.chat.mochaText
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import plutoproject.framework.common.util.chat.palettes.mochaText
+import plutoproject.framework.paper.api.interactive.canvas.Chest
+import plutoproject.framework.paper.api.interactive.click.clickable
+import plutoproject.framework.paper.api.interactive.components.Item
+import plutoproject.framework.paper.api.interactive.layout.VerticalGrid
+import plutoproject.framework.paper.api.interactive.modifiers.Modifier
+import plutoproject.framework.paper.api.interactive.modifiers.fillMaxSize
 
 @Composable
 @Suppress("FunctionName")
-fun ExampleScreen3() {
+fun ExampleComposable() {
     Chest(title = Component.text("ExampleScreen3"), modifier = Modifier.fillMaxSize()) {
         VerticalGrid(modifier = Modifier.fillMaxSize()) {
             repeat(54) {

@@ -1,9 +1,5 @@
-package ink.pmc.framework.interactive.inventory
+package plutoproject.framework.paper.interactive.inventory
 
-import ink.pmc.framework.interactive.canvas.GuiInventoryHolder
-import ink.pmc.framework.interactive.click.ClickScope
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.player.catchExceptionInteraction
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -12,10 +8,13 @@ import org.bukkit.event.inventory.ClickType.*
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
+import plutoproject.framework.common.util.catchInteractiveException
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.api.interactive.GuiInventoryHolder
+import plutoproject.framework.paper.api.interactive.click.ClickScope
 
 @Suppress("UNUSED", "UnusedReceiverParameter")
 object InventoryListener : Listener {
-
     @EventHandler
     fun InventoryClickEvent.e() {
         val invHolder = inventory.holder as? GuiInventoryHolder ?: return
@@ -27,11 +26,9 @@ object InventoryListener : Listener {
         if (clickedInventory.holder !== invHolder) return
         isCancelled = true
 
-        val scope = ClickScope(
-            view, click, slot, cursor.takeIf { it.type != Material.AIR }, whoClicked
-        )
-        submitAsync {
-            catchExceptionInteraction(whoClicked) {
+        val scope = ClickScope(view, click, slot, cursor.takeIf { it.type != Material.AIR }, whoClicked)
+        runAsync {
+            catchInteractiveException(whoClicked) {
                 invHolder.processClick(scope, this@e)
             }
         }
@@ -59,8 +56,8 @@ object InventoryListener : Listener {
             isCancelled = true
             val clicked = inInv.entries.first()
             val scope = ClickScope(view, LEFT, clicked.key, cursor?.takeIf { it.type != Material.AIR }, whoClicked)
-            submitAsync {
-                catchExceptionInteraction(whoClicked) {
+            runAsync {
+                catchInteractiveException(whoClicked) {
                     invHolder.processClick(scope, this@e)
                 }
             }
@@ -68,5 +65,4 @@ object InventoryListener : Listener {
             isCancelled = true
         }
     }
-
 }

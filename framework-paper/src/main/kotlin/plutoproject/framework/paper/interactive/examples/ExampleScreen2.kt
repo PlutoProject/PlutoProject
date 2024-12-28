@@ -1,4 +1,4 @@
-package ink.pmc.framework.interactive.examples
+package plutoproject.framework.paper.interactive.examples
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -6,22 +6,28 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import ink.pmc.advkt.component.component
 import ink.pmc.advkt.component.italic
 import ink.pmc.advkt.component.text
-import ink.pmc.framework.interactive.canvas.Chest
-import ink.pmc.framework.interactive.click.clickable
-import ink.pmc.framework.interactive.jetpack.Arrangement
-import ink.pmc.framework.interactive.layout.Box
-import ink.pmc.framework.interactive.layout.Column
-import ink.pmc.framework.interactive.layout.Row
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.chat.mochaRed
-import ink.pmc.framework.chat.mochaSubtext0
-import ink.pmc.framework.interactive.*
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import plutoproject.framework.common.util.chat.palettes.mochaRed
+import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
+import plutoproject.framework.paper.api.interactive.InteractiveScreen
+import plutoproject.framework.paper.api.interactive.LocalPlayer
+import plutoproject.framework.paper.api.interactive.canvas.Chest
+import plutoproject.framework.paper.api.interactive.click.clickable
+import plutoproject.framework.paper.api.interactive.components.Item
+import plutoproject.framework.paper.api.interactive.components.Spacer
+import plutoproject.framework.paper.api.interactive.jetpack.Arrangement
+import plutoproject.framework.paper.api.interactive.layout.Box
+import plutoproject.framework.paper.api.interactive.layout.Column
+import plutoproject.framework.paper.api.interactive.layout.Row
+import plutoproject.framework.paper.api.interactive.modifiers.Modifier
+import plutoproject.framework.paper.api.interactive.modifiers.fillMaxSize
+import plutoproject.framework.paper.api.interactive.modifiers.fillMaxWidth
+import plutoproject.framework.paper.api.interactive.modifiers.height
+import plutoproject.framework.paper.util.coroutine.withSync
 
 class ExampleScreen2 : InteractiveScreen() {
-
     @Composable
     override fun Content() {
         Chest(
@@ -64,7 +70,7 @@ class ExampleScreen2 : InteractiveScreen() {
                     material = Material.APPLE,
                     name = component { text("获取一个苹果") with mochaRed without italic() },
                     modifier = Modifier.clickable {
-                        submitAsync {
+                        player.withSync {
                             player.inventory.addItem(ItemStack(Material.APPLE))
                         }
                     }
@@ -81,5 +87,4 @@ class ExampleScreen2 : InteractiveScreen() {
             }
         }
     }
-
 }

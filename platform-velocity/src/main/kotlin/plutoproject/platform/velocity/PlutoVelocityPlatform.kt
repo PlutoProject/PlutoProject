@@ -14,6 +14,9 @@ import plutoproject.framework.common.util.initPluginDataFolder
 import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
 import plutoproject.framework.common.util.serverThread
 import plutoproject.framework.velocity.FrameworkVelocityModule
+import plutoproject.framework.velocity.disableFrameworkModules
+import plutoproject.framework.velocity.enableFrameworkModules
+import plutoproject.framework.velocity.loadFrameworkModules
 import plutoproject.framework.velocity.util.plugin
 import java.nio.file.Path
 import java.util.logging.Logger
@@ -31,6 +34,7 @@ class PlutoVelocityPlatform {
         modifyExistedKoinOrCreate {
             modules(FrameworkCommonModule, FrameworkVelocityModule)
         }
+        loadFrameworkModules()
     }
 
     private fun loadDependencies(cachePath: Path) {
@@ -55,10 +59,12 @@ class PlutoVelocityPlatform {
 
     @Subscribe
     fun ProxyInitializeEvent.e() {
+        enableFrameworkModules()
     }
 
     @Subscribe
     fun ProxyShutdownEvent.e() {
+        disableFrameworkModules()
         shutdownCoroutineEnvironment()
     }
 }

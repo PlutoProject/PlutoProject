@@ -4,6 +4,7 @@ import com.github.shynixn.mccoroutine.velocity.registerSuspend
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.incendo.cloud.minecraft.extras.parser.ComponentParser
 import org.incendo.cloud.parser.standard.StringParser
+import plutoproject.framework.common.api.bridge.Bridge
 import plutoproject.framework.common.api.provider.Provider
 import plutoproject.framework.common.api.rpc.RpcServer
 import plutoproject.framework.common.util.command.annotationParser
@@ -26,7 +27,6 @@ fun loadFrameworkModules() {
         addService(BridgeRpc)
     }
     Provider
-    registerListeners()
 }
 
 private fun registerListeners() = server.eventManager.apply {
@@ -36,6 +36,7 @@ private fun registerListeners() = server.eventManager.apply {
 }
 
 private fun configureCommands() {
+    registerListeners()
     plugin.commandManager.apply {
         parserRegistry().apply {
             registerNamedParser(
@@ -52,6 +53,7 @@ private fun configureCommands() {
 fun enableFrameworkModules() {
     configureCommands()
     RpcServer.start()
+    Bridge
 }
 
 fun disableFrameworkModules() {

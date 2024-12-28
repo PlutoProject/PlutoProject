@@ -12,6 +12,7 @@ import plutoproject.framework.paper.disableFrameworkModules
 import plutoproject.framework.paper.enableFrameworkModules
 import plutoproject.framework.paper.loadFrameworkModules
 import plutoproject.framework.paper.util.plugin
+import plutoproject.framework.common.util.logger as utilLogger
 import plutoproject.framework.paper.util.server as utilServer
 
 @Suppress("UNUSED")
@@ -19,6 +20,7 @@ class PlutoPaperPlatform : JavaPlugin() {
     override fun onLoad() {
         plugin = this
         utilServer = server
+        utilLogger = logger
         serverThread = Thread.currentThread()
         dataFolder.initPluginDataFolder()
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")

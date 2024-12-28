@@ -1,4 +1,4 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.common.playerdb
 
 import java.util.*
 

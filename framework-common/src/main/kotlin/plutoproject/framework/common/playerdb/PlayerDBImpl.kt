@@ -1,27 +1,26 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.common.playerdb
 
 import com.github.benmanes.caffeine.cache.Caffeine
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.player.db.Database
-import ink.pmc.framework.player.db.PlayerDb
 import kotlinx.coroutines.future.asCompletableFuture
 import kotlinx.coroutines.future.await
 import org.bson.BsonDocument
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.playerdb.Database
+import plutoproject.framework.common.api.playerdb.PlayerDB
+import plutoproject.framework.common.util.coroutine.runAsync
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.toJavaDuration
 
-class PlayerDbImpl : PlayerDb, KoinComponent {
-
+class PlayerDBImpl : PlayerDB, KoinComponent {
     private val repo by inject<DatabaseRepository>()
     private val loadedDatabases = Caffeine.newBuilder()
         .expireAfterAccess(20.minutes.toJavaDuration())
         .refreshAfterWrite(5.minutes.toJavaDuration())
         .buildAsync<UUID, Database?> { k, _ ->
-            submitAsync<Database?> {
+            runAsync {
                 repo.findById(k)?.let { DatabaseImpl(it) }
             }.asCompletableFuture()
         }
@@ -70,5 +69,4 @@ class PlayerDbImpl : PlayerDb, KoinComponent {
     override suspend fun delete(id: UUID) {
         repo.deleteById(id)
     }
-
 }

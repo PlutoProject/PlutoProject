@@ -1,6 +1,7 @@
 package ink.pmc.framework.playerdb
 
 import org.koin.core.component.KoinComponent
+import plutoproject.framework.common.playerdb.DatabaseNotifier
 import java.util.*
 
 class BackendDatabaseNotifier : DatabaseNotifier, KoinComponent {

@@ -1,16 +1,17 @@
-package ink.pmc.framework.rpc
+package plutoproject.framework.common.rpc
 
-import ink.pmc.framework.FrameworkConfig
-import ink.pmc.framework.frameworkLogger
 import io.grpc.Channel
 import io.grpc.ManagedChannel
 import io.grpc.StatusException
 import io.grpc.okhttp.OkHttpChannelBuilder
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.koin.core.component.inject
+import plutoproject.framework.common.api.rpc.RpcClient
+import plutoproject.framework.common.config.RpcConfig
+import plutoproject.framework.common.util.logger
 
 class RpcClientImpl : RpcClient, KoinComponent {
-    private val config by lazy { get<FrameworkConfig>().rpc }
+    private val config by inject<RpcConfig>()
     private var isRunning = false
     private var _channel: ManagedChannel? = null
     override val channel: Channel
@@ -24,9 +25,9 @@ class RpcClientImpl : RpcClient, KoinComponent {
                     .usePlaintext()
                     .build()
                 isRunning = true
-                frameworkLogger.info("Connected to gRPC server")
+                logger.info("Connected to gRPC server")
             } catch (e: StatusException) {
-                frameworkLogger.severe("Failed to connect gRPC server, wait 5s before retry")
+                logger.severe("Failed to connect gRPC server, wait 5s before retry")
                 Thread.sleep(5000)
             }
         }

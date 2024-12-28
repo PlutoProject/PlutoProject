@@ -1,4 +1,4 @@
-package ink.pmc.framework.playerdb
+package plutoproject.framework.common.playerdb
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.ReplaceOptions
@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import java.util.*
 
 class DatabaseRepository(private val collection: MongoCollection<DatabaseModel>) {
-
     private val upsert = ReplaceOptions().upsert(true)
 
     suspend fun findById(id: UUID): DatabaseModel? {
@@ -25,5 +24,4 @@ class DatabaseRepository(private val collection: MongoCollection<DatabaseModel>)
     suspend fun saveOrUpdate(model: DatabaseModel) {
         collection.replaceOne(eq("_id", model.id), model, upsert)
     }
-
 }

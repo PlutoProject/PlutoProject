@@ -1,4 +1,4 @@
-package plutoproject.framework.common.api.player.profile
+package plutoproject.framework.common.api.profile
 
 import okhttp3.OkHttpClient
 import java.util.*

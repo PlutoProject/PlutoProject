@@ -1,10 +1,10 @@
-package ink.pmc.framework.utils.player.profile
+package plutoproject.framework.common.profile
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.ReplaceOptions
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import ink.pmc.framework.player.profile.CachedProfile
 import kotlinx.coroutines.flow.firstOrNull
+import plutoproject.framework.common.api.profile.CachedProfile
 import java.util.*
 
 class ProfileCacheRepository(private val collection: MongoCollection<CachedProfile>) {

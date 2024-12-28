@@ -1,4 +1,8 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.options
+
+import plutoproject.framework.common.api.options.EntryValueType
+import plutoproject.framework.common.api.options.Limitation
+import plutoproject.framework.common.api.options.OptionDescriptor
 
 /*
 * 仅运行时存在，内部使用。

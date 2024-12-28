@@ -1,17 +1,21 @@
-package ink.pmc.framework.options.models
+package plutoproject.framework.common.options.models
 
-import ink.pmc.framework.options.EntryValueType
-import ink.pmc.framework.options.EntryValueType.*
-import ink.pmc.framework.options.OptionEntry
-import ink.pmc.framework.options.UnknownDescriptor
-import ink.pmc.framework.json.gson
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
+import plutoproject.framework.common.api.options.EntryValueType
+import plutoproject.framework.common.api.options.EntryValueType.*
+import plutoproject.framework.common.api.options.OptionEntry
+import plutoproject.framework.common.options.UnknownDescriptor
+import plutoproject.framework.common.util.data.json.Gson
 
 @OptIn(InternalSerializationApi::class)
 @Suppress("UNCHECKED_CAST")
 internal fun OptionEntry<*>.toModel(): OptionEntryModel {
-    return OptionEntryModel(descriptor.key, when (descriptor.type) {
+    val type = when (descriptor.type) {
+        UNKNOWN -> (descriptor as UnknownDescriptor).originalType
+        else -> descriptor.type
+    }
+    val stringValue = when (descriptor.type) {
         INT -> Json.encodeToString(value as Int)
         LONG -> Json.encodeToString(value as Long)
         SHORT -> Json.encodeToString(value as Short)
@@ -26,14 +30,13 @@ internal fun OptionEntry<*>.toModel(): OptionEntryModel {
             if (kSerializer != null) {
                 Json.encodeToString(kSerializer as KSerializer<Any>, value)
             } else {
-                gson.toJson(value, objClass)
+                Gson.toJson(value, objClass)
             }
         }
 
         UNKNOWN -> value as String
-    }, if (descriptor.type == UNKNOWN) {
-        (descriptor as UnknownDescriptor).originalType
-    } else descriptor.type)
+    }
+    return OptionEntryModel(descriptor.key, stringValue, type)
 }
 
 @Serializable

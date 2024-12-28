@@ -15,7 +15,7 @@ import ink.pmc.framework.interactive.GuiManagerImpl
 import ink.pmc.framework.interactive.commands.InteractiveCommand
 import ink.pmc.framework.interactive.inventory.InventoryListener
 import ink.pmc.framework.options.BackendOptionsUpdateNotifier
-import ink.pmc.framework.options.OptionsUpdateNotifier
+import plutoproject.framework.common.options.OptionsUpdateNotifier
 import ink.pmc.framework.options.listeners.BukkitOptionsListener
 import ink.pmc.framework.options.startOptionsMonitor
 import ink.pmc.framework.options.stopOptionsMonitor

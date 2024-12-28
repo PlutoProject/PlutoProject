@@ -1,9 +1,10 @@
-package ink.pmc.framework.options
+package plutoproject.framework.common.options
 
-import ink.pmc.framework.options.models.toModel
-import ink.pmc.framework.options.repositories.OptionsContainerRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.options.*
+import plutoproject.framework.common.options.models.toModel
+import plutoproject.framework.common.options.repositories.OptionsContainerRepository
 import java.util.*
 
 class PlayerOptionsImpl(
@@ -36,12 +37,12 @@ class PlayerOptionsImpl(
     @Suppress("UNCHECKED_CAST")
     override fun <T : Any> getEntry(descriptor: OptionDescriptor<T>): OptionEntry<T>? {
         val registeredDescriptor = checkDescriptor(descriptor)
-        return if (contains(registeredDescriptor)) {
-            entriesMap[registeredDescriptor.key] as? OptionEntry<T>
-        } else if (registeredDescriptor.defaultValue != null) {
-            OptionEntryImpl(registeredDescriptor, registeredDescriptor.defaultValue!!)
-        } else {
-            null
+        return when {
+            contains(registeredDescriptor) -> entriesMap[registeredDescriptor.key] as? OptionEntry<T>
+            registeredDescriptor.defaultValue != null ->
+                OptionEntryImpl(registeredDescriptor, registeredDescriptor.defaultValue!!)
+
+            else -> null
         }
     }
 

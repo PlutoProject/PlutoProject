@@ -8,8 +8,8 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.event.inventory.ClickType
 import plutoproject.framework.common.util.chat.SoundConstants
-import plutoproject.framework.common.util.chat.palettes.MOCHA_LAVENDER
-import plutoproject.framework.common.util.chat.palettes.MOCHA_TEXT
+import plutoproject.framework.common.util.chat.palettes.mochaLavender
+import plutoproject.framework.common.util.chat.palettes.mochaText
 import plutoproject.framework.paper.api.interactive.LocalPlayer
 import plutoproject.framework.paper.api.interactive.modifiers.Modifier
 import plutoproject.framework.paper.api.interactive.click.clickable
@@ -34,7 +34,7 @@ fun SeparatePageTuner(
     Item(
         material = icon,
         name = component {
-            text("第 $current/$total 页") with MOCHA_TEXT without italic()
+            text("第 $current/$total 页") with mochaText without italic()
         },
         lore = buildList {
             addAll(description)
@@ -42,13 +42,13 @@ fun SeparatePageTuner(
             add(component {
                 when (mode) {
                     PREVIOUS -> {
-                        text("左键 ") with MOCHA_LAVENDER without italic()
-                        text("上一页") with MOCHA_TEXT without italic()
+                        text("左键 ") with mochaLavender without italic()
+                        text("上一页") with mochaText without italic()
                     }
 
                     NEXT -> {
-                        text("左键 ") with MOCHA_LAVENDER without italic()
-                        text("下一页") with MOCHA_TEXT without italic()
+                        text("左键 ") with mochaLavender without italic()
+                        text("下一页") with mochaText without italic()
                     }
                 }
             })

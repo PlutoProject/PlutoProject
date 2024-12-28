@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import ink.pmc.advkt.component.component
 import ink.pmc.advkt.component.italic
 import ink.pmc.advkt.component.text
-import plutoproject.framework.common.util.chat.palettes.MOCHA_TEXT
+import plutoproject.framework.common.util.chat.palettes.mochaText
 import plutoproject.framework.paper.api.interactive.modifiers.Modifier
 import plutoproject.framework.paper.api.interactive.components.Selector
 import plutoproject.framework.paper.api.interactive.modifiers.fillMaxSize
@@ -36,7 +36,7 @@ abstract class FilterListMenu<E, F : Any, M : FilterListMenuModel<E, F>>(
         val model = LocalListMenuModel.current
         Selector(
             title = component {
-                text("筛选") with MOCHA_TEXT without italic()
+                text("筛选") with mochaText without italic()
             },
             options = filters.values.toList(),
             goNext = model::internalNextFilter,

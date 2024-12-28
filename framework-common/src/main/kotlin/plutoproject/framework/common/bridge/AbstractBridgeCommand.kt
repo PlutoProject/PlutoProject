@@ -26,26 +26,26 @@ abstract class AbstractBridgeCommand<T> {
     private fun getServerListMessage(list: Collection<BridgeServer>): Component {
         return component {
             list.forEachIndexed { index, it ->
-                text("- ") with MOCHA_SUBTEXT_0
-                text("${it.id}: ") with MOCHA_TEXT
+                text("- ") with mochaSubtext0
+                text("${it.id}: ") with mochaText
                 if (it.isOnline) {
-                    text("在线 ") with MOCHA_GREEN
+                    text("在线 ") with mochaGreen
                 } else {
-                    text("离线 ") with MOCHA_GREEN
+                    text("离线 ") with mochaGreen
                 }
-                text("状态 ") with MOCHA_TEXT
-                text("${it.state}") with MOCHA_LAVENDER
-                text(", 类型 ") with MOCHA_TEXT
-                text("${it.type}") with MOCHA_LAVENDER
+                text("状态 ") with mochaText
+                text("${it.state}") with mochaLavender
+                text(", 类型 ") with mochaText
+                text("${it.type}") with mochaLavender
                 if (it.group != null) {
-                    text(", 组 ") with MOCHA_TEXT
-                    text(it.group!!.id) with MOCHA_LAVENDER
+                    text(", 组 ") with mochaText
+                    text(it.group!!.id) with mochaLavender
                 }
-                text(", 玩家 ") with MOCHA_TEXT
-                text(it.playerCount) with MOCHA_LAVENDER
+                text(", 玩家 ") with mochaText
+                text(it.playerCount) with mochaLavender
                 if (!it.type.isProxy) {
-                    text(", 世界 ") with MOCHA_TEXT
-                    text(it.worlds.size) with MOCHA_LAVENDER
+                    text(", 世界 ") with mochaText
+                    text(it.worlds.size) with mochaLavender
                 }
                 if (index != list.indices.last) {
                     newline()
@@ -56,8 +56,8 @@ abstract class AbstractBridgeCommand<T> {
 
     fun T.listServers() {
         send {
-            text("» ") with MOCHA_SUBTEXT_0
-            text("已注册的服务器") with MOCHA_FLAMINGO
+            text("» ") with mochaSubtext0
+            text("已注册的服务器") with mochaFlamingo
             newline()
             raw(getServerListMessage(Bridge.servers))
         }
@@ -71,17 +71,17 @@ abstract class AbstractBridgeCommand<T> {
                 loc = it.location.await()
             }
             component = component.append(component {
-                text("- ") with MOCHA_SUBTEXT_0
-                text("${it.name}: ") with MOCHA_TEXT
-                text("服务器 ") with MOCHA_TEXT
-                text(it.server.id) with MOCHA_LAVENDER
-                text(", 状态 ") with MOCHA_TEXT
-                text("${it.serverState}") with MOCHA_LAVENDER
-                text(", 类型 ") with MOCHA_TEXT
-                text("${it.serverType}") with MOCHA_LAVENDER
+                text("- ") with mochaSubtext0
+                text("${it.name}: ") with mochaText
+                text("服务器 ") with mochaText
+                text(it.server.id) with mochaLavender
+                text(", 状态 ") with mochaText
+                text("${it.serverState}") with mochaLavender
+                text(", 类型 ") with mochaText
+                text("${it.serverType}") with mochaLavender
                 if (loc != null) {
-                    text(", 位置 ") with MOCHA_TEXT
-                    text("${loc.world.aliasOrName} ${loc.x.toInt()}, ${loc.y.toInt()}, ${loc.z.toInt()}") with MOCHA_LAVENDER
+                    text(", 位置 ") with mochaText
+                    text("${loc.world.aliasOrName} ${loc.x.toInt()}, ${loc.y.toInt()}, ${loc.z.toInt()}") with mochaLavender
                 }
                 if (index != list.indices.last) {
                     newline()
@@ -93,8 +93,8 @@ abstract class AbstractBridgeCommand<T> {
 
     suspend fun T.listPlayers() {
         send {
-            text("» ") with MOCHA_SUBTEXT_0
-            text("已添加的玩家") with MOCHA_FLAMINGO
+            text("» ") with mochaSubtext0
+            text("已添加的玩家") with mochaFlamingo
         }
         val list = getPlayerListMessage(Bridge.players)
         send {
@@ -108,10 +108,10 @@ abstract class AbstractBridgeCommand<T> {
     ) {
         player.teleport(other)
         send {
-            text("已将 ") with MOCHA_PINK
-            text("${player.name} ") with MOCHA_TEXT
-            text("传送到 ") with MOCHA_PINK
-            text(other.name) with MOCHA_TEXT
+            text("已将 ") with mochaPink
+            text("${player.name} ") with mochaText
+            text("传送到 ") with mochaPink
+            text(other.name) with mochaText
         }
     }
 
@@ -121,10 +121,10 @@ abstract class AbstractBridgeCommand<T> {
     ) {
         player.sendMessage(message)
         send {
-            text("已向 ") with MOCHA_PINK
-            text("${player.name} ") with MOCHA_TEXT
-            text("发送 ") with MOCHA_PINK
-            raw(message) with MOCHA_SUBTEXT_0
+            text("已向 ") with mochaPink
+            text("${player.name} ") with mochaText
+            text("发送 ") with mochaPink
+            raw(message) with mochaSubtext0
         }
     }
 
@@ -146,9 +146,9 @@ abstract class AbstractBridgeCommand<T> {
             subTitle(subTitle)
         }
         send {
-            text("已向 ") with MOCHA_PINK
-            text("${player.name} ") with MOCHA_TEXT
-            text("发送标题") with MOCHA_PINK
+            text("已向 ") with mochaPink
+            text("${player.name} ") with mochaText
+            text("发送标题") with mochaPink
         }
     }
 
@@ -164,9 +164,9 @@ abstract class AbstractBridgeCommand<T> {
             pitch(pitch)
         }
         send {
-            text("已向 ") with MOCHA_PINK
-            text("${player.name} ") with MOCHA_TEXT
-            text("播放声音") with MOCHA_PINK
+            text("已向 ") with mochaPink
+            text("${player.name} ") with mochaText
+            text("播放声音") with mochaPink
         }
     }
 
@@ -176,28 +176,28 @@ abstract class AbstractBridgeCommand<T> {
     ) {
         player.performCommand(command)
         send {
-            text("正在使 ") with MOCHA_PINK
-            text("${player.name} ") with MOCHA_TEXT
-            text("执行命令 ") with MOCHA_PINK
-            text(command) with MOCHA_SUBTEXT_0
+            text("正在使 ") with mochaPink
+            text("${player.name} ") with mochaText
+            text("执行命令 ") with mochaPink
+            text(command) with mochaSubtext0
         }
     }
 
     private fun getWorldListMessage(list: Collection<BridgeWorld>): Component {
         return component {
             list.forEachIndexed { index, it ->
-                text("- ") with MOCHA_SUBTEXT_0
-                text("${it.name}: ") with MOCHA_TEXT
-                text("服务器 ") with MOCHA_TEXT
-                text(it.server.id) with MOCHA_LAVENDER
-                text(", 状态 ") with MOCHA_TEXT
-                text("${it.serverState}") with MOCHA_LAVENDER
-                text(", 类型 ") with MOCHA_TEXT
-                text("${it.serverType}") with MOCHA_LAVENDER
-                text(", 玩家 ") with MOCHA_TEXT
-                text(it.playerCount) with MOCHA_LAVENDER
-                text(", 出生点 ") with MOCHA_TEXT
-                text("${it.spawnPoint.world.aliasOrName} ${it.spawnPoint.x.toInt()}, ${it.spawnPoint.y.toInt()}, ${it.spawnPoint.z.toInt()}") with MOCHA_LAVENDER
+                text("- ") with mochaSubtext0
+                text("${it.name}: ") with mochaText
+                text("服务器 ") with mochaText
+                text(it.server.id) with mochaLavender
+                text(", 状态 ") with mochaText
+                text("${it.serverState}") with mochaLavender
+                text(", 类型 ") with mochaText
+                text("${it.serverType}") with mochaLavender
+                text(", 玩家 ") with mochaText
+                text(it.playerCount) with mochaLavender
+                text(", 出生点 ") with mochaText
+                text("${it.spawnPoint.world.aliasOrName} ${it.spawnPoint.x.toInt()}, ${it.spawnPoint.y.toInt()}, ${it.spawnPoint.z.toInt()}") with mochaLavender
                 if (index != list.indices.last) {
                     newline()
                 }
@@ -207,8 +207,8 @@ abstract class AbstractBridgeCommand<T> {
 
     fun T.listWorlds() {
         send {
-            text("» ") with MOCHA_SUBTEXT_0
-            text("已添加的世界") with MOCHA_FLAMINGO
+            text("» ") with mochaSubtext0
+            text("已添加的世界") with mochaFlamingo
             newline()
             raw(getWorldListMessage(Bridge.worlds))
         }

@@ -9,10 +9,10 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.event.inventory.ClickType
 import plutoproject.framework.common.util.chat.SoundConstants
-import plutoproject.framework.common.util.chat.palettes.MOCHA_LAVENDER
-import plutoproject.framework.common.util.chat.palettes.MOCHA_SUBTEXT_0
-import plutoproject.framework.common.util.chat.palettes.MOCHA_TEXT
-import plutoproject.framework.common.util.chat.palettes.MOCHA_YELLOW
+import plutoproject.framework.common.util.chat.palettes.mochaLavender
+import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
+import plutoproject.framework.common.util.chat.palettes.mochaText
+import plutoproject.framework.common.util.chat.palettes.mochaYellow
 import plutoproject.framework.paper.api.interactive.LocalPlayer
 import plutoproject.framework.paper.api.interactive.modifiers.Modifier
 import plutoproject.framework.paper.api.interactive.click.clickable
@@ -25,7 +25,7 @@ fun Selector(
     description: List<Component> = emptyList(),
     options: List<String>,
     default: Int = 0,
-    highlightColor: TextColor = MOCHA_YELLOW,
+    highlightColor: TextColor = mochaYellow,
     goNext: suspend () -> Unit,
     goPrevious: suspend () -> Unit
 ) {
@@ -39,17 +39,17 @@ fun Selector(
             addAll(description)
             addAll(options.mapIndexed { index, s ->
                 component {
-                    text("» $s") with (if (current == index) highlightColor else MOCHA_SUBTEXT_0) without italic()
+                    text("» $s") with (if (current == index) highlightColor else mochaSubtext0) without italic()
                 }
             })
             add(Component.empty())
             add(component {
-                text("左键 ") with MOCHA_LAVENDER without italic()
-                text("向后切换") with MOCHA_TEXT without italic()
+                text("左键 ") with mochaLavender without italic()
+                text("向后切换") with mochaText without italic()
             })
             add(component {
-                text("右键 ") with MOCHA_LAVENDER without italic()
-                text("向前切换") with MOCHA_TEXT without italic()
+                text("右键 ") with mochaLavender without italic()
+                text("向前切换") with mochaText without italic()
             })
         },
         modifier = Modifier.clickable {

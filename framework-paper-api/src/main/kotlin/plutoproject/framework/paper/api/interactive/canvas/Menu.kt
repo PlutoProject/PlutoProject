@@ -6,8 +6,8 @@ import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
 import net.kyori.adventure.text.Component
-import plutoproject.framework.common.util.chat.palettes.MOCHA_MAROON
-import plutoproject.framework.common.util.chat.palettes.MOCHA_SUBTEXT_0
+import plutoproject.framework.common.util.chat.palettes.mochaMaroon
+import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
 import plutoproject.framework.paper.api.interactive.*
 import plutoproject.framework.paper.api.interactive.components.Back
 import plutoproject.framework.paper.api.interactive.components.Empty
@@ -56,9 +56,9 @@ fun Menu(
             IllegalStateException()
         )
         LocalPlayer.current.send {
-            text("你打开了一个没有 Navigator 上下文的菜单布局") with MOCHA_MAROON
+            text("你打开了一个没有 Navigator 上下文的菜单布局") with mochaMaroon
             newline()
-            text("这可能会导致一些问题，请将其报告给管理组") with MOCHA_SUBTEXT_0
+            text("这可能会导致一些问题，请将其报告给管理组") with mochaSubtext0
         }
     }
     Chest(title = title, modifier = Modifier.size(width = 9, height = rows)) {

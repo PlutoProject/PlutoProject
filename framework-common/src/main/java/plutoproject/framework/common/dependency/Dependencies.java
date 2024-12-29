@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Set;
 
 public interface Dependencies {
-    Logger LOGGER = LoggerFactory.getLogger("framework/common/Dependencies");
+    Logger LOGGER = LoggerFactory.getLogger("framework/common/dependency");
 
     String getDependenciesFileName();
 

@@ -8,7 +8,8 @@ import ink.pmc.advkt.send
 import net.kyori.adventure.text.Component
 import plutoproject.framework.common.util.chat.palettes.mochaMaroon
 import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
-import plutoproject.framework.paper.api.interactive.*
+import plutoproject.framework.paper.api.interactive.ComposableFunction
+import plutoproject.framework.paper.api.interactive.LocalPlayer
 import plutoproject.framework.paper.api.interactive.components.Back
 import plutoproject.framework.paper.api.interactive.components.Empty
 import plutoproject.framework.paper.api.interactive.components.Placeholder
@@ -18,17 +19,9 @@ import plutoproject.framework.paper.api.interactive.layout.Box
 import plutoproject.framework.paper.api.interactive.layout.Column
 import plutoproject.framework.paper.api.interactive.layout.Row
 import plutoproject.framework.paper.api.interactive.layout.VerticalGrid
-import plutoproject.framework.paper.api.interactive.modifiers.Modifier
-import plutoproject.framework.paper.api.interactive.modifiers.fillMaxHeight
-import plutoproject.framework.paper.api.interactive.modifiers.fillMaxSize
-import plutoproject.framework.paper.api.interactive.modifiers.fillMaxWidth
-import plutoproject.framework.paper.api.interactive.modifiers.height
-import plutoproject.framework.paper.api.interactive.modifiers.size
-import plutoproject.framework.paper.api.interactive.modifiers.width
+import plutoproject.framework.paper.api.interactive.logger
+import plutoproject.framework.paper.api.interactive.modifiers.*
 import java.util.logging.Level
-import java.util.logging.Logger
-
-private val logger = Logger.getLogger("framework/paper/api/Menu")
 
 @Suppress("FunctionName")
 @Composable

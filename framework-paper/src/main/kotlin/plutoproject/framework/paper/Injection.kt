@@ -9,16 +9,10 @@ import org.incendo.cloud.paper.LegacyPaperCommandManager
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import plutoproject.framework.common.api.bridge.Bridge
-import plutoproject.framework.common.api.bridge.command.parsers.BridgePlayerNotFoundException
-import plutoproject.framework.common.api.bridge.command.parsers.BridgeServerNotFoundException
-import plutoproject.framework.common.api.bridge.command.parsers.bridgePlayerParser
-import plutoproject.framework.common.api.bridge.command.parsers.bridgeServerParser
 import plutoproject.framework.common.getModuleConfig
 import plutoproject.framework.common.options.OptionsUpdateNotifier
 import plutoproject.framework.common.playerdb.DatabaseNotifier
 import plutoproject.framework.common.util.PAPER_FRAMEWORK_RESOURCE_PREFIX
-import plutoproject.framework.paper.api.bridge.command.handlers.BridgePlayerNotFoundHandler
-import plutoproject.framework.paper.api.bridge.command.handlers.BridgeServerNotFoundHandler
 import plutoproject.framework.paper.api.interactive.GuiManager
 import plutoproject.framework.paper.api.toast.ToastFactory
 import plutoproject.framework.paper.api.toast.ToastRenderer
@@ -42,14 +36,6 @@ val FrameworkPaperModule = module {
             ExecutionCoordinator.asyncCoordinator()
         ).apply {
             registerBrigadier()
-            parserRegistry().apply {
-                registerParser(bridgePlayerParser())
-                registerParser(bridgeServerParser())
-            }
-            exceptionController().apply {
-                registerHandler(BridgePlayerNotFoundException::class.java, BridgePlayerNotFoundHandler)
-                registerHandler(BridgeServerNotFoundException::class.java, BridgeServerNotFoundHandler)
-            }
         }
     }
     single<PlatformAnnotationParser> {

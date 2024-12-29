@@ -34,8 +34,7 @@ private fun registerListeners() = server.eventManager.apply {
     registerSuspend(plugin, ProfileCacheListener)
 }
 
-private fun configureCommands() {
-    registerListeners()
+private fun registerCommands() {
     CommandManager.apply {
         registerBridgeArgumentParsers()
         registerBridgeExceptionHandlers()
@@ -47,7 +46,8 @@ private fun configureCommands() {
 }
 
 fun enableFrameworkModules() {
-    configureCommands()
+    registerListeners()
+    registerCommands()
     RpcServer.start()
     Bridge
 }

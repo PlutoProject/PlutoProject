@@ -34,7 +34,7 @@ fun loadFrameworkModules() {
 fun enableFrameworkModules() {
     initHooks()
     registerListeners()
-    configureCommands()
+    registerCommands()
     Bridge
     startOptionsMonitor()
     startPlayerDBMonitor()
@@ -49,7 +49,7 @@ private fun registerListeners() = server.pluginManager.apply {
     registerSuspendingEvents(BridgeWorldListener, plugin)
 }
 
-private fun configureCommands() {
+private fun registerCommands() {
     CommandManager.apply {
         registerBridgeArgumentParsers()
         registerBridgeExceptionHandlers()

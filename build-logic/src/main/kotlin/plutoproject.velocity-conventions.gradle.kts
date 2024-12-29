@@ -6,6 +6,6 @@ dependencies {
     compileOnly(libs.velocity)
     with(extensions.getByType<PlutoDependencyHandlerExtension>()) {
         downloadIfRequired(libs.cloud.velocity)
-        api(libs.bundles.mccoroutine.velocity)
+        downloadIfRequired(libs.bundles.mccoroutine.velocity)
     }
 }

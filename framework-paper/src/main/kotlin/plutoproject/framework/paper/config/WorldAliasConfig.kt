@@ -1,5 +1,5 @@
 package plutoproject.framework.paper.config
 
-class WorldAliasConfig(
+data class WorldAliasConfig(
     val aliases: Map<String, String> = mapOf()
 )

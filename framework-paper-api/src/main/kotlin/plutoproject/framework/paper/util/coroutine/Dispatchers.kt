@@ -6,9 +6,9 @@ import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.Server
 import org.bukkit.entity.Entity
+import plutoproject.framework.paper.util.IS_FOLIA
 import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.util.server
-import plutoproject.framework.paper.util.IS_FOLIA
 import plutoproject.framework.paper.util.toNms
 import kotlin.coroutines.CoroutineContext
 
@@ -33,7 +33,7 @@ val Entity.coroutineContext: CoroutineContext
             }
         }
     } else {
-        coroutineContext
+        server.coroutineContext
     }
 
 val Chunk.coroutineContext: CoroutineContext
@@ -45,7 +45,7 @@ val Chunk.coroutineContext: CoroutineContext
             }
         }
     } else {
-        coroutineContext
+        server.coroutineContext
     }
 
 val Location.coroutineContext

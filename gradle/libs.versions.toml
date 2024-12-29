@@ -103,9 +103,9 @@ mccoroutine-velocity-core = { module = "com.github.shynixn.mccoroutine:mccorouti
 
 [bundles]
 language = [
-    # "kotlin-stdlib",
+    "kotlin-stdlib",
     "kotlin-reflect",
-    # "kotlinx-coroutine-core",
+    "kotlinx-coroutine-core",
     "kotlinx-serialization"
 ]
 mongodb = [

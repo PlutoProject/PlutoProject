@@ -54,8 +54,6 @@ tasks.compileKotlin {
 }
 
 dependencies {
-    api(libs.kotlin.stdlib)
-    api(libs.kotlinx.coroutine.core) // Velocity 加载需要
     with(dependencyExtension) {
         downloadIfRequired(libs.bundles.language)
         downloadIfRequired(libs.bundles.mongodb)

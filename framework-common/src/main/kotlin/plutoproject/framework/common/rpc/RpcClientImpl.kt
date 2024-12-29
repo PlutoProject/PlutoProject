@@ -8,7 +8,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import plutoproject.framework.common.api.rpc.RpcClient
 import plutoproject.framework.common.config.RpcConfig
-import plutoproject.framework.common.util.logger
 
 class RpcClientImpl : RpcClient, KoinComponent {
     private val config by inject<RpcConfig>()

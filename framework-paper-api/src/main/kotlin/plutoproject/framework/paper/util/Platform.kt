@@ -7,14 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin
 import plutoproject.framework.common.util.jvm.findClass
 import plutoproject.framework.common.util.serverThread
 
-val IS_FOLIA = findClass("io.papermc.paper.threadedregions.RegionizedServer") != null
-
 lateinit var plugin: JavaPlugin
 lateinit var server: Server
 
-fun isAsync(): Boolean = Thread.currentThread() != serverThread
-
-fun isFoliaOrAsync() = IS_FOLIA || isAsync()
+val isFolia = findClass("io.papermc.paper.threadedregions.RegionizedServer") != null
+val isAsync get() = Thread.currentThread() != serverThread
+val isFoliaOrAsync get() = isFolia || isAsync
 
 val Thread.isServerThread: Boolean
     get() = this == serverThread

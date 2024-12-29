@@ -6,7 +6,7 @@ import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.Server
 import org.bukkit.entity.Entity
-import plutoproject.framework.paper.util.IS_FOLIA
+import plutoproject.framework.paper.util.isFolia
 import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.util.server
 import plutoproject.framework.paper.util.toNms
@@ -19,14 +19,14 @@ private val GLOBAL_REGION_DISPATCHER = object : CoroutineDispatcher() {
 }
 
 val Server.coroutineContext: CoroutineContext
-    get() = if (IS_FOLIA) {
+    get() = if (isFolia) {
         GLOBAL_REGION_DISPATCHER
     } else {
         server.toNms().asCoroutineDispatcher()
     }
 
 val Entity.coroutineContext: CoroutineContext
-    get() = if (IS_FOLIA) {
+    get() = if (isFolia) {
         object : CoroutineDispatcher() {
             override fun dispatch(context: CoroutineContext, block: Runnable) {
                 this@coroutineContext.scheduler.execute(plugin, block, {}, 0L)
@@ -37,7 +37,7 @@ val Entity.coroutineContext: CoroutineContext
     }
 
 val Chunk.coroutineContext: CoroutineContext
-    get() = if (IS_FOLIA) {
+    get() = if (isFolia) {
         object : CoroutineDispatcher() {
             override fun dispatch(context: CoroutineContext, block: Runnable) {
                 val chunk = this@coroutineContext

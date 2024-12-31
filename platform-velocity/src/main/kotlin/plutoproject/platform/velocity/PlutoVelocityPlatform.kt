@@ -1,6 +1,7 @@
 package plutoproject.platform.velocity
 
 import plutoproject.framework.common.FrameworkCommonModule
+import plutoproject.framework.common.api.feature.FeatureManager
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
 import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
 import plutoproject.framework.velocity.FrameworkVelocityModule
@@ -14,13 +15,16 @@ class PlutoVelocityPlatform() {
             modules(FrameworkCommonModule, FrameworkVelocityModule)
         }
         loadFrameworkModules()
+        FeatureManager.loadAll()
     }
 
     fun enable() {
         enableFrameworkModules()
+        FeatureManager.enableAll()
     }
 
     fun disable() {
+        FeatureManager.disableAll()
         disableFrameworkModules()
         shutdownCoroutineEnvironment()
     }

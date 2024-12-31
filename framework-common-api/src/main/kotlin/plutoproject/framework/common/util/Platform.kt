@@ -2,6 +2,7 @@ package plutoproject.framework.common.util
 
 import java.io.File
 
+lateinit var platformType: PlatformType
 lateinit var serverThread: Thread
 lateinit var pluginDataFolder: File
 lateinit var featureDataFolder: File

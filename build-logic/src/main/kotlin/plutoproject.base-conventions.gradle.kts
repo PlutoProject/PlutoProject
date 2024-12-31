@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 group = "ink.pmc.plutoproject"
@@ -35,6 +36,7 @@ configurations.all {
         force(libs.kotlin.serialization)
         force(libs.kotlinx.coroutine.core)
         force(libs.guava) // grpc-api 传递的 guava 在下载时无法正确验证 hash，强制一个版本解决问题
+        force(libs.okio)
     }
 }
 
@@ -71,5 +73,7 @@ dependencies {
         downloadIfRequired(libs.classgraph)
         downloadIfRequired(libs.geoip2)
         downloadIfRequired(libs.aedile)
+        downloadIfRequired(libs.guava)
+        downloadIfRequired(libs.okio)
     }
 }

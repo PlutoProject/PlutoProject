@@ -7,10 +7,8 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 fun extractFileFromJar(filePathInJar: String, outputPath: Path): File {
-    val inputStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(filePathInJar)
-    if (inputStream == null) {
-        error("File not found in jar: $filePathInJar")
-    }
+    val inputStream: InputStream = object {}.javaClass.classLoader.getResourceAsStream(filePathInJar)
+        ?: error("File not found in jar: $filePathInJar")
     val outputFile = outputPath.toFile()
     outputFile.parentFile?.mkdirs()
     inputStream.use { input ->
@@ -25,4 +23,8 @@ fun extractFileFromJar(filePathInJar: String, outputPath: Path): File {
         error("Unable to extract file from jar (source: $filePathInJar, to: $outputPath)")
     }
     return outputFile
+}
+
+fun getResourceAsStreamFromJar(filePathInJar: String): InputStream? {
+    return object {}.javaClass.classLoader.getResourceAsStream(filePathInJar)
 }

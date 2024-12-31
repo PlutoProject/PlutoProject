@@ -5,4 +5,5 @@ plugins {
 dependencies {
     api(projects.frameworkCommonApi)
     api(projects.frameworkProto)
+    compileOnly(libs.ksp.api)
 }

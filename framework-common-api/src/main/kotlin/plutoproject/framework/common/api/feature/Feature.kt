@@ -1,11 +1,16 @@
 package plutoproject.framework.common.api.feature
 
 import java.io.File
+import java.nio.file.Path
+import java.util.logging.Logger
 
-interface Feature<S : Any, P : Any> {
-    val server: S
-    val plugin: P
+interface Feature {
+    val id: String
+    val state: State
+    val platform: Platform
+    val logger: Logger
     val dataFolder: File
+    val resourcePrefixInJar: String
 
     fun onLoad() {}
 
@@ -15,7 +20,11 @@ interface Feature<S : Any, P : Any> {
 
     fun onDisable() {}
 
-    fun saveConfig(resourcePrefix: String): File
+    fun saveConfig(resourcePrefix: String? = null): File
 
-    fun saveResource(resourcePrefix: String, path: String): File
+    fun saveResource(
+        path: String,
+        outputPath: Path? = null,
+        resourcePrefix: String? = null,
+    ): File
 }

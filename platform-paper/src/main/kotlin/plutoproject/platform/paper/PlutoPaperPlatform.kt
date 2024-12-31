@@ -2,10 +2,13 @@ package plutoproject.platform.paper
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import plutoproject.framework.common.FrameworkCommonModule
+import plutoproject.framework.common.api.feature.FeatureManager
+import plutoproject.framework.common.util.PlatformType
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
 import plutoproject.framework.common.util.initPluginDataFolder
 import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
 import plutoproject.framework.common.util.jvm.loadClassesInPackages
+import plutoproject.framework.common.util.platformType
 import plutoproject.framework.common.util.serverThread
 import plutoproject.framework.common.util.time.currentTimestampMillis
 import plutoproject.framework.paper.FrameworkPaperModule
@@ -22,6 +25,7 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
         plugin = this
         utilServer = server
         utilLogger = logger
+        platformType = PlatformType.PAPER
         serverThread = Thread.currentThread()
         dataFolder.initPluginDataFolder()
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
@@ -30,6 +34,7 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
             modules(FrameworkCommonModule, FrameworkPaperModule)
         }
         loadFrameworkModules()
+        FeatureManager.loadAll()
     }
 
     private fun preload() {
@@ -49,9 +54,11 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
 
     override fun onEnable() {
         enableFrameworkModules()
+        FeatureManager.enableAll()
     }
 
     override fun onDisable() {
+        FeatureManager.disableAll()
         disableFrameworkModules()
         shutdownCoroutineEnvironment()
     }

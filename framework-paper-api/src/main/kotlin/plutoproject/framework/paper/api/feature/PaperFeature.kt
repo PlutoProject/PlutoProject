@@ -1,7 +1,10 @@
 package plutoproject.framework.paper.api.feature
 
-import org.bukkit.Server
-import org.bukkit.plugin.java.JavaPlugin
-import plutoproject.framework.common.api.feature.AbstractFeature
+import plutoproject.framework.common.api.feature.Platform
+import plutoproject.framework.common.api.feature.metadata.AbstractFeature
 
-open class PaperFeature : AbstractFeature<Server, JavaPlugin>()
+abstract class PaperFeature : AbstractFeature() {
+    final override val platform: Platform = Platform.PAPER
+    final override val resourcePrefixInJar: String
+        get() = "feature/paper/$id"
+}

@@ -12,6 +12,7 @@ import com.velocitypowered.proxy.plugin.PluginClassLoader;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import plutoproject.framework.common.util.LoggerKt;
+import plutoproject.framework.common.util.PlatformType;
 import plutoproject.framework.velocity.dependency.DependenciesImpl;
 import plutoproject.framework.velocity.util.PlatformKt;
 
@@ -41,6 +42,7 @@ public class PlutoVelocityBootstrap {
         PlatformKt.setSuspendingPlugin(suspendingPlugin);
         PlatformKt.setServer(server);
         LoggerKt.setLogger(logger);
+        plutoproject.framework.common.util.PlatformKt.setPlatformType(PlatformType.VELOCITY);
         plutoproject.framework.common.util.PlatformKt.setServerThread(Thread.currentThread());
         plutoproject.framework.common.util.PlatformKt.initPluginDataFolder(dataDirectoryPath.toFile());
         platform = new PlutoVelocityPlatform();

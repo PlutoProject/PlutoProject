@@ -4,11 +4,11 @@ import plutoproject.framework.common.api.bridge.player.BridgePlayer
 import plutoproject.framework.common.api.bridge.player.PlayerLookup
 import plutoproject.framework.common.api.bridge.server.*
 import plutoproject.framework.common.api.bridge.world.BridgeWorld
-import plutoproject.framework.common.util.inject.inlinedGet
+import plutoproject.framework.common.util.inject.Koin
 import java.util.*
 
 interface Bridge : PlayerLookup, ServerLookup {
-    companion object : Bridge by inlinedGet()
+    companion object : Bridge by Koin.get()
 
     val local: BridgeServer
     val master: BridgeServer

@@ -1,10 +1,10 @@
 package plutoproject.framework.common.api.playerdb
 
-import plutoproject.framework.common.util.inject.inlinedGet
+import plutoproject.framework.common.util.inject.Koin
 import java.util.*
 
 interface PlayerDB {
-    companion object : PlayerDB by inlinedGet()
+    companion object : PlayerDB by Koin.get()
 
     fun isLoaded(id: UUID): Boolean
 

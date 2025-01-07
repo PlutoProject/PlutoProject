@@ -31,8 +31,7 @@ class FeatureManagerImpl : FeatureManager, KoinComponent {
 
     private fun readManifest(): Map<String, FeatureMetadata> {
         val fileName = "${platformType.identifier}-features.json"
-        val inputStream = getResourceAsStreamFromJar(fileName)
-            ?: error("Platform feature manifest not found: $fileName")
+        val inputStream = getResourceAsStreamFromJar(fileName) ?: return emptyMap()
         val content = inputStream.source().buffer().readUtf8()
         val features = Json.decodeFromString<List<FeatureMetadata>>(content)
         return features.associateBy { it.id }

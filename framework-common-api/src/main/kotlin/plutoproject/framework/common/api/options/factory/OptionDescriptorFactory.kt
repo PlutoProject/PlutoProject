@@ -3,10 +3,10 @@ package plutoproject.framework.common.api.options.factory
 import plutoproject.framework.common.api.options.EntryValueType
 import plutoproject.framework.common.api.options.Limitation
 import plutoproject.framework.common.api.options.OptionDescriptor
-import plutoproject.framework.common.util.inject.inlinedGet
+import plutoproject.framework.common.util.inject.Koin
 
 interface OptionDescriptorFactory {
-    companion object : OptionDescriptorFactory by inlinedGet()
+    companion object : OptionDescriptorFactory by Koin.get()
 
     fun <T> create(
         key: String,

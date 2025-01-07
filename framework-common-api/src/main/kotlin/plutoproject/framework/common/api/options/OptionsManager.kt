@@ -1,10 +1,10 @@
 package plutoproject.framework.common.api.options
 
-import plutoproject.framework.common.util.inject.inlinedGet
+import plutoproject.framework.common.util.inject.Koin
 import java.util.*
 
 interface OptionsManager {
-    companion object : OptionsManager by inlinedGet()
+    companion object : OptionsManager by Koin.get()
 
     val loadedPlayers: List<PlayerOptions>
 

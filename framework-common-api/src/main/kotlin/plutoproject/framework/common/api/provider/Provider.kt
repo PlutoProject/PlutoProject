@@ -4,11 +4,11 @@ import com.maxmind.geoip2.DatabaseReader
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import plutoproject.framework.common.util.inject.inlinedGet
+import plutoproject.framework.common.util.inject.Koin
 import java.io.Closeable
 
 interface Provider : Closeable {
-    companion object : Provider by inlinedGet()
+    companion object : Provider by Koin.get()
 
     val mongoClient: MongoClient
     val defaultMongoDatabase: MongoDatabase

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import plutoproject.framework.common.util.chat.MessageConstants
 
-fun ensurePlayer(sender: CommandSender, action: Player.() -> Unit) {
+inline fun ensurePlayer(sender: CommandSender, action: Player.() -> Unit) {
     if (sender !is Player) {
         sender.sendMessage(MessageConstants.nonPlayer)
         return
@@ -14,7 +14,7 @@ fun ensurePlayer(sender: CommandSender, action: Player.() -> Unit) {
 }
 
 @JvmName("ensurePlayerReceiver")
-fun CommandSender.ensurePlayer(action: Player.() -> Unit) {
+inline fun CommandSender.ensurePlayer(action: Player.() -> Unit) {
     ensurePlayer(this, action)
 }
 

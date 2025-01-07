@@ -73,7 +73,7 @@ class FeatureSymbolProcessor(
     private fun generateJsonFile(platform: Platform, features: List<FeatureMetadata>) {
         val json = Json.encodeToString(features)
         val file = codeGenerator.createNewFile(
-            dependencies = Dependencies(true),
+            dependencies = Dependencies(false),
             packageName = "",
             fileName = platform.platformManifestFileName,
             extensionName = "json"

@@ -8,7 +8,7 @@ import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.util.server
 
 @Feature(
-    id = "farm_protection",
+    id = "farm_protect",
     platform = Platform.PAPER,
 )
 @Suppress("UNUSED")

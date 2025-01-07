@@ -74,3 +74,8 @@ include("feature-proto")
 
 include("platform-paper")
 include("platform-velocity")
+
+// TEMP
+include(":misc")
+include(":misc:api")
+include(":misc:paper")

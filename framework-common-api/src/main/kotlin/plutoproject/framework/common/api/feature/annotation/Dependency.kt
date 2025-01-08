@@ -6,6 +6,6 @@ import plutoproject.framework.common.api.feature.Load
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Dependency(
     val id: String,
-    val load: Load = Load.AFTER,
+    val load: Load = Load.BEFORE,
     val required: Boolean = true,
 )

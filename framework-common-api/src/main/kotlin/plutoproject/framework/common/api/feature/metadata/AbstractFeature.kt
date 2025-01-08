@@ -30,15 +30,16 @@ abstract class AbstractFeature : Feature {
         state = newState
     }
 
-    override fun saveConfig(resourcePrefix: String?): File =
-        extractFileFromJar(
-            "${resourcePrefix ?: resourcePrefixInJar}/config.conf",
-            dataFolder.toPath().resolve("config.conf")
-        )
+    override fun saveConfig(resourcePrefix: String?): File {
+        return saveResource("config.conf", resourcePrefix = resourcePrefix)
+    }
 
-    override fun saveResource(path: String, outputPath: Path?, resourcePrefix: String?): File =
-        extractFileFromJar(
-            "${resourcePrefix ?: resourcePrefixInJar}/$path",
-            dataFolder.toPath().resolve(outputPath ?: Path(path))
-        )
+    override fun saveResource(path: String, output: Path?, resourcePrefix: String?): File {
+        val outputPath = dataFolder.toPath().resolve(output ?: Path(path))
+        val outputFile = outputPath.toFile()
+        if (outputFile.exists()) {
+            return outputFile
+        }
+        return extractFileFromJar("${resourcePrefix ?: resourcePrefixInJar}/$path", outputPath)
+    }
 }

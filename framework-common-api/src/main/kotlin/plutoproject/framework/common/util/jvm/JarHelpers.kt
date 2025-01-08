@@ -12,12 +12,7 @@ fun extractFileFromJar(filePathInJar: String, outputPath: Path): File {
     val outputFile = outputPath.toFile()
     outputFile.parentFile?.mkdirs()
     inputStream.use { input ->
-        val copyOption = if (outputFile.exists()) {
-            StandardCopyOption.ATOMIC_MOVE
-        } else {
-            StandardCopyOption.REPLACE_EXISTING
-        }
-        Files.copy(input, outputFile.toPath(), copyOption)
+        Files.copy(input, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
     }
     if (!(outputFile.exists())) {
         error("Unable to extract file from jar (source: $filePathInJar, to: $outputPath)")

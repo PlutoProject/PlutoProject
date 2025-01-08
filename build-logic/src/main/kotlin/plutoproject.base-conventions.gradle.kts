@@ -55,6 +55,10 @@ tasks.compileKotlin {
     }
 }
 
+tasks.findByName("kspKotlin")?.apply {
+    outputs.cacheIf { false }
+}
+
 dependencies {
     with(dependencyExtension) {
         downloadIfRequired(libs.bundles.language)

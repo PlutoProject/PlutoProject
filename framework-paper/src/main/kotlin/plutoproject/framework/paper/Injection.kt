@@ -14,6 +14,7 @@ import plutoproject.framework.common.options.OptionsUpdateNotifier
 import plutoproject.framework.common.playerdb.DatabaseNotifier
 import plutoproject.framework.common.util.PAPER_FRAMEWORK_RESOURCE_PREFIX
 import plutoproject.framework.paper.api.interactive.GuiManager
+import plutoproject.framework.paper.api.statistic.StatisticProvider
 import plutoproject.framework.paper.api.toast.ToastFactory
 import plutoproject.framework.paper.api.toast.ToastRenderer
 import plutoproject.framework.paper.api.worldalias.WorldAlias
@@ -22,10 +23,13 @@ import plutoproject.framework.paper.config.WorldAliasConfig
 import plutoproject.framework.paper.interactive.GuiManagerImpl
 import plutoproject.framework.paper.options.BackendOptionsUpdateNotifier
 import plutoproject.framework.paper.playerdb.BackendDatabaseNotifier
+import plutoproject.framework.paper.statistic.providers.NativeStatisticProvider
+import plutoproject.framework.paper.statistic.providers.SparkStatisticProvider
 import plutoproject.framework.paper.toast.ToastFactoryImpl
 import plutoproject.framework.paper.toast.renderers.NmsToastRenderer
 import plutoproject.framework.paper.util.command.PlatformAnnotationParser
 import plutoproject.framework.paper.util.command.PlatformCommandManager
+import plutoproject.framework.paper.util.hook.sparkHook
 import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.worldalias.WorldAliasImpl
 
@@ -49,4 +53,11 @@ val FrameworkPaperModule = module {
     single<OptionsUpdateNotifier> { BackendOptionsUpdateNotifier() }
     single<DatabaseNotifier> { BackendDatabaseNotifier() }
     single<WorldAlias> { WorldAliasImpl() }
+    single<StatisticProvider> {
+        if (sparkHook != null) {
+            SparkStatisticProvider(sparkHook!!.instance)
+        } else {
+            NativeStatisticProvider()
+        }
+    }
 }

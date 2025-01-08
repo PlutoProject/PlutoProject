@@ -24,7 +24,7 @@ interface Feature {
 
     fun saveResource(
         path: String,
-        outputPath: Path? = null,
+        output: Path? = null,
         resourcePrefix: String? = null,
     ): File
 }

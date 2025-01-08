@@ -22,7 +22,7 @@ class OptionDescriptorDsl<T> {
         )
 }
 
-inline fun <reified T> descriptor(block: OptionDescriptorDsl<T>.() -> Unit): OptionDescriptor<T> =
+inline fun <reified T> OptionDescriptor(block: OptionDescriptorDsl<T>.() -> Unit): OptionDescriptor<T> =
     OptionDescriptorDsl<T>()
         .apply { objectClass = T::class.java }
         .apply(block)

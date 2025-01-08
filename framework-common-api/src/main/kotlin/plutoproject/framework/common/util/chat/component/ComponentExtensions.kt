@@ -4,9 +4,9 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextColor
 
-fun Component.replace(string: String, str: String): Component {
+fun Component.replace(pattern: String, str: String): Component {
     val replaceConfig = TextReplacementConfig.builder()
-        .match(string)
+        .match(pattern)
         .replacement(Component.text(str))
         .build()
     return this.replaceText(replaceConfig)
@@ -20,8 +20,8 @@ fun Component.replace(pattern: String, component: Component): Component {
     return replaceText(replaceConfig)
 }
 
-fun Component.replace(string: String, any: Any?): Component {
-    return replace(string, any.toString())
+fun Component.replace(pattern: String, any: Any?): Component {
+    return replace(pattern, any.toString())
 }
 
 fun Component.replaceColor(original: TextColor, new: TextColor): Component {

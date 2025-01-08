@@ -1,10 +1,10 @@
-package ink.pmc.misc.impl.elevator.builders
+package plutoproject.feature.paper.elevator.builders
 
-import ink.pmc.misc.api.elevator.ElevatorBuilder
-import ink.pmc.framework.concurrent.submitSync
-import ink.pmc.framework.world.eraseAngle
 import org.bukkit.Location
 import org.bukkit.Material
+import plutoproject.feature.paper.api.elevator.ElevatorBuilder
+import plutoproject.framework.paper.util.coroutine.runSync
+import plutoproject.framework.paper.util.world.location.viewAligned
 
 @Suppress("UNUSED")
 object IronElevatorBuilder : ElevatorBuilder {
@@ -12,12 +12,14 @@ object IronElevatorBuilder : ElevatorBuilder {
     override val permission: String? = null
 
     override suspend fun findLocations(startPoint: Location): List<Location> {
-        val loc = startPoint.eraseAngle()
+        val loc = startPoint.viewAligned()
         val offsetUp = mutableListOf<Location>()
         val offsetDown = mutableListOf<Location>()
         val result = mutableListOf<Location>()
 
-        val up = loc.submitSync {
+        // TODO: 重写
+        // 我怎么看不懂我自己写的代码了...
+        val up = loc.runSync {
             val top = loc.world.maxHeight
             val curr = loc.blockY
             val temp = mutableListOf<Location>()
@@ -30,7 +32,7 @@ object IronElevatorBuilder : ElevatorBuilder {
             offsetUp.addAll(filterSafe(temp))
         }
 
-        val down = loc.submitSync {
+        val down = loc.runSync {
             val bottom = loc.world.minHeight
             val curr = loc.blockY
             val temp = mutableListOf<Location>()

@@ -20,12 +20,12 @@ paperPluginYaml {
     dependencies {
         server(
             name = "spark",
-            load = Load.AFTER,
+            load = Load.BEFORE,
             required = false, joinClasspath = true
         )
         server(
             name = "Vault",
-            load = Load.AFTER,
+            load = Load.BEFORE,
             required = false, joinClasspath = true
         )
     }

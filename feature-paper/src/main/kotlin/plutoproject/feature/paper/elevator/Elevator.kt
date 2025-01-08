@@ -3,6 +3,7 @@ package plutoproject.feature.paper.elevator
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import org.koin.dsl.module
 import plutoproject.feature.paper.api.elevator.ElevatorManager
+import plutoproject.feature.paper.elevator.builders.IronElevatorBuilder
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.util.inject.configureKoin
@@ -25,5 +26,6 @@ class Elevator : PaperFeature() {
             modules(featureModule)
         }
         server.pluginManager.registerSuspendingEvents(ElevatorListener, plugin)
+        ElevatorManager.registerBuilder(IronElevatorBuilder)
     }
 }

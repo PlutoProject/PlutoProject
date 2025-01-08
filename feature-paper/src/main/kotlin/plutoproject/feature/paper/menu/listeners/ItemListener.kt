@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import plutoproject.feature.paper.menu.config.MenuConfig
+import plutoproject.feature.paper.menu.MenuConfig
 import plutoproject.feature.paper.menu.items.MenuItem
 import plutoproject.feature.paper.menu.items.MenuItemRecipe
 import plutoproject.feature.paper.menu.items.isMenuItem

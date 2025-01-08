@@ -12,7 +12,7 @@ import org.bukkit.entity.SpawnCategory
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
-import plutoproject.feature.paper.api.dynamicScheduler.DynamicSchedulerManager
+import plutoproject.feature.paper.api.dynamicScheduler.DynamicScheduler
 import plutoproject.framework.common.util.chat.palettes.*
 import plutoproject.framework.common.util.network.toHostPortString
 
@@ -23,7 +23,7 @@ object DynamicSchedulerCommand {
     fun CommandSender.root() {
         send {
             text("动态资源调度 ") with mochaText
-            if (DynamicSchedulerManager.isRunning) {
+            if (DynamicScheduler.isRunning) {
                 text("运行中") with mochaGreen
             } else {
                 text("已停止") with mochaMaroon
@@ -34,13 +34,13 @@ object DynamicSchedulerCommand {
     @Command("dynamic_scheduler start")
     @Permission("hypervisor.dynamic_scheduler")
     fun CommandSender.start() {
-        if (DynamicSchedulerManager.isRunning) {
+        if (DynamicScheduler.isRunning) {
             send {
                 text("动态资源调度已运行") with mochaMaroon
             }
             return
         }
-        DynamicSchedulerManager.start()
+        DynamicScheduler.start()
         send {
             text("已启动动态资源调度后台任务") with mochaGreen
         }
@@ -49,13 +49,13 @@ object DynamicSchedulerCommand {
     @Command("dynamic_scheduler stop")
     @Permission("hypervisor.dynamic_scheduler")
     fun CommandSender.stop() {
-        if (!DynamicSchedulerManager.isRunning) {
+        if (!DynamicScheduler.isRunning) {
             send {
                 text("动态资源调度未运行") with mochaMaroon
             }
             return
         }
-        DynamicSchedulerManager.stop()
+        DynamicScheduler.stop()
         send {
             text("已停止动态资源调度后台任务") with mochaMaroon
             newline()
@@ -116,7 +116,7 @@ object DynamicSchedulerCommand {
             }
             return
         }
-        if (!DynamicSchedulerManager.viewDistanceEnabled) {
+        if (!DynamicScheduler.viewDistanceEnabled) {
             send {
                 text("动态视距未启用") with mochaMaroon
             }
@@ -153,12 +153,12 @@ object DynamicSchedulerCommand {
             newline()
             text("- ") with mochaSubtext0
             text("动态视距状态：") with mochaText
-            text(DynamicSchedulerManager.getViewDistanceLocally(actualPlayer).toString()) with mochaGreen
+            text(DynamicScheduler.getViewDistanceLocally(actualPlayer).toString()) with mochaGreen
             newline()
             text("- ") with mochaSubtext0
             text("是否在选项中开启：") with mochaText
             raw(
-                if (DynamicSchedulerManager.getViewDistance(actualPlayer)) {
+                if (DynamicScheduler.getViewDistance(actualPlayer)) {
                     Component.text("是").color(mochaGreen)
                 } else {
                     Component.text("否").color(mochaMaroon)

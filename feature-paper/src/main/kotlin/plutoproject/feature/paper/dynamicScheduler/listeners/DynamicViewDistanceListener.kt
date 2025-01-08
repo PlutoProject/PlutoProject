@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerTeleportEvent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import plutoproject.feature.paper.api.dynamicScheduler.DynamicSchedulerManager
+import plutoproject.feature.paper.api.dynamicScheduler.DynamicScheduler
 import plutoproject.feature.paper.api.dynamicScheduler.DynamicViewDistanceState
 import plutoproject.feature.paper.dynamicScheduler.config.DynamicSchedulerConfig
 import plutoproject.framework.common.util.network.toHostPortString
@@ -23,12 +23,12 @@ object DynamicViewDistanceListener : Listener, KoinComponent {
         val boost = config.boost
         val standard = config.standard
         when {
-            DynamicSchedulerManager.getViewDistanceLocally(this) == DynamicViewDistanceState.ENABLED
+            DynamicScheduler.getViewDistanceLocally(this) == DynamicViewDistanceState.ENABLED
                     && viewDistance < boost -> {
                 viewDistance = boost
             }
 
-            DynamicSchedulerManager.getViewDistanceLocally(this) != DynamicViewDistanceState.ENABLED
+            DynamicScheduler.getViewDistanceLocally(this) != DynamicViewDistanceState.ENABLED
                     && viewDistance > standard -> {
                 viewDistance = standard
             }
@@ -45,7 +45,7 @@ object DynamicViewDistanceListener : Listener, KoinComponent {
         val vhosts = config.virtualHosts
         val vhost = player.formattedVhost
         if (vhost != null && !vhosts.contains(vhost)) {
-            DynamicSchedulerManager.setViewDistanceLocally(player, DynamicViewDistanceState.DISABLED_DUE_VHOST)
+            DynamicScheduler.setViewDistanceLocally(player, DynamicViewDistanceState.DISABLED_DUE_VHOST)
         }
         player.refreshViewDistance()
     }
@@ -67,6 +67,6 @@ object DynamicViewDistanceListener : Listener, KoinComponent {
 
     @EventHandler
     fun PlayerQuitEvent.e() {
-        DynamicSchedulerManager.removeLocalViewDistanceState(player)
+        DynamicScheduler.removeLocalViewDistanceState(player)
     }
 }

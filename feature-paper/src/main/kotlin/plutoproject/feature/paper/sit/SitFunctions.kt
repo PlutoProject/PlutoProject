@@ -80,7 +80,7 @@ fun runSitCheckTask() = runAsync {
 fun runActionBarOverrideTask() = runAsync {
     while (!disabled) {
         SitManager.sitters.forEach {
-            it.sendActionBar(standUp)
+            it.sendActionBar(PRESS_KEY_TO_STAND)
         }
         delay(5)
     }

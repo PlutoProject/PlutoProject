@@ -8,8 +8,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.java.KoinJavaComponent.getKoin
 import org.koin.mp.KoinPlatformTools
 
-// TODO: 换一个更好的函数名
-fun modifyExistedKoinOrCreate(declaration: KoinAppDeclaration): KoinApplication {
+fun configureKoin(declaration: KoinAppDeclaration): KoinApplication {
     val context = KoinPlatformTools.defaultContext() as GlobalContext
     val application = context.getKoinApplicationOrNull() ?: return startKoin(declaration)
     return application.apply(declaration)

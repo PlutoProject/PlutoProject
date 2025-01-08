@@ -5,7 +5,7 @@ import org.koin.dsl.module
 import plutoproject.feature.paper.api.sit.SitManager
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
-import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
+import plutoproject.framework.common.util.inject.configureKoin
 import plutoproject.framework.paper.api.feature.PaperFeature
 import plutoproject.framework.paper.util.command.AnnotationParser
 import plutoproject.framework.paper.util.plugin
@@ -24,7 +24,7 @@ class Sit : PaperFeature() {
     }
 
     override fun onEnable() {
-        modifyExistedKoinOrCreate {
+        configureKoin {
             modules(featureModule)
         }
         AnnotationParser.parse(SitCommand)

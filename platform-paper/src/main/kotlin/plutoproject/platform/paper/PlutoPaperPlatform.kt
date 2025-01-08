@@ -6,7 +6,7 @@ import plutoproject.framework.common.api.feature.FeatureManager
 import plutoproject.framework.common.util.PlatformType
 import plutoproject.framework.common.util.coroutine.shutdownCoroutineEnvironment
 import plutoproject.framework.common.util.initPluginDataFolder
-import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
+import plutoproject.framework.common.util.inject.configureKoin
 import plutoproject.framework.common.util.jvm.loadClassesInPackages
 import plutoproject.framework.common.util.platformType
 import plutoproject.framework.common.util.serverThread
@@ -30,7 +30,7 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
         dataFolder.initPluginDataFolder()
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
         preload()
-        modifyExistedKoinOrCreate {
+        configureKoin {
             modules(FrameworkCommonModule, FrameworkPaperModule)
         }
         loadFrameworkModules()

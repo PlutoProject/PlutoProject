@@ -5,7 +5,7 @@ import org.koin.dsl.module
 import plutoproject.feature.paper.api.elevator.ElevatorManager
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
-import plutoproject.framework.common.util.inject.modifyExistedKoinOrCreate
+import plutoproject.framework.common.util.inject.configureKoin
 import plutoproject.framework.paper.api.feature.PaperFeature
 import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.util.server
@@ -21,7 +21,7 @@ class Elevator : PaperFeature() {
     }
 
     override fun onEnable() {
-        modifyExistedKoinOrCreate {
+        configureKoin {
             modules(featureModule)
         }
         server.pluginManager.registerSuspendingEvents(ElevatorListener, plugin)

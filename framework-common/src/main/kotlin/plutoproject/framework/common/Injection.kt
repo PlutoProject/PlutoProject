@@ -1,6 +1,5 @@
 package plutoproject.framework.common
 
-import com.sksamuel.hoplite.PropertySource
 import org.koin.dsl.module
 import plutoproject.framework.common.api.feature.FeatureManager
 import plutoproject.framework.common.api.options.OptionsManager
@@ -27,7 +26,7 @@ import plutoproject.framework.common.provider.ProviderImpl
 import plutoproject.framework.common.rpc.RpcClientImpl
 import plutoproject.framework.common.rpc.RpcServerImpl
 import plutoproject.framework.common.util.COMMON_FRAMEWORK_RESOURCE_PREFIX
-import plutoproject.framework.common.util.config.ConfigLoaderBuilder
+import plutoproject.framework.common.util.config.loadConfig
 import plutoproject.framework.common.util.frameworkDataFolder
 import plutoproject.framework.common.util.jvm.extractFileFromJar
 import plutoproject.framework.common.util.pluginDataFolder
@@ -38,10 +37,7 @@ inline fun <reified T : Any> getModuleConfig(resourcePrefix: String, id: String)
     if (!file.exists()) {
         extractFileFromJar("$resourcePrefix/$id/config.conf", file.toPath())
     }
-    return ConfigLoaderBuilder()
-        .addPropertySource(PropertySource.file(file))
-        .build()
-        .loadConfigOrThrow<T>()
+    return loadConfig(file)
 }
 
 private fun getPlutoConfig(): PlutoConfig {
@@ -50,10 +46,7 @@ private fun getPlutoConfig(): PlutoConfig {
     if (!file.exists()) {
         extractFileFromJar("config.conf", file.toPath())
     }
-    return ConfigLoaderBuilder()
-        .addPropertySource(PropertySource.file(file))
-        .build()
-        .loadConfigOrThrow()
+    return loadConfig(file)
 }
 
 val FrameworkCommonModule = module {

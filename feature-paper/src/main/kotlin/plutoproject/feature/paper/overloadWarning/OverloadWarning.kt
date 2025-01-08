@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.dsl.module
+import plutoproject.feature.paper.overloadWarning.config.OverloadWarningConfig
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.util.chat.palettes.mochaSubtext0

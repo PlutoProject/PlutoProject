@@ -2,7 +2,8 @@ package plutoproject.feature.velocity.playerConutLimiter
 
 import com.github.shynixn.mccoroutine.velocity.registerSuspend
 import org.koin.dsl.module
-import plutoproject.feature.velocity.protocolChecker.PingListener
+import plutoproject.feature.velocity.playerConutLimiter.config.LimiterConfig
+import plutoproject.feature.velocity.protocolChecker.listeners.PingListener
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.util.config.loadConfig

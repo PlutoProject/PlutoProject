@@ -2,6 +2,10 @@ package plutoproject.feature.velocity.whitelist
 
 import com.github.shynixn.mccoroutine.velocity.registerSuspend
 import org.koin.dsl.module
+import plutoproject.feature.velocity.whitelist.commands.WhitelistCommand
+import plutoproject.feature.velocity.whitelist.listeners.WhitelistListener
+import plutoproject.feature.velocity.whitelist.models.WhitelistModel
+import plutoproject.feature.velocity.whitelist.repositories.WhitelistRepository
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.api.provider.Provider

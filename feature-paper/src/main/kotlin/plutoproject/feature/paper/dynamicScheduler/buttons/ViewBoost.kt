@@ -10,7 +10,7 @@ import ink.pmc.advkt.component.text
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.event.inventory.ClickType
-import plutoproject.feature.paper.api.dynamicScheduler.DynamicSchedulerManager
+import plutoproject.feature.paper.api.dynamicScheduler.DynamicScheduler
 import plutoproject.feature.paper.api.dynamicScheduler.DynamicViewDistanceState
 import plutoproject.feature.paper.api.menu.dsl.ButtonDescriptor
 import plutoproject.framework.common.util.chat.SoundConstants
@@ -64,7 +64,7 @@ private val viewBoostDisabledDuePing = buildList {
 @Suppress("FunctionName")
 fun ViewBoost() {
     val player = LocalPlayer.current
-    var state by mutableStateOf(DynamicSchedulerManager.getViewDistanceLocally(player))
+    var state by mutableStateOf(DynamicScheduler.getViewDistanceLocally(player))
     Item(
         material = Material.SPYGLASS,
         name = when (state) {
@@ -134,13 +134,13 @@ fun ViewBoost() {
             if (clickType != ClickType.LEFT) return@clickable
             when (state) {
                 DynamicViewDistanceState.ENABLED -> {
-                    DynamicSchedulerManager.setViewDistance(player, false)
+                    DynamicScheduler.setViewDistance(player, false)
                     player.playSound(SoundConstants.UI.succeed)
                     state = DynamicViewDistanceState.DISABLED
                 }
 
                 DynamicViewDistanceState.DISABLED -> {
-                    DynamicSchedulerManager.setViewDistance(player, true)
+                    DynamicScheduler.setViewDistance(player, true)
                     player.playSound(SoundConstants.UI.succeed)
                     state = DynamicViewDistanceState.ENABLED
                 }

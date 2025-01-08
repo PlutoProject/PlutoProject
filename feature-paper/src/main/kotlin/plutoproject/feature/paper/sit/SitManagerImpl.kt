@@ -32,7 +32,7 @@ class SitManagerImpl : SitManager {
             val tryFind = findLegalLocation(sitLoc)
 
             if (tryFind == null) {
-                player.sendMessage(illegalLocation)
+                player.sendMessage(ILLEGAL_LOCATION)
                 return
             }
 
@@ -40,13 +40,13 @@ class SitManagerImpl : SitManager {
         }
 
         if (sitLoc.sitter != null) {
-            player.showTitle(multiSittersTitle)
-            player.playSound(multiSittersSound)
+            player.showTitle(ALREADY_OTHER_PLAYER_SIT_DOWN_TITLE)
+            player.playSound(ALREADY_OTHER_PLAYER_SIT_DOWN_SOUND)
             return
         }
 
         if (sitLoc.block.blockData is Campfire && !isExtinctCampfire(sitLoc.block)) {
-            player.sendMessage(illegalLocation)
+            player.sendMessage(ILLEGAL_LOCATION)
             return
         }
 

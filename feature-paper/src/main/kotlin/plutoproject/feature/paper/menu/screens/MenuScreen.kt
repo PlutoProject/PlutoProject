@@ -18,9 +18,9 @@ import org.koin.core.component.inject
 import plutoproject.feature.paper.api.menu.LocalMenuScreenModel
 import plutoproject.feature.paper.api.menu.MenuManager
 import plutoproject.feature.paper.api.menu.descriptor.PageDescriptor
-import plutoproject.feature.paper.menu.config.Button
-import plutoproject.feature.paper.menu.config.MenuConfig
-import plutoproject.feature.paper.menu.config.Page
+import plutoproject.feature.paper.menu.Button
+import plutoproject.feature.paper.menu.MenuConfig
+import plutoproject.feature.paper.menu.Page
 import plutoproject.feature.paper.menu.repositories.UserRepository
 import plutoproject.framework.common.util.chat.SoundConstants
 import plutoproject.framework.common.util.chat.palettes.mochaLavender

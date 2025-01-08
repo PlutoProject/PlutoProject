@@ -2,8 +2,6 @@ package plutoproject.feature.velocity.protocolChecker
 
 import com.github.shynixn.mccoroutine.velocity.registerSuspend
 import org.koin.dsl.module
-import plutoproject.feature.velocity.protocolChecker.config.ProtocolCheckerConfig
-import plutoproject.feature.velocity.protocolChecker.listeners.PingListener
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.util.config.loadConfig

@@ -2,7 +2,7 @@ package plutoproject.framework.common.util
 
 import kotlin.math.roundToInt
 
-fun Double.toTrimmedString(): String {
+fun Double.trimmedString(): String {
     var result = toBigDecimal().stripTrailingZeros().toPlainString()
     if (result.endsWith(".")) {
         result = result.dropLast(1)

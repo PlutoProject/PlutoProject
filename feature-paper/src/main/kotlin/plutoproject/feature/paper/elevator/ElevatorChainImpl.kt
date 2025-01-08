@@ -11,8 +11,8 @@ class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs:
         val next = getNextFloor(player)
         if (next == -1) return
         go(player, next)
-        player.playSound(elevatorWorking)
-        val title = elevatorGoUp
+        player.playSound(ELEVATOR_WORKING_SOUND)
+        val title = ELEVATOR_GO_UP_TITLE
             .subTitleReplace("<curr>", next)
             .subTitleReplace("<total>", totalFloorCount())
         player.showTitle(title)
@@ -22,8 +22,8 @@ class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs:
         val next = getPreviousFloor(player)
         if (next == -1) return
         go(player, next)
-        player.playSound(elevatorWorking)
-        val title = elevatorGoDown
+        player.playSound(ELEVATOR_WORKING_SOUND)
+        val title = ELEVATOR_GO_DOWN_TITLE
             .subTitleReplace("<curr>", next)
             .subTitleReplace("<total>", totalFloorCount())
         player.showTitle(title)

@@ -1,12 +1,12 @@
-package ink.pmc.whitelist.models
+package plutoproject.feature.velocity.whitelist
 
-import ink.pmc.framework.currentUnixTimestamp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import plutoproject.framework.common.util.time.currentTimestampMillis
 import java.util.*
 
 fun createWhitelistModel(uuid: UUID, name: String): WhitelistModel {
-    return WhitelistModel(uuid.toString(), name, currentUnixTimestamp)
+    return WhitelistModel(uuid.toString(), name, currentTimestampMillis)
 }
 
 @Serializable

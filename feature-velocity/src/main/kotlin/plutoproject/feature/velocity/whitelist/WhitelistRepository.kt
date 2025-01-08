@@ -1,10 +1,9 @@
-package ink.pmc.whitelist.repositories
+package plutoproject.feature.velocity.whitelist
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.ReplaceOptions
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.velocitypowered.api.proxy.Player
-import ink.pmc.whitelist.models.WhitelistModel
 import kotlinx.coroutines.flow.firstOrNull
 import java.util.*
 

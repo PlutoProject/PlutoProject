@@ -1,28 +1,21 @@
-package ink.pmc.whitelist
+package plutoproject.feature.velocity.whitelist
 
 import com.velocitypowered.api.command.CommandSource
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
-import ink.pmc.framework.player.uuid
-import ink.pmc.framework.player.profile.MojangProfileFetcher
-import ink.pmc.framework.chat.mochaLavender
-import ink.pmc.framework.chat.mochaMaroon
-import ink.pmc.framework.chat.mochaPink
-import ink.pmc.framework.chat.mochaText
-import ink.pmc.whitelist.models.AuthType
-import ink.pmc.whitelist.models.WhitelistModel
-import ink.pmc.whitelist.models.WhitelistState
-import ink.pmc.whitelist.models.createWhitelistModel
-import ink.pmc.whitelist.repositories.MemberRepository
-import ink.pmc.whitelist.repositories.WhitelistRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.core.component.inject
+import plutoproject.framework.common.api.profile.MojangProfileFetcher
+import plutoproject.framework.common.util.chat.palettes.mochaLavender
+import plutoproject.framework.common.util.chat.palettes.mochaMaroon
+import plutoproject.framework.common.util.chat.palettes.mochaPink
+import plutoproject.framework.common.util.chat.palettes.mochaText
+import plutoproject.framework.common.util.data.convertToUuid
 import kotlin.time.Duration.Companion.seconds
 
 @Suppress("UNUSED")
@@ -99,7 +92,7 @@ object WhitelistCommand : KoinComponent {
             }
             return
         }
-        repo.deleteById(model.id.uuid)
+        repo.deleteById(model.id.convertToUuid())
         send {
             text("已经移除玩家 ") with mochaPink
             text("${model.rawName} ") with mochaText
@@ -115,32 +108,6 @@ object WhitelistCommand : KoinComponent {
             text("当前有 ") with mochaText
             text("$count ") with mochaLavender
             text("位玩家获得了白名单") with mochaText
-        }
-    }
-
-    @Command("whitelist import")
-    @Permission("whitelist.command")
-    suspend fun CommandSource.import() {
-        send {
-            text("正在从 Member 系统导入数据...") with mochaText
-        }
-        val members = get<MemberRepository>().list()
-        members.filter {
-            it.authType == AuthType.OFFICIAL
-                    && it.whitelistStatus == WhitelistState.WHITELISTED
-                    && it.isHidden?.not() ?: true
-        }.map {
-            WhitelistModel(it.id, it.rawName.let { name ->
-                if (name.startsWith(".")) name.substring(1) else name
-            }, it.createdAt)
-        }.forEach {
-            if (repo.findById(it.id.uuid) != null) return
-            repo.saveOrUpdate(it)
-        }
-        send {
-            text("导入完成，共导入 ") with mochaPink
-            text("${members.size} ") with mochaText
-            text("个条目") with mochaPink
         }
     }
 }

@@ -14,7 +14,7 @@ fun extractFileFromJar(filePathInJar: String, outputPath: Path): File {
     inputStream.use { input ->
         Files.copy(input, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
     }
-    if (!(outputFile.exists())) {
+    if (!outputFile.exists()) {
         error("Unable to extract file from jar (source: $filePathInJar, to: $outputPath)")
     }
     return outputFile

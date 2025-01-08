@@ -10,12 +10,12 @@ import plutoproject.framework.common.util.inject.configureKoin
 import plutoproject.framework.common.util.jvm.loadClassesInPackages
 import plutoproject.framework.common.util.platformType
 import plutoproject.framework.common.util.serverThread
-import plutoproject.framework.common.util.time.currentTimestampMillis
 import plutoproject.framework.paper.FrameworkPaperModule
 import plutoproject.framework.paper.disableFrameworkModules
 import plutoproject.framework.paper.enableFrameworkModules
 import plutoproject.framework.paper.loadFrameworkModules
 import plutoproject.framework.paper.util.plugin
+import kotlin.system.measureTimeMillis
 import plutoproject.framework.common.util.logger as utilLogger
 import plutoproject.framework.paper.util.server as utilServer
 
@@ -39,17 +39,18 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
 
     private fun preload() {
         logger.info("Preloading resources to improve runtime performance...")
-        val start = currentTimestampMillis
-        loadClassesInPackages(
-            "androidx",
-            "cafe.adriel.voyager",
-            "plutoproject.framework.common",
-            "plutoproject.framework.paper",
-            "plutoproject.feature.common",
-            "plutoproject.feature.paper",
-            classLoader = PlutoPaperPlatform::class.java.classLoader
-        )
-        logger.info("Resource preloaded in ${currentTimestampMillis - start}ms")
+        val time = measureTimeMillis {
+            loadClassesInPackages(
+                "androidx",
+                "cafe.adriel.voyager",
+                "plutoproject.framework.common",
+                "plutoproject.framework.paper",
+                "plutoproject.feature.common",
+                "plutoproject.feature.paper",
+                classLoader = PlutoPaperPlatform::class.java.classLoader
+            )
+        }
+        logger.info("Resource preloaded in ${time}ms")
     }
 
     override fun onEnable() {

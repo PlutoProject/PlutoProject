@@ -33,12 +33,29 @@ interface FeatureManager {
      */
     fun getMetadata(id: String): FeatureMetadata?
 
+    /**
+     * 查找指定 ID 的 Feature 元数据并加载。
+     * 该 Feature 必须在配置中启用，可通过 [isEnabledInConfig] 检查。
+     * @throws IllegalStateException 指定 Feature 的 ID 不存在、循环依赖或未在配置中启用。
+     */
     fun loadFeature(id: String): Feature
 
+    /**
+     * 启用指定 ID 的 Feature，若已加载则跳过。
+     * @throws IllegalStateException 指定 ID 的 Feature 未加载或不存在。
+     */
     fun enableFeature(id: String): Feature
 
+    /**
+     * 重载指定 ID 的 Feature。
+     * @throws IllegalStateException 指定 ID 的 Feature 未启用或不存在。
+     */
     fun reloadFeature(id: String): Feature
 
+    /**
+     * 关闭指定 ID 的 Feature，若已关闭则跳过。
+     * @throws IllegalStateException 指定 ID 的 Feature 未启用或不存在。
+     */
     fun disableFeature(id: String): Feature
 
     /**

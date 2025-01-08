@@ -1,5 +1,6 @@
 package plutoproject.feature.paper.suicide
 
+import plutoproject.feature.paper.suicide.commands.SuicideCommand
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.paper.api.feature.PaperFeature

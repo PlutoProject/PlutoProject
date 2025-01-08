@@ -3,6 +3,7 @@ package plutoproject.feature.velocity.protocolChecker
 import ink.pmc.advkt.component.component
 import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
+import plutoproject.feature.velocity.protocolChecker.config.ProtocolCheckerConfig
 import plutoproject.framework.common.util.chat.palettes.mochaMaroon
 import plutoproject.framework.common.util.chat.palettes.mochaText
 import plutoproject.framework.common.util.inject.Koin

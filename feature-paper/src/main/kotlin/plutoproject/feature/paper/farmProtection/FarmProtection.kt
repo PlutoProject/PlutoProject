@@ -1,8 +1,7 @@
-package plutoproject.feature.paper.creeperFirework
+package plutoproject.feature.paper.farmProtection
 
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
-import org.bukkit.event.Listener
-import plutoproject.feature.paper.noCreeperBlockBreaks.listeners.ExplosionListener
+import plutoproject.feature.paper.farmProtection.listeners.InteractionListener
 import plutoproject.framework.common.api.feature.Platform
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.paper.api.feature.PaperFeature
@@ -10,12 +9,12 @@ import plutoproject.framework.paper.util.plugin
 import plutoproject.framework.paper.util.server
 
 @Feature(
-    id = "creeper_firework",
+    id = "farm_protection",
     platform = Platform.PAPER,
 )
 @Suppress("UNUSED")
-class CreeperFirework : PaperFeature(), Listener {
+class FarmProtection : PaperFeature() {
     override fun onEnable() {
-        server.pluginManager.registerSuspendingEvents(ExplosionListener, plugin)
+        server.pluginManager.registerSuspendingEvents(InteractionListener, plugin)
     }
 }

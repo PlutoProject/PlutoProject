@@ -3,12 +3,12 @@ package plutoproject.feature.paper.elevator
 import com.destroystokyo.paper.event.player.PlayerJumpEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import plutoproject.feature.paper.api.elevator.ElevatorManager
-import plutoproject.framework.common.util.coroutine.withDefault
+import plutoproject.framework.paper.util.coroutine.withSync
 
 suspend fun handlePlayerJumpFloorUp(event: PlayerJumpEvent) {
     val player = event.player
-    withDefault {
-        val chain = ElevatorManager.getChainAt(event.from) ?: return@withDefault
+    player.withSync {
+        val chain = ElevatorManager.getChainAt(event.from) ?: return@withSync
         chain.up(player)
     }
 }
@@ -16,8 +16,8 @@ suspend fun handlePlayerJumpFloorUp(event: PlayerJumpEvent) {
 suspend fun handlePlayerSneakFloorDown(event: PlayerToggleSneakEvent) {
     if (!event.isSneaking) return
     val player = event.player
-    withDefault {
-        val chain = ElevatorManager.getChainAt(player.location) ?: return@withDefault
+    player.withSync {
+        val chain = ElevatorManager.getChainAt(player.location) ?: return@withSync
         chain.down(player)
     }
 }

@@ -34,7 +34,7 @@ class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs:
         val loc = tpLocs[floor - 1]
         val tpLoc = player.location.clone()
         tpLoc.y = loc.blockY.toDouble()
-        player.teleportAsync(tpLoc)
+        player.teleport(tpLoc)
     }
 
     override fun getNextFloor(player: Player): Int {

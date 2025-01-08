@@ -33,7 +33,7 @@ internal lateinit var featureLogger: Logger
     id = "dynamic_scheduling",
     platform = Platform.PAPER,
     dependencies = [
-        Dependency(id = "menu", load = Load.AFTER, required = false),
+        Dependency(id = "menu", load = Load.BEFORE, required = false),
     ],
 )
 @Suppress("UNUSED")

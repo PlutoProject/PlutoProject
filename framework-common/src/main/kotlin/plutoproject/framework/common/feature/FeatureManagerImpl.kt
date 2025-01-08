@@ -107,13 +107,13 @@ class FeatureManagerImpl : FeatureManager, KoinComponent {
         }
         loadingStack.push(id)
         metadata.checkDependencies()
-        metadata.loadDependencies(Load.AFTER)
+        metadata.loadDependencies(Load.BEFORE)
         val instance = createInstance(metadata).apply {
             this as AbstractFeature
             onLoad()
             updateState(State.LOADED)
         }
-        metadata.loadDependencies(Load.BEFORE)
+        metadata.loadDependencies(Load.AFTER)
 
         logger.info("Loaded $id")
         _loadedFeatures[id] = instance
@@ -127,13 +127,13 @@ class FeatureManagerImpl : FeatureManager, KoinComponent {
 
         val metadata = getMetadataOrThrow(id)
         metadata.checkDependencies()
-        metadata.enableDependencies(Load.AFTER)
+        metadata.enableDependencies(Load.BEFORE)
         val instance = getFeature(metadata.id)!!.apply {
             this as AbstractFeature
             onEnable()
             updateState(State.ENABLED)
         }
-        metadata.enableDependencies(Load.BEFORE)
+        metadata.enableDependencies(Load.AFTER)
 
         logger.info("Enabled $id")
         return instance

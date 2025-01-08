@@ -49,7 +49,7 @@ class FeatureManagerImpl : FeatureManager, KoinComponent {
         feature.init(
             id,
             Logger.getLogger("feature/${platformType.identifier}/$id"),
-            featureDataFolder.resolve("$id${File.separator}").also { it.mkdirs() }
+            featureDataFolder.resolve("$id${File.separator}")
         )
         return feature
     }

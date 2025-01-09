@@ -22,7 +22,7 @@ val Server.coroutineContext: CoroutineContext
     get() = if (isFolia) {
         GLOBAL_REGION_DISPATCHER
     } else {
-        server.toNms().asCoroutineDispatcher()
+        toNms().asCoroutineDispatcher()
     }
 
 val Entity.coroutineContext: CoroutineContext

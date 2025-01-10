@@ -4,7 +4,7 @@ import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
 import plutoproject.framework.common.util.chat.MessageConstants
 
-fun ensurePlayer(sender: CommandSource, action: Player.() -> Unit) {
+inline fun ensurePlayer(sender: CommandSource, action: Player.() -> Unit) {
     if (sender !is Player) {
         sender.sendMessage(MessageConstants.nonPlayer)
         return
@@ -13,7 +13,7 @@ fun ensurePlayer(sender: CommandSource, action: Player.() -> Unit) {
 }
 
 @JvmName("ensurePlayerReceiver")
-fun CommandSource.ensurePlayer(action: Player.() -> Unit) {
+inline fun CommandSource.ensurePlayer(action: Player.() -> Unit) {
     ensurePlayer(this, action)
 }
 

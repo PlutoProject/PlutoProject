@@ -16,43 +16,6 @@ plugins {
 
 rootProject.name = "plutoproject"
 
-/*
-include("misc")
-include("misc:api")
-include("misc:paper")
-
-include("hypervisor")
-include("hypervisor:api")
-include("hypervisor:paper")
-
-include("protocol-checker")
-include("protocol-checker:velocity")
-
-include("essentials")
-include("essentials:paper")
-include("essentials:velocity")
-include("essentials:api")
-
-include("menu")
-include("menu:api")
-include("menu:paper")
-
-include("daily")
-include("daily:api")
-include("daily:paper")
-
-include("whitelist")
-include("whitelist:velocity")
-
-include("runtime")
-include("runtime:paper")
-include("runtime:velocity")
-
-include("server-selector")
-include("server-selector:paper")
-include("server-selector:shared")
-include("server-selector:velocity")
-*/
 includeBuild("build-logic")
 include("catalog")
 

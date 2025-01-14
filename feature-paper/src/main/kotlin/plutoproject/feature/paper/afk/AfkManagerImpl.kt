@@ -1,32 +1,27 @@
-package ink.pmc.essentials.afk
+package plutoproject.feature.paper.afk
 
-import ink.pmc.essentials.AFK_END_ANNOUNCE
-import ink.pmc.essentials.AFK_START_ANNOUNCE
-import ink.pmc.essentials.api.afk.AfkManager
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.essentials.disabled
-import ink.pmc.essentials.essentialsScope
-import ink.pmc.framework.chat.replace
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.koin.core.component.inject
+import plutoproject.feature.paper.api.afk.AfkManager
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.coroutine.runAsync
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toKotlinDuration
 
 class AfkManagerImpl : AfkManager, KoinComponent {
-    private val conf by lazy { get<EssentialsConfig>().afk }
+    private val conf by inject<AfkConfig>()
     private val manuallyAfkSet = ConcurrentHashMap.newKeySet<Player>()
 
     override val afkSet: MutableSet<Player> = ConcurrentHashMap.newKeySet()
     override val idleDuration: Duration = conf.idleDuration
 
     init {
-        essentialsScope.launch {
+        runAsync {
             while (!disabled) {
                 Bukkit.getOnlinePlayers().forEach {
                     val idle = it.idleDuration.toKotlinDuration()
@@ -62,13 +57,13 @@ class AfkManagerImpl : AfkManager, KoinComponent {
             }
             afkSet.add(player)
             if (manually) addManually(player)
-            Bukkit.broadcast(AFK_START_ANNOUNCE.replace("<player>", player.name))
+            Bukkit.broadcast(PLAYER_AFK_ENTER_ANNOUNCEMENT.replace("<player>", player.name))
             return
         }
 
         if (!state && isAfk(player)) {
             afkSet.remove(player)
-            Bukkit.broadcast(AFK_END_ANNOUNCE.replace("<player>", player.name))
+            Bukkit.broadcast(PLAYER_AFK_EXIT_ANNOUNCEMENT.replace("<player>", player.name))
             removeManually(player)
             return
         }

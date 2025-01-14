@@ -1,11 +1,11 @@
-package ink.pmc.essentials.api.afk
+package plutoproject.feature.paper.api.afk
 
-import ink.pmc.framework.inject.inlinedGet
 import org.bukkit.entity.Player
+import plutoproject.framework.common.util.inject.Koin
 import kotlin.time.Duration
 
 interface AfkManager {
-    companion object : AfkManager by inlinedGet()
+    companion object : AfkManager by Koin.get()
 
     val afkSet: Set<Player>
     val idleDuration: Duration

@@ -1,6 +1,5 @@
-package ink.pmc.essentials.listeners
+package plutoproject.feature.paper.afk
 
-import ink.pmc.essentials.api.afk.AfkManager
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -8,16 +7,13 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerTeleportEvent
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import plutoproject.feature.paper.api.afk.AfkManager
 
-@Suppress("UNUSED", "UnusedReceiverParameter")
-object AfkListener : Listener, KoinComponent {
-    private val manager by inject<AfkManager>()
-
+@Suppress("UNUSED")
+object AfkListener : Listener {
     private fun Player.unAfk() {
-        if (manager.isAfk(this)) {
-            manager.toggle(this)
+        if (AfkManager.isAfk(this)) {
+            AfkManager.toggle(this)
         }
     }
 

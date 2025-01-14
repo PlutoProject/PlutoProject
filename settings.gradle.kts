@@ -39,3 +39,7 @@ include("platform-paper")
 include("platform-velocity")
 
 // TEMP
+include(":essentials")
+include(":essentials:api")
+include(":essentials:paper")
+include(":essentials:velocity")

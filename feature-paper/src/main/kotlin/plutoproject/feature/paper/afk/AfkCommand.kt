@@ -1,9 +1,9 @@
-package ink.pmc.essentials.commands.afk
+package plutoproject.feature.paper.afk
 
-import ink.pmc.essentials.api.afk.AfkManager
-import ink.pmc.framework.command.ensurePlayer
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotations.Command
+import plutoproject.feature.paper.api.afk.AfkManager
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object AfkCommand {

@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "ink.pmc.plutoproject"
-version = "1.3.0"
+version = "1.4.0"
 
 val dependencyExtension =
     dependencies.extensions.create<PlutoDependencyHandlerExtension>(

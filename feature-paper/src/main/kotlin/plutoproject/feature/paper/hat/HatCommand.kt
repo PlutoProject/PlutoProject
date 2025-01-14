@@ -1,14 +1,5 @@
-package ink.pmc.essentials.commands
+package plutoproject.feature.paper.hat
 
-import ink.pmc.essentials.COMMAND_HAT_FAILED_EMPTY_HAND
-import ink.pmc.essentials.COMMAND_HAT_FAILED_EXISTED_OTHER
-import ink.pmc.essentials.COMMAND_HAT_SUCCEED
-import ink.pmc.essentials.COMMAND_HAT_SUCCEED_OTHER
-import ink.pmc.framework.chat.NO_PERMISSON
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.command.selectPlayer
-import ink.pmc.framework.concurrent.sync
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -16,6 +7,35 @@ import org.bukkit.inventory.ItemStack
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.framework.common.util.chat.MessageConstants
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.paper.util.command.ensurePlayer
+import plutoproject.framework.paper.util.command.selectPlayer
+import plutoproject.framework.paper.util.coroutine.withSync
+
+private val Player.handItem: ItemStack
+    get() = inventory.itemInMainHand
+
+private val Player.hatItem: ItemStack?
+    get() = inventory.helmet
+
+private suspend fun Player.hand(item: ItemStack) {
+    withSync {
+        inventory.setItemInMainHand(item)
+    }
+}
+
+private suspend fun Player.hat(item: ItemStack) {
+    withSync {
+        inventory.helmet = item
+    }
+}
+
+private suspend fun Player.clearHand() {
+    withSync {
+        hand(ItemStack(Material.AIR))
+    }
+}
 
 @Suppress("UNUSED")
 object HatCommand {
@@ -29,16 +49,16 @@ object HatCommand {
         }
         if (this != target) {
             if (!hasPermission("essentials.hat.other")) {
-                sendMessage(NO_PERMISSON)
+                sendMessage(MessageConstants.noPermission)
                 return
             }
             if (target.hatItem != null) {
-                sendMessage(COMMAND_HAT_FAILED_EXISTED_OTHER)
+                sendMessage(COMMAND_HAT_OTHER_FAILED_EXISTED)
                 return
             }
             target.hat(handItem)
             clearHand()
-            sendMessage(COMMAND_HAT_SUCCEED_OTHER.replace("<player>", target.name))
+            sendMessage(COMMAND_HAT_OTHER_SUCCEED.replace("<player>", target.name))
             return
         }
         val keepHatItem = hatItem
@@ -46,29 +66,5 @@ object HatCommand {
         clearHand()
         if (keepHatItem != null) hand(keepHatItem)
         sendMessage(COMMAND_HAT_SUCCEED)
-    }
-}
-
-private val Player.handItem: ItemStack
-    get() = inventory.itemInMainHand
-
-private val Player.hatItem: ItemStack?
-    get() = inventory.helmet
-
-private suspend fun Player.hand(item: ItemStack) {
-    sync {
-        inventory.setItemInMainHand(item)
-    }
-}
-
-private suspend fun Player.hat(item: ItemStack) {
-    sync {
-        inventory.helmet = item
-    }
-}
-
-private suspend fun Player.clearHand() {
-    sync {
-        hand(ItemStack(Material.AIR))
     }
 }

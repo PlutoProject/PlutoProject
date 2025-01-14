@@ -1,23 +1,10 @@
-package ink.pmc.essentials.commands
+package plutoproject.feature.paper.head
 
 import com.destroystokyo.paper.profile.PlayerProfile
 import com.sksamuel.aedile.core.cacheBuilder
 import ink.pmc.advkt.component.newline
 import ink.pmc.advkt.component.text
 import ink.pmc.advkt.send
-import ink.pmc.essentials.HEAD_COST_BYPASS
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.essentials.economyHook
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.dsl.itemStack
-import ink.pmc.framework.inventory.isFull
-import ink.pmc.framework.platform.paper
-import ink.pmc.framework.player.profile.MojangProfileFetcher
-import ink.pmc.framework.trimmed
-import ink.pmc.framework.chat.mochaMaroon
-import ink.pmc.framework.chat.mochaPink
-import ink.pmc.framework.chat.mochaSubtext0
-import ink.pmc.framework.chat.mochaText
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 import org.bukkit.Bukkit
@@ -32,36 +19,46 @@ import org.incendo.cloud.annotations.suggestion.Suggestions
 import org.incendo.cloud.context.CommandContext
 import org.incendo.cloud.context.CommandInput
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.koin.core.component.inject
+import plutoproject.framework.common.api.profile.MojangProfileFetcher
+import plutoproject.framework.common.util.chat.palettes.mochaMaroon
+import plutoproject.framework.common.util.chat.palettes.mochaPink
+import plutoproject.framework.common.util.chat.palettes.mochaSubtext0
+import plutoproject.framework.common.util.chat.palettes.mochaText
+import plutoproject.framework.common.util.trimmedString
+import plutoproject.framework.paper.util.command.ensurePlayer
+import plutoproject.framework.paper.util.dsl.ItemStack
+import plutoproject.framework.paper.util.hook.vaultHook
+import plutoproject.framework.paper.util.inventory.isFull
+import plutoproject.framework.paper.util.server
 import kotlin.time.Duration.Companion.seconds
+
+private const val HEAD_COST_BYPASS_PERMISSION = "essentials.head.cost.bypass"
 
 @Suppress("UNUSED", "UNUSED_PARAMETER")
 object HeadCommand : KoinComponent {
-    private val config by lazy { get<EssentialsConfig>().head }
+    private val config by inject<HeadConfig>()
     private val headCache = cacheBuilder<String, ItemStack>().build()
 
-    private fun createHead(profile: PlayerProfile): ItemStack {
-        return itemStack(Material.PLAYER_HEAD) {
+    private fun createHead(profile: PlayerProfile): ItemStack =
+        ItemStack(Material.PLAYER_HEAD) {
             meta {
                 this as SkullMeta
                 playerProfile = profile
             }
         }
-    }
 
     @Command("head [player]")
     @Permission("essentials.head")
     suspend fun CommandSender.head(@Argument("player", suggestions = "players") player: String?) = ensurePlayer {
-        if (!config.enabled) return@ensurePlayer
-
         val targetName = (player ?: name).lowercase()
         val cost = config.cost
-        val costText = cost.trimmed()
-        val eco = economyHook?.economy ?: return@ensurePlayer
+        val costText = cost.trimmedString()
+        val eco = vaultHook?.economy ?: return@ensurePlayer
         val symbol = eco.currencyNameSingular()
         val balance = eco.getBalance(this)
 
-        if (balance < cost && !hasPermission(HEAD_COST_BYPASS)) {
+        if (balance < cost && !hasPermission(HEAD_COST_BYPASS_PERMISSION)) {
             send {
                 text("货币不足，需要 ") with mochaMaroon
                 text("$costText$symbol") with mochaText
@@ -111,7 +108,7 @@ object HeadCommand : KoinComponent {
             text("${player ?: name} ") with mochaText
             text("的头颅") with mochaPink
         }
-        if (!hasPermission(HEAD_COST_BYPASS)) {
+        if (!hasPermission(HEAD_COST_BYPASS_PERMISSION)) {
             eco.withdrawPlayer(this, 3.0)
             send {
                 text("消耗 ") with mochaSubtext0
@@ -122,6 +119,6 @@ object HeadCommand : KoinComponent {
 
     @Suggestions("players")
     fun players(context: CommandContext<CommandSender>, input: CommandInput): List<String> {
-        return paper.onlinePlayers.map { it.name }
+        return server.onlinePlayers.map { it.name }
     }
 }

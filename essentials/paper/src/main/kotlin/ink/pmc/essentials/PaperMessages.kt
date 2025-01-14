@@ -615,24 +615,6 @@ val COMMAND_BACK_SUCCEED = component {
     text("已回到你先前的位置") with mochaPink
 }
 
-val COMMAND_LECT_FAILED_NO_LECTERN = component {
-    text("你需要对着一个讲台才可以这么做") with mochaMaroon
-}
-
-val COMMAND_LECT_PROTECT_ON_SUCCEED = component {
-    text("已将你面前的讲台保护") with mochaPink
-}
-
-val COMMAND_LECT_PROTECT_OFF_SUCCEED = component {
-    text("已将你面前的讲台取消保护") with mochaPink
-}
-
-val LECT_PROTECTED_ACTION = component {
-    text("此讲台已被 ") with mochaSubtext0
-    text("<player> ") with mochaText
-    text("保护") with mochaSubtext0
-}
-
 const val DEFAULT_ECONOMY_SYMBOL = "\uD83C\uDF1F"
 
 val RANDOM_TELEPORT_BALANCE_NOT_ENOUGH = component {

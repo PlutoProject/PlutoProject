@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerTeleportEvent
 import plutoproject.feature.paper.api.afk.AfkManager
 
 @Suppress("UNUSED")
-object AfkListener : Listener {
+object PlayerListener : Listener {
     private fun Player.unAfk() {
         if (AfkManager.isAfk(this)) {
             AfkManager.toggle(this)

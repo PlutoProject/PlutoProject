@@ -30,7 +30,7 @@ class AfkFeature : PaperFeature() {
             modules(featureModule)
         }
         AnnotationParser.parse(AfkCommand)
-        server.pluginManager.registerSuspendingEvents(AfkListener, plugin)
+        server.pluginManager.registerSuspendingEvents(PlayerListener, plugin)
         disabled = false
     }
 

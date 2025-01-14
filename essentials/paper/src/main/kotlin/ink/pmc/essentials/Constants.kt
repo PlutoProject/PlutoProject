@@ -4,8 +4,6 @@ const val BYPASS_WORLD_BLACKLIST = "essentials.teleport.bypass"
 
 const val BYPASS_HOME_LIMIT = "essentials.home.bypass"
 
-const val LECTERN_PROTECT_BYPASS = "essentials.lectern.bypass"
-
 const val RANDOM_TELEPORT_COST_BYPASS = "essentials.rtp.cost.bypass"
 
 const val RANDOM_TELEPORT_SPECIFIC = "essentials.rtp.specific"

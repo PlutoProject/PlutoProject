@@ -1,15 +1,12 @@
-package ink.pmc.essentials.commands
+package plutoproject.feature.paper.align
 
-import ink.pmc.essentials.COMMAND_ALIGN_POS_SUCCEED
-import ink.pmc.essentials.COMMAND_ALIGN_SUCCEED
-import ink.pmc.essentials.COMMAND_ALIGN_VIEW_SUCCEED
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.entity.teleportSuspend
 import org.bukkit.block.BlockFace.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.framework.paper.util.command.ensurePlayer
+import plutoproject.framework.paper.util.entity.teleportSuspend
 
 @Suppress("UNUSED")
 object AlignCommand {
@@ -34,7 +31,6 @@ object AlignCommand {
         alignView()
         sendMessage(COMMAND_ALIGN_VIEW_SUCCEED)
     }
-
 
     private suspend fun Player.alignPos() {
         teleportSuspend(location.toCenterLocation())

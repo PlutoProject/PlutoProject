@@ -20,18 +20,6 @@ import java.time.Duration
 import java.util.*
 import kotlin.time.toKotlinDuration
 
-val COMMAND_ALIGN_SUCCEED = component {
-    text("已对齐你的视角和位置") with mochaPink
-}
-
-val COMMAND_ALIGN_POS_SUCCEED = component {
-    text("已对齐你的位置") with mochaPink
-}
-
-val COMMAND_ALIGN_VIEW_SUCCEED = component {
-    text("已对齐你的视角") with mochaPink
-}
-
 val TELEPORT_PREPARING_TITLE = title {
     times {
         fadeIn(Ticks.duration(5))

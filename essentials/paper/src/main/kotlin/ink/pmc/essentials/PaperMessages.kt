@@ -615,38 +615,6 @@ val COMMAND_BACK_SUCCEED = component {
     text("已回到你先前的位置") with mochaPink
 }
 
-val COMMAND_IF_FAILED_NO_FRAME = component {
-    text("你需要对着一个物品展示框才可以这么做") with mochaMaroon
-}
-
-val COMMAND_IF_INV_ON_SUCCEED = component {
-    text("已将你面前的展示框隐藏") with mochaPink
-}
-
-val COMMAND_IF_INV_OFF_SUCCEED = component {
-    text("已将你面前的展示框显现") with mochaPink
-}
-
-val COMMAND_IF_PROTECT_ON_SUCCEED = component {
-    text("已将你面前的展示框保护") with mochaPink
-}
-
-val COMMAND_IF_PROTECT_OFF_SUCCEED = component {
-    text("已将你面前的展示框取消保护") with mochaPink
-}
-
-val IF_PROTECTED_ACTION = component {
-    text("此展示框已被 ") with mochaSubtext0
-    text("<player> ") with mochaText
-    text("保护") with mochaSubtext0
-}
-
-const val IF_PROTECT_UNKNOWN_PLAYER = "未知玩家"
-
-val IF_UNFINISHED_BOOK = Component.text("未完成的书")
-
-val IF_UNFINISHED_BOOK_AUTHOR = Component.text("未知作者")
-
 val COMMAND_LECT_FAILED_NO_LECTERN = component {
     text("你需要对着一个讲台才可以这么做") with mochaMaroon
 }

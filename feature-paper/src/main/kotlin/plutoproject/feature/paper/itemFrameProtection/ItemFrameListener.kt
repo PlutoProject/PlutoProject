@@ -1,13 +1,5 @@
-package ink.pmc.essentials.listeners
+package plutoproject.feature.paper.itemFrameProtection
 
-import ink.pmc.essentials.IF_PROTECTED_ACTION
-import ink.pmc.essentials.IF_UNFINISHED_BOOK
-import ink.pmc.essentials.IF_UNFINISHED_BOOK_AUTHOR
-import ink.pmc.essentials.ITEMFRAME_PROTECT_BYPASS
-import ink.pmc.essentials.commands.isProtected
-import ink.pmc.essentials.commands.protector
-import ink.pmc.essentials.commands.protectorName
-import ink.pmc.framework.chat.replace
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent.ItemFrameChangeAction
 import net.kyori.adventure.inventory.Book
@@ -20,11 +12,12 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.inventory.meta.WritableBookMeta
+import plutoproject.framework.common.util.chat.component.replace
 
 internal val Material.isOpenableBook: Boolean
     get() = this == Material.WRITTEN_BOOK || this == Material.WRITABLE_BOOK
 
-@Suppress("UNUSED", "UnusedReceiverParameter")
+@Suppress("UNUSED")
 object ItemFrameListener : Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     fun PlayerItemFrameChangeEvent.e() {
@@ -37,8 +30,8 @@ object ItemFrameListener : Listener {
                     val meta = item.itemMeta as WritableBookMeta
                     val contents = meta.pages.map { Component.text(it) }
                     val book = Book.builder()
-                        .title(IF_UNFINISHED_BOOK)
-                        .author(IF_UNFINISHED_BOOK_AUTHOR)
+                        .title(ITEMFRAME_PROTECTION_UNFINISHED_BOOK)
+                        .author(ITEMFRAME_PROTECTION_UNKNOWN_AUTHOR)
                         .pages(contents)
                         .build()
                     player.openBook(book)
@@ -53,9 +46,9 @@ object ItemFrameListener : Listener {
         }
 
         if (!itemFrame.isProtected) return
-        if (itemFrame.protector == player || player.hasPermission(ITEMFRAME_PROTECT_BYPASS)) return
+        if (itemFrame.protector == player || player.hasPermission(ITEMFRAME_PROTECTION_BYPASS_PERMISSION)) return
 
-        player.sendActionBar(IF_PROTECTED_ACTION.replace("<player>", itemFrame.protectorName))
+        player.sendActionBar(ITEMFRAME_PROTECTED_ON_ACTION.replace("<player>", itemFrame.protectorName))
         isCancelled = true
     }
 
@@ -66,9 +59,9 @@ object ItemFrameListener : Listener {
 
         if (!frame.isProtected) return
         if (remover !is Player) return
-        if (frame.protector == remover || remover.hasPermission(ITEMFRAME_PROTECT_BYPASS)) return
+        if (frame.protector == remover || remover.hasPermission(ITEMFRAME_PROTECTION_BYPASS_PERMISSION)) return
 
-        remover.sendActionBar(IF_PROTECTED_ACTION.replace("<player>", frame.protectorName))
+        remover.sendActionBar(ITEMFRAME_PROTECTED_ON_ACTION.replace("<player>", frame.protectorName))
         isCancelled = true
     }
 }

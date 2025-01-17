@@ -1,4 +1,4 @@
-package ink.pmc.essentials.api.teleport
+package plutoproject.feature.paper.api.teleport
 
 import org.bukkit.entity.Player
 import java.time.Instant
@@ -6,7 +6,6 @@ import java.util.*
 
 @Suppress("UNUSED")
 interface TeleportRequest {
-
     val id: UUID
     val options: RequestOptions
     val source: Player
@@ -23,5 +22,4 @@ interface TeleportRequest {
     fun expire(prompt: Boolean = true)
 
     fun cancel(prompt: Boolean = true)
-
 }

@@ -1,7 +1,5 @@
-package ink.pmc.essentials.api.teleport
+package plutoproject.feature.paper.api.teleport
 
 enum class TaskState {
-
     PENDING, TICKING, FINISHED
-
 }

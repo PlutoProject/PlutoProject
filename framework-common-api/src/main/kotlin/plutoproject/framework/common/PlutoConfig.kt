@@ -1,6 +1,7 @@
-package plutoproject.framework.common.config
+package plutoproject.framework.common
 
 data class PlutoConfig(
+    val serverName: String = "default",
     val feature: Feature = Feature(),
 )
 

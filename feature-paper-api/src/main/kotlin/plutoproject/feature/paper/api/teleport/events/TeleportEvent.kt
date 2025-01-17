@@ -1,9 +1,11 @@
-package ink.pmc.essentials.api.teleport
+package plutoproject.feature.paper.api.teleport.events
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
+import plutoproject.feature.paper.api.teleport.AbstractTeleportEvent
+import plutoproject.feature.paper.api.teleport.TeleportOptions
 
 @Suppress("UNUSED")
 class TeleportEvent(
@@ -12,7 +14,6 @@ class TeleportEvent(
     to: Location,
     val options: TeleportOptions
 ) : AbstractTeleportEvent(player, from, to) {
-
     private companion object {
         val handlers = HandlerList()
 
@@ -45,5 +46,4 @@ class TeleportEvent(
     override fun setCancelled(bool: Boolean) {
         cancelled = bool
     }
-
 }

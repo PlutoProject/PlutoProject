@@ -1,11 +1,11 @@
-package ink.pmc.essentials.api.teleport
+package plutoproject.feature.paper.api.teleport
 
-import ink.pmc.framework.inject.inlinedGet
-import ink.pmc.framework.world.ValueVec2
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
+import plutoproject.framework.common.util.inject.Koin
+import plutoproject.framework.paper.util.world.chunk.ChunkLocation
 import java.util.*
 
 enum class TeleportManagerState {
@@ -16,7 +16,7 @@ typealias LocationChecker = suspend (Location, TeleportOptions) -> Boolean
 
 @Suppress("UNUSED")
 interface TeleportManager {
-    companion object : TeleportManager by inlinedGet()
+    companion object : TeleportManager by Koin.get()
 
     val teleportRequests: Collection<TeleportRequest>
     val queue: Queue<TeleportTask>
@@ -63,11 +63,11 @@ interface TeleportManager {
 
     fun clearRequest()
 
-    fun getRequiredChunks(center: Location, radius: Int): Collection<ValueVec2>
+    fun getRequiredChunks(center: Location, radius: Int): Collection<ChunkLocation>
 
-    fun isAllPrepared(chunks: Collection<ValueVec2>, world: World): Boolean
+    fun isAllPrepared(chunks: Collection<ChunkLocation>, world: World): Boolean
 
-    suspend fun prepareChunk(chunks: Collection<ValueVec2>, world: World)
+    suspend fun prepareChunk(chunks: Collection<ChunkLocation>, world: World)
 
     suspend fun fireTeleport(
         player: Player,

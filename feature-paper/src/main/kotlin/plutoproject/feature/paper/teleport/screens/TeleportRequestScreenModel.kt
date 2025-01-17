@@ -1,19 +1,19 @@
-package ink.pmc.essentials.screens.teleport
+package plutoproject.feature.paper.teleport.screens
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
-import ink.pmc.essentials.plugin
-import ink.pmc.framework.interactive.layout.list.ListMenuModel
-import ink.pmc.framework.platform.paper
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import plutoproject.framework.paper.api.interactive.layout.list.ListMenuModel
+import plutoproject.framework.paper.util.plugin
+import plutoproject.framework.paper.util.server
 import kotlin.math.ceil
 
 private const val PAGE_SIZE = 28
@@ -21,10 +21,10 @@ private const val PAGE_SIZE = 28
 class TeleportRequestScreenModel(private val player: Player) : ListMenuModel<Player>(), Listener {
     var isRequestSent by mutableStateOf(false)
     var requestSentTo by mutableStateOf<Player?>(null)
-    var onlinePlayers = mutableStateListOf(*paper.onlinePlayers.filter { it != player }.toTypedArray())
+    var onlinePlayers = mutableStateListOf(*server.onlinePlayers.filter { it != player }.toTypedArray())
 
     init {
-        paper.pluginManager.registerSuspendingEvents(this, plugin)
+        server.pluginManager.registerSuspendingEvents(this, plugin)
     }
 
     override fun onDispose() {

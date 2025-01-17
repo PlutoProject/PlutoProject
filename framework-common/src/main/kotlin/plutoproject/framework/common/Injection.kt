@@ -11,7 +11,6 @@ import plutoproject.framework.common.api.provider.getCollection
 import plutoproject.framework.common.api.rpc.RpcClient
 import plutoproject.framework.common.api.rpc.RpcServer
 import plutoproject.framework.common.config.BridgeConfig
-import plutoproject.framework.common.config.PlutoConfig
 import plutoproject.framework.common.config.ProviderConfig
 import plutoproject.framework.common.config.RpcConfig
 import plutoproject.framework.common.feature.FeatureManagerImpl

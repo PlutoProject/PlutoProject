@@ -1,4 +1,4 @@
-package ink.pmc.essentials.api.teleport
+package plutoproject.feature.paper.api.teleport
 
 import org.bukkit.Material
 

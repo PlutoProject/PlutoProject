@@ -1,15 +1,15 @@
-package ink.pmc.essentials.commands.teleport
+package plutoproject.feature.paper.teleport.commands
 
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.teleport.TeleportManager
-import ink.pmc.essentials.api.teleport.TeleportRequest
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.teleport.TeleportManager
+import plutoproject.feature.paper.api.teleport.TeleportRequest
+import plutoproject.feature.paper.teleport.*
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 private enum class Operation {
     ACCEPT, DENY

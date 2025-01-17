@@ -1,27 +1,25 @@
-package ink.pmc.essentials.screens.home
+package plutoproject.feature.paper.home.screens
 
 import androidx.compose.runtime.*
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.interactive.InteractiveScreen
-import ink.pmc.framework.interactive.LocalPlayer
-import ink.pmc.framework.interactive.canvas.Anvil
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.dsl.itemStack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.wesjd.anvilgui.AnvilGUI.Slot.*
 import org.bukkit.Material
-import org.koin.compose.koinInject
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.*
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.api.interactive.InteractiveScreen
+import plutoproject.framework.paper.api.interactive.LocalPlayer
+import plutoproject.framework.paper.api.interactive.canvas.Anvil
+import plutoproject.framework.paper.util.dsl.ItemStack
 import kotlin.time.Duration.Companion.seconds
 
 class HomeCreatorScreen : InteractiveScreen() {
     @Composable
     override fun Content() {
         val player = LocalPlayer.current
-        val manager = koinInject<HomeManager>()
         val navigator = LocalNavigator.currentOrThrow
         val coroutineScope = rememberCoroutineScope()
         /*w
@@ -45,18 +43,18 @@ class HomeCreatorScreen : InteractiveScreen() {
 
         Anvil(
             title = UI_HOME_CREATOR_TITLE,
-            left = itemStack(Material.YELLOW_STAINED_GLASS_PANE) {
+            left = ItemStack(Material.YELLOW_STAINED_GLASS_PANE) {
                 lore(UI_HOME_CREATOR_LEFT_LORE)
             },
-            right = itemStack(Material.GRAY_STAINED_GLASS_PANE) {
+            right = ItemStack(Material.GRAY_STAINED_GLASS_PANE) {
                 meta {
                     isHideTooltip = true
                 }
             },
-            output = itemStack(Material.PAPER) {
+            output = ItemStack(Material.PAPER) {
                 lore(
                     when (state) {
-                        0 -> UI_HOME_CREATOR_OUTPUT_LORE(player.location)
+                        0 -> getUIHomeCreatorOutputButtonLore(player.location)
                         1 -> UI_HOME_EDITOR_RENAME_SAVE_INVALID_LORE
                         2 -> UI_HOME_EDITOR_RENAME_SAVE_TOO_LONG
                         3 -> UI_HOME_EDITOR_RENAME_SAVE_EXISTED
@@ -81,21 +79,21 @@ class HomeCreatorScreen : InteractiveScreen() {
                         if (state != 0) return@Anvil emptyList()
                         val input = r.text
 
-                        if (input.length > manager.nameLengthLimit) {
+                        if (input.length > HomeManager.nameLengthLimit) {
                             player.playSound(UI_HOME_EDITOR_RENAME_INVALID_SOUND)
                             stateTransition(2)
                             return@Anvil emptyList()
                         }
 
                         coroutineScope.launch {
-                            if (manager.has(player, input)) {
+                            if (HomeManager.has(player, input)) {
                                 player.playSound(UI_HOME_EDITOR_RENAME_INVALID_SOUND)
                                 stateTransition(3)
                                 return@launch
                             }
 
-                            submitAsync {
-                                manager.create(player, input, player.location)
+                            runAsync {
+                                HomeManager.create(player, input, player.location)
                             }
 
                             stateTransition(4, true)

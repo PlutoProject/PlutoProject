@@ -1,17 +1,17 @@
-package ink.pmc.essentials.commands.home
+package plutoproject.feature.paper.home.commands
 
-import ink.pmc.essentials.COMMAND_HOME_SUCCEED
-import ink.pmc.essentials.VIEWER_PAGING_SOUND
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.essentials.screens.home.HomeListScreen
-import ink.pmc.framework.startScreen
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.COMMAND_HOME_SUCCEED
+import plutoproject.feature.paper.home.screens.HomeListScreen
+import plutoproject.framework.common.util.chat.SoundConstants
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.paper.api.interactive.startScreen
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object HomeCommand {
@@ -22,7 +22,7 @@ object HomeCommand {
             val preferred = HomeManager.getPreferredHome(this)
             if (preferred == null) {
                 startScreen(HomeListScreen(this))
-                playSound(VIEWER_PAGING_SOUND)
+                playSound(SoundConstants.UI.paging)
                 return
             }
             preferred.teleportSuspend(this)

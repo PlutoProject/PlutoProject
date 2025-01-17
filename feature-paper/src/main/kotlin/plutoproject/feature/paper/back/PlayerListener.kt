@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import plutoproject.feature.paper.api.back.BackManager
+import plutoproject.feature.paper.api.home.HomeTeleportEvent
 import plutoproject.feature.paper.api.randomTeleport.events.RandomTeleportEvent
 import plutoproject.feature.paper.api.teleport.RequestState
 import plutoproject.feature.paper.api.teleport.events.RequestStateChangeEvent
@@ -19,7 +20,8 @@ object PlayerListener : Listener, KoinComponent {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     suspend fun HomeTeleportEvent.e() {
-        manager.set(player, from)
+        if (from.world.name in config.blacklistedWorlds) return
+        BackManager.set(player, from)
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

@@ -119,10 +119,6 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         val commandManager = commandManager().apply {
             parserRegistry().apply {
                 registerSuggestionProvider(
-                    "homes-offlineplayer",
-                    PaperPrivilegedSuggestion.of(OfflinePlayerParser(), HOMES_OTHER)
-                )
-                registerSuggestionProvider(
                     "warps",
                     WarpParser(false)
                 )
@@ -187,17 +183,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
 
         }
         if (config.home.enabled) {
-            server.pluginManager.registerSuspendingEvents(HomeListener, this)
-            annotationParser.parse(
-                HomeCommons,
-                DelHomeCommand,
-                HomeCommand,
-                HomesCommand,
-                SetHomeCommand
-            )
-            if (isMenuAvailable) {
-                MenuManager.registerButton(HOME_BUTTON_DESCRIPTOR) { Home() }
-            }
+
         }
         if (config.warp.enabled) {
             annotationParser.parse(

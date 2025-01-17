@@ -1,14 +1,14 @@
-package ink.pmc.essentials.commands.home
+package plutoproject.feature.paper.home.commands
 
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.concurrent.submitAsync
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotation.specifier.Greedy
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.*
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object SetHomeCommand {
@@ -17,7 +17,7 @@ object SetHomeCommand {
     suspend fun CommandSender.sethome(@Greedy name: String?) = ensurePlayer {
         val list = HomeManager.list(this)
         val actualName = name ?: "home"
-        if (list.size >= HomeManager.maxHomes && !hasPermission(BYPASS_HOME_LIMIT)) {
+        if (list.size >= HomeManager.maxHomes && !hasPermission(HOME_LIMIT_BYPASS_PERMISSION)) {
             sendMessage(COMMAND_SETHOME_FAILED_REACH_LIMIT)
             return
         }
@@ -29,7 +29,7 @@ object SetHomeCommand {
             sendMessage(COMMAND_SETHOME_FAILED_LENGTN_LIMIT)
             return
         }
-        submitAsync {
+        runAsync {
             HomeManager.create(this@ensurePlayer, actualName, location)
         }
         sendMessage(COMMAND_SETHOME_SUCCEED.replace("<name>", actualName))

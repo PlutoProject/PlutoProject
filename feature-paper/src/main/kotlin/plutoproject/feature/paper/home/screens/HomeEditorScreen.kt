@@ -1,29 +1,32 @@
-package ink.pmc.essentials.screens.home
+package plutoproject.feature.paper.home.screens
 
 import androidx.compose.runtime.*
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import ink.pmc.advkt.component.component
-import ink.pmc.advkt.component.italic
-import ink.pmc.advkt.component.text
-import ink.pmc.advkt.component.translatable
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.chat.*
-import ink.pmc.framework.interactive.click.clickable
-import ink.pmc.framework.interactive.layout.Menu
-import ink.pmc.framework.interactive.layout.Row
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.concurrent.sync
-import ink.pmc.framework.interactive.*
-import ink.pmc.framework.player.addItemOrDrop
+import ink.pmc.advkt.component.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.event.inventory.ClickType
-import org.koin.compose.koinInject
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.*
+import plutoproject.framework.common.util.chat.SoundConstants
+import plutoproject.framework.common.util.chat.palettes.*
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.api.interactive.InteractiveScreen
+import plutoproject.framework.paper.api.interactive.LocalPlayer
+import plutoproject.framework.paper.api.interactive.canvas.Menu
+import plutoproject.framework.paper.api.interactive.click.clickable
+import plutoproject.framework.paper.api.interactive.components.Item
+import plutoproject.framework.paper.api.interactive.components.ItemSpacer
+import plutoproject.framework.paper.api.interactive.layout.Row
+import plutoproject.framework.paper.api.interactive.modifiers.Modifier
+import plutoproject.framework.paper.api.interactive.modifiers.fillMaxHeight
+import plutoproject.framework.paper.api.interactive.modifiers.width
+import plutoproject.framework.paper.util.coroutine.withSync
+import plutoproject.framework.paper.util.inventory.addItemOrDrop
 import kotlin.time.Duration.Companion.seconds
 
 private enum class PreferState {
@@ -95,12 +98,12 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                 if (clickType != ClickType.LEFT) return@clickable
 
                 if (home.isPreferred) {
-                    submitAsync { home.setPreferred(false) }
+                    runAsync { home.setPreferred(false) }
                     stateTransition(PreferState.NOT_PREFERRED)
                     return@clickable
                 }
 
-                submitAsync { home.setPreferred(true) }
+                runAsync { home.setPreferred(true) }
                 stateTransition(PreferState.PREFERRED)
             }
         )
@@ -143,7 +146,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                 if (clickType != ClickType.LEFT) return@clickable
 
                 if (home.isStarred) {
-                    submitAsync {
+                    runAsync {
                         home.isStarred = false
                         home.update()
                     }
@@ -151,7 +154,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                     return@clickable
                 }
 
-                submitAsync {
+                runAsync {
                     home.isStarred = true
                     home.update()
                 }
@@ -194,7 +197,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                 if (!home.isLoaded) return@clickable
                 if (clickType != ClickType.LEFT || succeed) return@clickable
                 home.location = player.location
-                submitAsync { home.update() }
+                runAsync { home.update() }
                 whoClicked.playSound(UI_HOME_EDIT_SUCCEED_SOUND)
                 coroutineScope.launch {
                     succeed = true
@@ -208,7 +211,6 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
     @Composable
     @Suppress("FunctionName")
     private fun Delete() {
-        val manager = koinInject<HomeManager>()
         val navigator = LocalNavigator.currentOrThrow
         val coroutineScope = rememberCoroutineScope()
         Item(
@@ -219,7 +221,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                 if (!home.isLoaded) return@clickable
                 if (clickType != ClickType.SHIFT_LEFT) return@clickable
                 coroutineScope.launch {
-                    manager.remove(home.id)
+                    HomeManager.remove(home.id)
                     whoClicked.playSound(UI_HOME_EDITOR_REMOVE_SOUND)
                     navigator.pop()
                 }
@@ -280,7 +282,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                         val material = cursor?.type
                         if (material == null) {
                             state = SetIconState.NO_ITEM
-                            player.playSound(UI_INVALID_SOUND)
+                            player.playSound(SoundConstants.UI.invalid)
                             coroutineScope.launch {
                                 delay(1.seconds)
                                 state = SetIconState.NONE
@@ -291,12 +293,12 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                         home.icon = material
                         home.update()
                         current = material
-                        player.sync {
+                        player.withSync {
                             view.setCursor(null)
                             player.inventory.addItemOrDrop(carriedItem!!)
                         }
                         state = SetIconState.SUCCEED
-                        player.playSound(UI_SUCCEED_SOUND)
+                        player.playSound(SoundConstants.UI.succeed)
                         coroutineScope.launch {
                             delay(1.seconds)
                             state = SetIconState.NONE
@@ -308,7 +310,7 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
                         home.update()
                         current = null
                         state = SetIconState.SUCCEED
-                        player.playSound(UI_SUCCEED_SOUND)
+                        player.playSound(SoundConstants.UI.succeed)
                         coroutineScope.launch {
                             delay(1.seconds)
                             state = SetIconState.NONE

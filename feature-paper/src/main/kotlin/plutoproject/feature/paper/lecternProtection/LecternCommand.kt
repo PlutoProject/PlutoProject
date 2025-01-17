@@ -52,7 +52,7 @@ object LecternCommand {
     @Command("lectern")
     suspend fun CommandSender.lectern() = ensurePlayer {
         withSync {
-            val range = getAttribute(Attribute.PLAYER_BLOCK_INTERACTION_RANGE)!!.value
+            val range = getAttribute(Attribute.BLOCK_INTERACTION_RANGE)!!.value
             val block = getTargetBlockExact(range.toInt())?.state
             val player = this@ensurePlayer
 

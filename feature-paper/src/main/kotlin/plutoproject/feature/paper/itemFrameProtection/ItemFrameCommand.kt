@@ -73,7 +73,7 @@ object ItemFrameCommand {
 }
 
 private fun Player.handleOperation(operation: Operation) {
-    val range = getAttribute(Attribute.PLAYER_ENTITY_INTERACTION_RANGE)!!.value
+    val range = getAttribute(Attribute.ENTITY_INTERACTION_RANGE)!!.value
     val entity = getTargetEntity(range.toInt())
 
     if (entity == null || entity !is ItemFrame) {

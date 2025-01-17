@@ -11,6 +11,7 @@ import plutoproject.framework.common.util.coroutine.runAsync
 import plutoproject.framework.common.util.coroutine.withDefault
 
 class BackManagerImpl : BackManager, KoinComponent {
+    private val config by inject<BackConfig>()
     private val repo by inject<BackRepository>()
 
     override suspend fun has(player: Player): Boolean {
@@ -40,6 +41,7 @@ class BackManagerImpl : BackManager, KoinComponent {
     }
 
     override suspend fun set(player: Player, location: Location) {
+        require(location.world.name !in config.blacklistedWorlds) { "World ${location.world.name} is not available" }
         val loc = if (TeleportManager.isSafe(location)) {
             location
         } else {

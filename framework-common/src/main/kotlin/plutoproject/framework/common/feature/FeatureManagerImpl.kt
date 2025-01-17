@@ -7,7 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import plutoproject.framework.common.api.feature.*
 import plutoproject.framework.common.api.feature.metadata.AbstractFeature
-import plutoproject.framework.common.config.PlutoConfig
+import plutoproject.framework.common.PlutoConfig
 import plutoproject.framework.common.util.featureDataFolder
 import plutoproject.framework.common.util.jvm.findClass
 import plutoproject.framework.common.util.jvm.getResourceAsStreamFromJar

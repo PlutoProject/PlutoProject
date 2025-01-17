@@ -1,26 +1,11 @@
-package ink.pmc.essentials.teleport
+package plutoproject.feature.paper.teleport
 
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.teleport.*
-import ink.pmc.essentials.api.teleport.TeleportDirection.COME
-import ink.pmc.essentials.api.teleport.TeleportDirection.GO
-import ink.pmc.essentials.config.ChunkPrepareMethod.*
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.framework.chat.DURATION
-import ink.pmc.framework.chat.UNUSUAL_ISSUE
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.concurrent.async
-import ink.pmc.framework.concurrent.compose
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.datastructure.mapKv
-import ink.pmc.framework.entity.teleportSuspend
-import ink.pmc.framework.platform.paper
-import ink.pmc.framework.world.ValueVec2
-import ink.pmc.framework.world.getChunkViaSource
-import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.future.asCompletableFuture
 import kotlinx.coroutines.future.await
+import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.yield
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.BlockFace
@@ -28,7 +13,22 @@ import org.bukkit.craftbukkit.block.CraftBlock
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.koin.core.component.inject
+import plutoproject.feature.paper.api.teleport.*
+import plutoproject.feature.paper.api.teleport.TeleportOptions
+import plutoproject.feature.paper.api.teleport.events.TeleportEvent
+import plutoproject.framework.common.util.chat.MessageConstants
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.chat.title.replaceSubTitle
+import plutoproject.framework.common.util.chat.toFormattedComponent
+import plutoproject.framework.common.util.coroutine.raceConditional
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.common.util.coroutine.withDefault
+import plutoproject.framework.common.util.data.map.mapKeysAndValues
+import plutoproject.framework.paper.util.entity.teleportSuspend
+import plutoproject.framework.paper.util.server
+import plutoproject.framework.paper.util.world.chunk.ChunkLocation
+import plutoproject.framework.paper.util.world.getChunkFromSource
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -36,7 +36,7 @@ import kotlin.math.floor
 import kotlin.time.Duration.Companion.seconds
 
 class TeleportManagerImpl : TeleportManager, KoinComponent {
-    private val config by lazy { get<EssentialsConfig>().teleport }
+    private val config by inject<TeleportConfig>()
 
     // 用于在完成队列任务时通知
     private val notifyChannel = Channel<UUID>()
@@ -55,9 +55,9 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         config.default.blacklistedBlocks.toSet(),
     )
     override val worldTeleportOptions: Map<World, TeleportOptions> = config.worlds.filter { (key, _) ->
-        paper.worlds.any { it.name == key }
-    }.mapKv { (key, value) ->
-        paper.getWorld(key)!! to TeleportOptions(
+        server.worlds.any { it.name == key }
+    }.mapKeysAndValues { (key, value) ->
+        server.getWorld(key)!! to TeleportOptions(
             false,
             value.avoidVoid,
             value.safeLocationSearchRadius,
@@ -66,8 +66,8 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         )
     }
     override val blacklistedWorlds: Collection<World> = config.blacklistedWorlds
-        .filter { name -> paper.worlds.any { it.name == name } }
-        .map { paper.getWorld(it)!! }
+        .filter { name -> server.worlds.any { it.name == name } }
+        .map { server.getWorld(it)!! }
     override val locationCheckers: MutableMap<String, LocationChecker> = mutableMapOf()
     override var tickingTask: TeleportTask? = null
     override var tickCount = 0L
@@ -111,37 +111,37 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
     private val World.teleportOptions: TeleportOptions
         get() = worldTeleportOptions[this] ?: defaultTeleportOptions
 
-    private fun Location.chunkNeedToPrepare(radius: Int): List<ValueVec2> {
-        val centerChunk = ValueVec2(chunk.x, chunk.z)
+    private fun Location.chunkNeedToPrepare(radius: Int): List<ChunkLocation> {
+        val centerChunk = ChunkLocation(chunk.x, chunk.z)
         val chunks = (-radius..radius).flatMap { x ->
             (-radius..radius).map { z ->
                 val x1 = centerChunk.x + x
                 val y1 = centerChunk.y + z
-                ValueVec2(x1, y1)
+                ChunkLocation(x1, y1)
             }
         }.toMutableList()
         chunks.add(centerChunk)
         return chunks
     }
 
-    private fun List<ValueVec2>.allPrepared(world: World): Boolean {
-        return all { it.isLoaded(world) }
+    private fun List<ChunkLocation>.allPrepared(world: World): Boolean {
+        return all { it.isChunkLoaded(world) }
+    }
+
+    private suspend fun prepareSingleChunk(world: World, loc: ChunkLocation) {
+        when (config.chunkPrepareMethod) {
+            ChunkPrepareMethod.SYNC -> world.getChunkAt(loc.x, loc.y)
+            ChunkPrepareMethod.ASYNC -> world.getChunkAtAsync(loc.x, loc.y).await()
+            ChunkPrepareMethod.ASYNC_FAST -> world.getChunkAtAsyncUrgently(loc.x, loc.y).await()
+            ChunkPrepareMethod.CHUNK_SOURCE -> world.getChunkFromSource(loc.x, loc.y)
+        }
     }
 
     @JvmName("internalPrepareChunk")
-    private suspend fun Collection<ValueVec2>.prepareChunk(world: World) {
-        coroutineScope {
-            forEach {
-                submitAsync {
-                    when (config.chunkPrepareMethod) {
-                        SYNC -> world.getChunkAt(it.x, it.y)
-                        ASYNC -> world.getChunkAtAsync(it.x, it.y).await()
-                        ASYNC_FAST -> world.getChunkAtAsyncUrgently(it.x, it.y).await()
-                        CHUNK_SOURCE -> world.getChunkViaSource(it.x, it.y)
-                    }
-                    yield() // 确保任务超时可以正常取消
-                }
-            }
+    private suspend fun Collection<ChunkLocation>.prepareChunk(world: World) = supervisorScope {
+        forEach {
+            prepareSingleChunk(world, it)
+            yield() // 确保任务超时可以正常取消
         }
     }
 
@@ -208,14 +208,11 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
             return null
         }
 
-        val searchUp = submitAsync<Location?> { iterateLocations(0..(world.maxHeight - blockY), BlockFace.UP) }
-        val searchCurr = submitAsync<Location?> { bfs() }
-        val searchDown = submitAsync<Location?> { iterateLocations(0..(blockY - world.minHeight), BlockFace.DOWN) }
-        val tasks = arrayOf(searchUp, searchCurr, searchDown)
-
-        return compose(tasks) {
-            it != null
-        }?.toCenterLocation()?.apply { y = floor(y) }
+        return raceConditional(
+            runAsync { iterateLocations(0..(world.maxHeight - blockY), BlockFace.UP) },
+            runAsync { bfs() },
+            runAsync { iterateLocations(0..(blockY - world.minHeight), BlockFace.DOWN) }
+        ) { it != null }?.toCenterLocation()?.apply { y = floor(y) }
     }
 
     override suspend fun fireTeleport(
@@ -223,46 +220,44 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         destination: Location,
         options: TeleportOptions?,
         prompt: Boolean
-    ) {
-        async {
-            val opt = options ?: destination.world.teleportOptions
-            val loc = if (opt.disableSafeCheck || isSafe(destination, opt)) {
-                destination
-            } else {
-                destination.searchSafeLoc(opt)
-            }
-            val title = if (loc == destination) TELEPORT_SUCCEED_TITLE else TELEPORT_SUCCEED_TITLE_SAFE
+    ) = withDefault {
+        val opt = options ?: destination.world.teleportOptions
+        val loc = if (opt.disableSafeCheck || isSafe(destination, opt)) {
+            destination
+        } else {
+            destination.searchSafeLoc(opt)
+        }
+        val title = if (loc == destination) teleportSucceedTitle else teleportSucceedTitleSafe
 
-            if (loc == null) {
-                if (prompt) {
-                    player.showTitle(TELEPORT_FAILED_TITLE)
-                    player.playSound(TELEPORT_FAILED_SOUND)
-                }
-                return@async
-            }
-
-            // 必须异步触发
-            val event = TeleportEvent(player, player.location, loc, opt).apply { callEvent() }
-
-            if (event.isDenied) {
-                if (prompt) {
-                    val reason = event.deniedReason ?: TELEPORT_DENIED_REASON_DEFAULT
-                    player.showTitle(TELEPORT_FAILED_DEINED_TITLE(reason))
-                    player.playSound(TELEPORT_FAILED_SOUND)
-                }
-                return@async
-            }
-
-            if (event.isCancelled) {
-                return@async
-            }
-
-            player.teleportSuspend(loc)
-
+        if (loc == null) {
             if (prompt) {
-                player.showTitle(title)
-                player.playSound(TELEPORT_SUCCEED_SOUND)
+                player.showTitle(TELEPORT_FAILED_TITLE)
+                player.playSound(TELEPORT_FAILED_SOUND)
             }
+            return@withDefault
+        }
+
+        // 必须异步触发
+        val event = TeleportEvent(player, player.location, loc, opt).apply { callEvent() }
+
+        if (event.isDenied) {
+            if (prompt) {
+                val reason = event.deniedReason ?: TELEPORT_DENIED_REASON_DEFAULT
+                player.showTitle(TELEPORT_FAILED_DENIED_TITLE.replaceSubTitle("<reason>", reason))
+                player.playSound(TELEPORT_FAILED_SOUND)
+            }
+            return@withDefault
+        }
+
+        if (event.isCancelled) {
+            return@withDefault
+        }
+
+        player.teleportSuspend(loc)
+
+        if (prompt) {
+            player.showTitle(title)
+            player.playSound(TELEPORT_SUCCEED_SOUND)
         }
     }
 
@@ -315,13 +310,13 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
 
         val request = TeleportRequestImpl(options, source, destination, direction)
         val message = when (direction) {
-            GO -> TELEPORT_TPA_RECEIVED.replace("<player>", source.name)
-            COME -> TELEPORT_TPAHERE_RECEIVED.replace("<player>", source.name)
+            TeleportDirection.GO -> TELEPORT_TPA_RECEIVED.replace("<player>", source.name)
+            TeleportDirection.COME -> TELEPORT_TPAHERE_RECEIVED.replace("<player>", source.name)
         }
 
         destination.sendMessage(message)
-        destination.sendMessage(TELEPORT_EXPIRE.replace("<expire>", DURATION(options.expireAfter)))
-        destination.sendMessage(TELEPORT_OPERATION(request.id))
+        destination.sendMessage(TELEPORT_EXPIRE.replace("<expire>", options.expireAfter.toFormattedComponent()))
+        destination.sendMessage(getTeleportOperationMessage(request))
         destination.playSound(TELEPORT_REQUEST_RECEIVED_SOUND)
 
         if (teleportRequests.size == config.maxRequestsStored) {
@@ -330,20 +325,20 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
 
         teleportRequests.add(request)
 
-        essentialsScope.launch {
+        runAsync {
             delay(options.expireAfter)
             if (!hasRequest(request.id) || request.isFinished) {
-                return@launch
+                return@runAsync
             }
             request.expire()
             destination.sendMessage(TELEPORT_REQUEST_EXPIRED.replace("<player>", source.name))
             destination.playSound(TELEPORT_REQUEST_CANCELLED_SOUND)
         }
 
-        essentialsScope.launch {
+        runAsync {
             delay(options.removeAfter)
             if (!hasRequest(request.id)) {
-                return@launch
+                return@runAsync
             }
             removeRequest(request.id)
         }
@@ -372,32 +367,32 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         teleportRequests.clear()
     }
 
-    override fun getRequiredChunks(center: Location, radius: Int): Collection<ValueVec2> {
+    override fun getRequiredChunks(center: Location, radius: Int): Collection<ChunkLocation> {
         return center.chunkNeedToPrepare(radius)
     }
 
-    override fun isAllPrepared(chunks: Collection<ValueVec2>, world: World): Boolean {
+    override fun isAllPrepared(chunks: Collection<ChunkLocation>, world: World): Boolean {
         return chunks.toList().allPrepared(world)
     }
 
-    override suspend fun prepareChunk(chunks: Collection<ValueVec2>, world: World) {
+    override suspend fun prepareChunk(chunks: Collection<ChunkLocation>, world: World) {
         chunks.prepareChunk(world)
     }
 
     override fun teleport(player: Player, destination: Location, options: TeleportOptions?, prompt: Boolean) {
-        submitAsync {
+        runAsync {
             teleportSuspend(player, destination, options, prompt)
         }
     }
 
     override fun teleport(player: Player, destination: Player, options: TeleportOptions?, prompt: Boolean) {
-        submitAsync {
+        runAsync {
             teleportSuspend(player, destination.location, options, prompt)
         }
     }
 
     override fun teleport(player: Player, destination: Entity, options: TeleportOptions?, prompt: Boolean) {
-        submitAsync {
+        runAsync {
             teleportSuspend(player, destination.location, options, prompt)
         }
     }
@@ -420,54 +415,51 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         return start.searchSafeLoc(opt)
     }
 
-    override fun searchSafeLocation(start: Location, options: TeleportOptions?): Location? {
-        return submitAsync<Location?> { searchSafeLocationSuspend(start, options) }.asCompletableFuture().join()
-    }
+    override fun searchSafeLocation(start: Location, options: TeleportOptions?): Location? =
+        runAsync { searchSafeLocationSuspend(start, options) }.asCompletableFuture().join()
 
     override suspend fun teleportSuspend(
         player: Player,
         destination: Location,
         options: TeleportOptions?,
         prompt: Boolean
-    ) {
-        async {
-            val optRadius = destination.world.teleportOptions.chunkPrepareRadius
-            val vt = player.sendViewDistance
-            val radius = if (vt < optRadius) vt else optRadius
-            val prepare = destination.chunkNeedToPrepare(radius)
+    ) = withDefault {
+        val optRadius = destination.world.teleportOptions.chunkPrepareRadius
+        val vt = player.sendViewDistance
+        val radius = if (vt < optRadius) vt else optRadius
+        val prepare = destination.chunkNeedToPrepare(radius)
 
-            if (prepare.allPrepared(destination.world)) {
-                fireTeleport(player, destination, options, prompt)
-                return@async
+        if (prepare.allPrepared(destination.world)) {
+            fireTeleport(player, destination, options, prompt)
+            return@withDefault
+        }
+
+        if (prompt) {
+            player.showTitle(TELEPORT_PREPARING_TITLE)
+            player.playSound(TELEPORT_PREPARING_SOUND)
+        }
+
+        val id = UUID.randomUUID()
+        val task = TeleportTaskImpl(id, player, destination, options, prompt, prepare)
+        queue.offer(task)
+
+        runAsync {
+            delay(10.seconds)
+            if (task.isFinished) {
+                return@runAsync
             }
-
+            task.cancel()
             if (prompt) {
-                player.showTitle(TELEPORT_PREPARING_TITLE)
-                player.playSound(TELEPORT_PREPARING_SOUND)
+                player.showTitle(TELEPORT_FAILED_TIMEOUT_TITLE)
+                player.sendMessage(MessageConstants.unusualIssue)
+                player.playSound(TELEPORT_FAILED_SOUND)
             }
+        }
 
-            val id = UUID.randomUUID()
-            val task = TeleportTaskImpl(id, player, destination, options, prompt, prepare)
-            queue.offer(task)
-
-            essentialsScope.launch {
-                delay(10.seconds)
-                if (task.isFinished) {
-                    return@launch
-                }
-                task.cancel()
-                if (prompt) {
-                    player.showTitle(TELEPORT_FAILED_TIMEOUT_TITLE)
-                    player.sendMessage(UNUSUAL_ISSUE)
-                    player.playSound(TELEPORT_FAILED_SOUND)
-                }
-            }
-
-            supervisorScope {
-                for (uuid in notifyChannel) {
-                    if (uuid == id) {
-                        break
-                    }
+        supervisorScope {
+            for (uuid in notifyChannel) {
+                if (uuid == id) {
+                    break
                 }
             }
         }

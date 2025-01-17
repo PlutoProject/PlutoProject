@@ -1,17 +1,16 @@
-package ink.pmc.essentials.teleport
+package plutoproject.feature.paper.teleport
 
-import ink.pmc.essentials.api.teleport.TeleportManager
-import ink.pmc.essentials.api.teleport.TeleportOptions
-import ink.pmc.essentials.api.teleport.TeleportTask
-import ink.pmc.essentials.api.teleport.TeleportTaskState
-import ink.pmc.framework.world.ValueVec2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.supervisorScope
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import plutoproject.feature.paper.api.teleport.TeleportManager
+import plutoproject.feature.paper.api.teleport.TeleportOptions
+import plutoproject.feature.paper.api.teleport.TeleportTask
+import plutoproject.feature.paper.api.teleport.TeleportTaskState
+import plutoproject.framework.paper.util.world.chunk.ChunkLocation
 import java.util.*
 
 class TeleportTaskImpl(
@@ -20,9 +19,8 @@ class TeleportTaskImpl(
     override val destination: Location,
     override val teleportOptions: TeleportOptions?,
     override val prompt: Boolean,
-    override val chunkNeedToPrepare: List<ValueVec2>,
+    override val chunkNeedToPrepare: List<ChunkLocation>,
 ) : TeleportTask, KoinComponent {
-    private val manager by inject<TeleportManager>()
     private var scope: CoroutineScope? = null
 
     override var state: TeleportTaskState = TeleportTaskState.PENDING
@@ -41,8 +39,8 @@ class TeleportTaskImpl(
         state = TeleportTaskState.TICKING
         supervisorScope {
             scope = this
-            manager.prepareChunk(chunkNeedToPrepare, destination.world)
-            manager.fireTeleport(player, destination, teleportOptions, prompt)
+            TeleportManager.prepareChunk(chunkNeedToPrepare, destination.world)
+            TeleportManager.fireTeleport(player, destination, teleportOptions, prompt)
         }
         state = TeleportTaskState.FINISHED
     }

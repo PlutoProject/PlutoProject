@@ -3,7 +3,7 @@ package plutoproject.feature.paper.elevator
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import plutoproject.feature.paper.api.elevator.ElevatorChain
-import plutoproject.framework.common.util.chat.title.subTitleReplace
+import plutoproject.framework.common.util.chat.title.replaceSubTitle
 import plutoproject.framework.paper.util.world.location.viewAligned
 
 class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs: List<Location>) : ElevatorChain {
@@ -13,8 +13,8 @@ class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs:
         go(player, next)
         player.playSound(ELEVATOR_WORKING_SOUND)
         val title = ELEVATOR_GO_UP_TITLE
-            .subTitleReplace("<curr>", next)
-            .subTitleReplace("<total>", totalFloorCount())
+            .replaceSubTitle("<curr>", next)
+            .replaceSubTitle("<total>", totalFloorCount())
         player.showTitle(title)
     }
 
@@ -24,8 +24,8 @@ class ElevatorChainImpl(override val floors: List<Location>, private val tpLocs:
         go(player, next)
         player.playSound(ELEVATOR_WORKING_SOUND)
         val title = ELEVATOR_GO_DOWN_TITLE
-            .subTitleReplace("<curr>", next)
-            .subTitleReplace("<total>", totalFloorCount())
+            .replaceSubTitle("<curr>", next)
+            .replaceSubTitle("<total>", totalFloorCount())
         player.showTitle(title)
     }
 

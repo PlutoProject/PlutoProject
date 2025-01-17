@@ -1,14 +1,11 @@
-package ink.pmc.essentials.teleport
+package plutoproject.feature.paper.teleport
 
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.teleport.*
-import ink.pmc.essentials.api.teleport.TeleportDirection.COME
-import ink.pmc.essentials.api.teleport.TeleportDirection.GO
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.platform.paperThread
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import plutoproject.feature.paper.api.teleport.*
+import plutoproject.feature.paper.api.teleport.events.RequestStateChangeEvent
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.serverThread
 import java.time.Instant
 import java.util.*
 
@@ -18,8 +15,6 @@ class TeleportRequestImpl(
     override val destination: Player,
     override val direction: TeleportDirection
 ) : TeleportRequest, KoinComponent {
-    private val manager by inject<TeleportManager>()
-
     override val id: UUID = UUID.randomUUID()
     override val createdAt: Instant = Instant.now()
     override var state: RequestState = RequestState.WAITING
@@ -27,7 +22,7 @@ class TeleportRequestImpl(
         get() = state != RequestState.WAITING
 
     override fun accept(prompt: Boolean) {
-        check(Thread.currentThread() != paperThread) { "Request operations can be only performed asynchronously" }
+        check(Thread.currentThread() != serverThread) { "Request operations can be only performed asynchronously" }
         if (isFinished) {
             return
         }
@@ -36,42 +31,36 @@ class TeleportRequestImpl(
         state = RequestState.ACCEPTED
 
         when (direction) {
-            GO -> manager.teleport(source, destination, prompt = prompt)
-            COME -> manager.teleport(destination, source, prompt = prompt)
+            TeleportDirection.GO -> TeleportManager.teleport(source, destination, prompt = prompt)
+            TeleportDirection.COME -> TeleportManager.teleport(destination, source, prompt = prompt)
         }
 
         if (!prompt) {
             return
         }
 
-        source.sendMessage(
-            TELEPORT_REQUEST_ACCEPTED_SOURCE
-                .replace("<player>", destination.name)
-        )
+        source.sendMessage(TELEPORT_REQUEST_ACCEPTED_SOURCE.replace("<player>", destination.name))
     }
 
     override fun deny(prompt: Boolean) {
-        check(Thread.currentThread() != paperThread) { "Request operations can be only performed asynchronously" }
+        check(Thread.currentThread() != serverThread) { "Request operations can be only performed asynchronously" }
         if (isFinished) {
             return
         }
 
-        if (!RequestStateChangeEvent(this, state, RequestState.DENYED).callEvent()) return
-        state = RequestState.DENYED
+        if (!RequestStateChangeEvent(this, state, RequestState.DENIED).callEvent()) return
+        state = RequestState.DENIED
 
         if (!prompt) {
             return
         }
 
-        source.sendMessage(
-            TELEPORT_REQUEST_DENIED_SOURCE
-                .replace("<player>", destination.name)
-        )
+        source.sendMessage(TELEPORT_REQUEST_DENIED_SOURCE.replace("<player>", destination.name))
         source.playSound(TELEPORT_REQUEST_DENIED_SOUND)
     }
 
     override fun expire(prompt: Boolean) {
-        check(Thread.currentThread() != paperThread) { "Request operations can be only performed asynchronously" }
+        check(Thread.currentThread() != serverThread) { "Request operations can be only performed asynchronously" }
         if (isFinished) {
             return
         }
@@ -83,15 +72,12 @@ class TeleportRequestImpl(
             return
         }
 
-        source.sendMessage(
-            TELEPORT_REQUEST_EXPIRED_SOURCE
-                .replace("<player>", destination.name)
-        )
+        source.sendMessage(TELEPORT_REQUEST_EXPIRED_SOURCE.replace("<player>", destination.name))
         source.playSound(TELEPORT_REQUEST_CANCELLED_SOUND)
     }
 
     override fun cancel(prompt: Boolean) {
-        check(Thread.currentThread() != paperThread) { "Request operations can be only performed asynchronously" }
+        check(Thread.currentThread() != serverThread) { "Request operations can be only performed asynchronously" }
         if (isFinished) {
             return
         }

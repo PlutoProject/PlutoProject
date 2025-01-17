@@ -188,16 +188,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
             HatCommand,
         )
         if (config.teleport.enabled) {
-            server.pluginManager.registerSuspendingEvents(TeleportListener, this)
-            annotationParser.parse(
-                TeleportCommons,
-                TpacceptCommand,
-                TpaCommand,
-                TpcancelCommand
-            )
-            if (isMenuAvailable) {
-                MenuManager.registerButton(TELEPORT_BUTTON_DESCRIPTOR) { Teleport() }
-            }
+
         }
         if (config.randomTeleport.enabled) {
             server.pluginManager.registerSuspendingEvents(RandomTeleportListener, this)

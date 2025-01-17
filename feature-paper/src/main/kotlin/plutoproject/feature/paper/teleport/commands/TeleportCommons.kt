@@ -1,13 +1,5 @@
-package ink.pmc.essentials.commands.teleport
+package plutoproject.feature.paper.teleport.commands
 
-import ink.pmc.essentials.COMMAND_TPACCEPT_FAILED_NO_PENDING
-import ink.pmc.essentials.COMMAND_TPACCEPT_FAILED_NO_REQUEST
-import ink.pmc.essentials.COMMAND_TPACCEPT_FAILED_NO_REQUEST_ID
-import ink.pmc.essentials.api.teleport.TeleportManager
-import ink.pmc.essentials.api.teleport.TeleportRequest
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.platform.paper
-import ink.pmc.framework.player.uuidOrNull
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.incendo.cloud.annotations.exception.ExceptionHandler
@@ -16,13 +8,21 @@ import org.incendo.cloud.annotations.suggestion.Suggestions
 import org.incendo.cloud.context.CommandContext
 import org.incendo.cloud.context.CommandInput
 import org.incendo.cloud.parser.standard.StringParser
+import plutoproject.feature.paper.api.teleport.TeleportManager
+import plutoproject.feature.paper.api.teleport.TeleportRequest
+import plutoproject.feature.paper.teleport.COMMAND_TPACCEPT_FAILED_NO_PENDING
+import plutoproject.feature.paper.teleport.COMMAND_TPACCEPT_FAILED_NO_REQUEST
+import plutoproject.feature.paper.teleport.COMMAND_TPACCEPT_FAILED_NO_REQUEST_ID
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.data.convertToUuidOrNull
+import plutoproject.framework.paper.util.server
 import kotlin.jvm.optionals.getOrNull
 
 @Suppress("UNUSED", "UNUSED_PARAMETER")
 object TeleportCommons {
     @Suggestions("tp-request-players")
     fun tpRequests(context: CommandContext<CommandSender>, input: CommandInput): List<String> {
-        return paper.onlinePlayers.map { it.name }
+        return server.onlinePlayers.map { it.name }
     }
 
     @Parser(name = "tp-request", suggestions = "tp-request-players")
@@ -30,8 +30,8 @@ object TeleportCommons {
         val player = context.sender() as Player
         val stringParser = StringParser.quotedStringParser<CommandSender>().parser()
         val string = stringParser.parse(context, input).parsedValue().getOrNull() ?: error("Unable to parse request")
-        val uuid = string.uuidOrNull
-        val source = paper.getPlayer(string)
+        val uuid = string.convertToUuidOrNull()
+        val source = server.getPlayer(string)
         val request = when {
             uuid != null -> TeleportManager.getRequest(uuid) ?: throw TeleportRequestNotFound()
             source != null -> TeleportManager.getUnfinishedRequest(source)

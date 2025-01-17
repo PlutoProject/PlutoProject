@@ -1,16 +1,15 @@
-package ink.pmc.essentials.api.back
+package plutoproject.feature.paper.api.back
 
-import ink.pmc.essentials.api.teleport.AbstractTeleportEvent
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
+import plutoproject.feature.paper.api.teleport.AbstractTeleportEvent
 
 class BackTeleportEvent(
     player: Player,
     from: Location,
     to: Location,
 ) : AbstractTeleportEvent(player, from, to) {
-
     @Suppress("UNUSED")
     private companion object {
         val handlers = HandlerList()
@@ -32,5 +31,4 @@ class BackTeleportEvent(
     override fun setCancelled(bool: Boolean) {
         cancelled = bool
     }
-
 }

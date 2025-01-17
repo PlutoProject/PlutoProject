@@ -1,12 +1,12 @@
-package ink.pmc.essentials.api.back
+package plutoproject.feature.paper.api.back
 
-import ink.pmc.framework.inject.inlinedGet
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import plutoproject.framework.common.util.inject.Koin
 
 @Suppress("UNUSED")
 interface BackManager {
-    companion object : BackManager by inlinedGet()
+    companion object : BackManager by Koin.get()
 
     suspend fun has(player: Player): Boolean
 

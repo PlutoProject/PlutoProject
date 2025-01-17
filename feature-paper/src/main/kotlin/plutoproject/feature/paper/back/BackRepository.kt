@@ -1,30 +1,24 @@
-package ink.pmc.essentials.repositories
+package plutoproject.feature.paper.back
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.ReplaceOptions
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.essentials.models.BackModel
-import ink.pmc.framework.provider.Provider
-import ink.pmc.framework.storage.model
+import com.mongodb.kotlin.client.coroutine.MongoCollection
 import kotlinx.coroutines.flow.firstOrNull
 import org.bson.types.ObjectId
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import plutoproject.framework.paper.util.data.models.toModel
 
-class BackRepository : KoinComponent {
-    private val config by inject<EssentialsConfig>()
+class BackRepository(private val collection: MongoCollection<BackModel>) : KoinComponent {
     private val options = ReplaceOptions().upsert(true)
-    private val db =
-        Provider.defaultMongoDatabase.getCollection<BackModel>("essentials_${config.serverName}_backs")
 
     suspend fun find(player: Player): Location? {
-        return findModel(player)?.location?.location
+        return findModel(player)?.location?.toLocation()
     }
 
     private suspend fun findModel(player: Player): BackModel? {
-        return db.find(eq("owner", player.uniqueId.toString())).firstOrNull()
+        return collection.find(eq("owner", player.uniqueId.toString())).firstOrNull()
     }
 
     suspend fun has(player: Player): Boolean {
@@ -37,18 +31,18 @@ class BackRepository : KoinComponent {
             objectId = ObjectId(),
             owner = player.uniqueId,
             recordedAt = System.currentTimeMillis(),
-            location = location.model
+            location = location.toModel()
         )
 
         if (existed != null) {
             model.recordedAt = System.currentTimeMillis()
-            model.location = location.model
+            model.location = location.toModel()
         }
 
-        db.replaceOne(eq("owner", player.uniqueId.toString()), model, options)
+        collection.replaceOne(eq("owner", player.uniqueId.toString()), model, options)
     }
 
     suspend fun delete(player: Player) {
-        db.deleteOne(eq("owner", player.uniqueId.toString()))
+        collection.deleteOne(eq("owner", player.uniqueId.toString()))
     }
 }

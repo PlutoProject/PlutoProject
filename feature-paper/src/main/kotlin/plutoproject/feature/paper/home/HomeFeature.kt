@@ -1,8 +1,12 @@
 package plutoproject.feature.paper.home
 
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
+import com.mojang.brigadier.arguments.StringArgumentType
+import io.leangen.geantyref.TypeToken
+import org.bukkit.command.CommandSender
 import org.incendo.cloud.bukkit.parser.OfflinePlayerParser
 import org.koin.dsl.module
+import plutoproject.feature.paper.api.home.Home
 import plutoproject.feature.paper.api.home.HomeManager
 import plutoproject.feature.paper.api.menu.MenuManager
 import plutoproject.feature.paper.api.menu.isMenuAvailable
@@ -13,6 +17,7 @@ import plutoproject.framework.common.api.feature.annotation.Dependency
 import plutoproject.framework.common.api.feature.annotation.Feature
 import plutoproject.framework.common.api.provider.Provider
 import plutoproject.framework.common.api.provider.getCollection
+import plutoproject.framework.common.util.command.getKotlinMethodArgumentParserClass
 import plutoproject.framework.common.util.config.loadConfig
 import plutoproject.framework.common.util.inject.configureKoin
 import plutoproject.framework.common.util.serverName
@@ -51,6 +56,11 @@ class HomeFeature : PaperFeature() {
                 "homes-offlineplayer",
                 PaperPrivilegedSuggestion.of(OfflinePlayerParser(), HOME_LOOKUP_OTHER_PERMISSION)
             )
+        }
+        CommandManager.brigadierManager().apply {
+            registerMapping(TypeToken.get(CommandManager.getKotlinMethodArgumentParserClass<CommandSender, Home>())) {
+                it.cloudSuggestions().to { StringArgumentType.greedyString() }
+            }
         }
         AnnotationParser.parse(
             HomeCommons,

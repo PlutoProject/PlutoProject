@@ -118,43 +118,10 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
 
         val commandManager = commandManager().apply {
             parserRegistry().apply {
-                registerSuggestionProvider(
-                    "warps",
-                    WarpParser(false)
-                )
-                registerSuggestionProvider(
-                    "warps-without-alias",
-                    WarpParser(true)
-                )
-                registerNamedParser(
-                    "warp",
-                    ParserDescriptor.of(WarpParser(false), Warp::class.java)
-                )
-                registerNamedParser(
-                    "warp-without-alias",
-                    ParserDescriptor.of(WarpParser(true), Warp::class.java)
-                )
-                registerNamedParser(
-                    "spawn",
-                    ParserDescriptor.of(SpawnParser(), Warp::class.java)
-                )
-                registerNamedParser(
-                    "editwarp-component",
-                    ComponentParser.componentParser(MiniMessage.miniMessage(), StringParser.StringMode.QUOTED)
-                )
             }
             brigadierManager().apply {
-                registerMapping(TypeToken.get(WarpParser::class.java)) {
-                    it.cloudSuggestions().to { parser ->
-                        if (!parser.withoutAlias) StringArgumentType.greedyString() else StringArgumentType.string()
-                    }
-                }
-                registerMapping(TypeToken.get(SpawnParser::class.java)) {
-                    it.cloudSuggestions().to { StringArgumentType.greedyString() }
-                }
-                registerMapping(TypeToken.get(getKotlinMethodArgumentParser<CommandSender, Home>())) {
-                    it.cloudSuggestions().to { StringArgumentType.greedyString() }
-                }
+
+
             }
         }
         annotationParser = commandManager.annotationParser()
@@ -186,20 +153,7 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
 
         }
         if (config.warp.enabled) {
-            annotationParser.parse(
-                WarpCommons,
-                DelWarpCommand,
-                EditWarpCommand,
-                PreferredSpawnCommand,
-                SetWarpCommand,
-                SpawnCommand,
-                WarpCommand,
-                WarpsCommand
-            )
-            if (isMenuAvailable) {
-                MenuManager.registerButton(WARP_BUTTON_DESCRIPTOR) { Warp() }
-                MenuManager.registerButton(SPAWN_BUTTON_DESCRIPTOR) { Spawn() }
-            }
+
         }
         if (config.back.enabled) {
             server.pluginManager.registerSuspendingEvents(BackListener, this)

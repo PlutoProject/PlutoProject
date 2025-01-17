@@ -1,11 +1,11 @@
-package ink.pmc.essentials.recipes
+package plutoproject.feature.paper.recipe.recipes
 
-import ink.pmc.essentials.plugin
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.Server
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
+import plutoproject.framework.paper.util.plugin
 
 private fun key(name: String): NamespacedKey {
     return NamespacedKey(plugin, "vanilla_extend_$name")

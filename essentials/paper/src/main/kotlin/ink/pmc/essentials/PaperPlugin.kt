@@ -119,10 +119,6 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         val commandManager = commandManager().apply {
             parserRegistry().apply {
                 registerSuggestionProvider(
-                    "rtp-world",
-                    PaperPrivilegedSuggestion.of(WorldParser(), RANDOM_TELEPORT_SPECIFIC)
-                )
-                registerSuggestionProvider(
                     "homes-offlineplayer",
                     PaperPrivilegedSuggestion.of(OfflinePlayerParser(), HOMES_OTHER)
                 )
@@ -189,13 +185,6 @@ class PaperPlugin : SuspendingJavaPlugin(), KoinComponent {
         )
         if (config.teleport.enabled) {
 
-        }
-        if (config.randomTeleport.enabled) {
-            server.pluginManager.registerSuspendingEvents(RandomTeleportListener, this)
-            annotationParser.parse(RtpCommand)
-            if (isMenuAvailable) {
-                MenuManager.registerButton(RANDOM_TELEPORT_BUTTON_DESCRIPTOR) { RandomTeleport() }
-            }
         }
         if (config.home.enabled) {
             server.pluginManager.registerSuspendingEvents(HomeListener, this)

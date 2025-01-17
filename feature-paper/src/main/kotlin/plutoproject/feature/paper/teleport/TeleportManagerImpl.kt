@@ -15,7 +15,6 @@ import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import plutoproject.feature.paper.api.teleport.*
-import plutoproject.feature.paper.api.teleport.TeleportOptions
 import plutoproject.feature.paper.api.teleport.events.TeleportEvent
 import plutoproject.framework.common.util.chat.MessageConstants
 import plutoproject.framework.common.util.chat.component.replace
@@ -116,7 +115,7 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
         val chunks = (-radius..radius).flatMap { x ->
             (-radius..radius).map { z ->
                 val x1 = centerChunk.x + x
-                val y1 = centerChunk.y + z
+                val y1 = centerChunk.z + z
                 ChunkLocation(x1, y1)
             }
         }.toMutableList()
@@ -130,10 +129,10 @@ class TeleportManagerImpl : TeleportManager, KoinComponent {
 
     private suspend fun prepareSingleChunk(world: World, loc: ChunkLocation) {
         when (config.chunkPrepareMethod) {
-            ChunkPrepareMethod.SYNC -> world.getChunkAt(loc.x, loc.y)
-            ChunkPrepareMethod.ASYNC -> world.getChunkAtAsync(loc.x, loc.y).await()
-            ChunkPrepareMethod.ASYNC_FAST -> world.getChunkAtAsyncUrgently(loc.x, loc.y).await()
-            ChunkPrepareMethod.CHUNK_SOURCE -> world.getChunkFromSource(loc.x, loc.y)
+            ChunkPrepareMethod.SYNC -> world.getChunkAt(loc.x, loc.z)
+            ChunkPrepareMethod.ASYNC -> world.getChunkAtAsync(loc.x, loc.z).await()
+            ChunkPrepareMethod.ASYNC_FAST -> world.getChunkAtAsyncUrgently(loc.x, loc.z).await()
+            ChunkPrepareMethod.CHUNK_SOURCE -> world.getChunkFromSource(loc.x, loc.z)
         }
     }
 

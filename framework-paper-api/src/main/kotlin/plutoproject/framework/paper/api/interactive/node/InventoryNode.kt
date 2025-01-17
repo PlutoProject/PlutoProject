@@ -136,7 +136,7 @@ class InventoryNode : Measurable, Placeable, BaseInventoryNode {
             return true
         }
         return children.any { child ->
-            //TODO ensure this offset is still correct in x,y
+            //TODO ensure this offset is still correct in x,z
             val newCoords = IntCoordinates(iX - x + child.x, iY - x + child.x)
             child.buildDragMap(newCoords, item, dragMap)
         }

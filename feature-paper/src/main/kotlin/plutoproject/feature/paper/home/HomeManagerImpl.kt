@@ -1,26 +1,20 @@
-package ink.pmc.essentials.home
+package plutoproject.feature.paper.home
 
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimaps
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.essentials.disabled
-import ink.pmc.essentials.essentialsScope
-import ink.pmc.essentials.models.HomeModel
-import ink.pmc.essentials.repositories.HomeRepository
-import ink.pmc.framework.platform.paper
-import ink.pmc.framework.storage.model
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.bson.types.ObjectId
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.World
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.core.component.inject
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.util.data.models.toModel
+import plutoproject.framework.paper.util.server
 import java.util.*
 import kotlin.time.Duration.Companion.minutes
 
@@ -29,19 +23,19 @@ internal fun loadFailed(id: UUID, reason: String): String {
 }
 
 class HomeManagerImpl : HomeManager, KoinComponent {
-    private val config by lazy { get<EssentialsConfig>().home }
+    private val config by inject<HomeConfig>()
     private val repo by inject<HomeRepository>()
 
     override val maxHomes: Int = config.maxHomes
     override val nameLengthLimit: Int = config.nameLengthLimit
     override val blacklistedWorlds: Collection<World> = config.blacklistedWorlds
-        .filter { name -> paper.worlds.any { it.name == name } }
-        .map { paper.getWorld(it)!! }
+        .filter { name -> server.worlds.any { it.name == name } }
+        .map { server.getWorld(it)!! }
     override val loadedHomes: ListMultimap<OfflinePlayer, Home> =
         Multimaps.synchronizedListMultimap<OfflinePlayer, Home>(ArrayListMultimap.create())
 
     init {
-        essentialsScope.launch {
+        runAsync {
             while (!disabled) {
                 delay(5.minutes)
                 loadedHomes.entries().removeIf { !it.key.isOnline }
@@ -138,7 +132,7 @@ class HomeManagerImpl : HomeManager, KoinComponent {
             name,
             null,
             System.currentTimeMillis(),
-            location.model,
+            location.toModel(),
             owner.uniqueId,
         )
         val home = HomeImpl(model)

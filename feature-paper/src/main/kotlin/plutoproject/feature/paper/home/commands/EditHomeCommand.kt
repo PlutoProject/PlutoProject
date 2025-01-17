@@ -1,16 +1,16 @@
-package ink.pmc.essentials.commands.home
+package plutoproject.feature.paper.home.commands
 
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.concurrent.submitAsync
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotation.specifier.Greedy
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.*
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object EditHomeCommand {
@@ -21,7 +21,7 @@ object EditHomeCommand {
             sendMessage(COMMAND_EDITHOME_ALREADY_PREFERRED.replace("<name>", home.name))
             return
         }
-        submitAsync {
+        runAsync {
             home.setPreferred(true)
         }
         sendMessage(COMMAND_EDITHOME_PREFER_SUCCEED.replace("<name>", home.name))
@@ -34,7 +34,7 @@ object EditHomeCommand {
             sendMessage(COMMAND_EDITHOME_ALREADY_STARRED.replace("<name>", home.name))
             return
         }
-        submitAsync {
+        runAsync {
             home.isStarred = true
             home.update()
         }
@@ -51,7 +51,7 @@ object EditHomeCommand {
             sendMessage(COMMAND_SETHOME_FAILED_LENGTN_LIMIT)
             return
         }
-        submitAsync {
+        runAsync {
             home.name = name
             home.update()
         }
@@ -61,7 +61,7 @@ object EditHomeCommand {
     @Command("edithome <home> move")
     @Permission("essentials.edithome")
     fun CommandSender.move(@Argument("home", parserName = "home") home: Home) = ensurePlayer {
-        submitAsync {
+        runAsync {
             home.location = location
             home.update()
         }

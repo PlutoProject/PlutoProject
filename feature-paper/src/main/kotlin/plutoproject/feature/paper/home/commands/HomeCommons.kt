@@ -1,9 +1,5 @@
-package ink.pmc.essentials.commands.home
+package plutoproject.feature.paper.home.commands
 
-import ink.pmc.essentials.COMMAND_HOME_NOT_EXISTED
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.chat.replace
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.incendo.cloud.annotations.exception.ExceptionHandler
@@ -12,6 +8,10 @@ import org.incendo.cloud.annotations.suggestion.Suggestions
 import org.incendo.cloud.context.CommandContext
 import org.incendo.cloud.context.CommandInput
 import org.incendo.cloud.parser.standard.StringParser
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.COMMAND_HOME_NOT_EXISTED
+import plutoproject.framework.common.util.chat.component.replace
 import kotlin.jvm.optionals.getOrNull
 
 @Suppress("UNUSED", "UNUSED_PARAMETER")

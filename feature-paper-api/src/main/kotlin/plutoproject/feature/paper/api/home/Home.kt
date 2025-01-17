@@ -1,4 +1,4 @@
-package ink.pmc.essentials.api.home
+package plutoproject.feature.paper.api.home
 
 import org.bukkit.Location
 import org.bukkit.Material
@@ -9,7 +9,6 @@ import java.util.*
 
 @Suppress("UNUSED")
 interface Home {
-
     val id: UUID
     var name: String
     var icon: Material?
@@ -27,5 +26,4 @@ interface Home {
     suspend fun teleportSuspend(player: Player, prompt: Boolean = true)
 
     suspend fun update()
-
 }

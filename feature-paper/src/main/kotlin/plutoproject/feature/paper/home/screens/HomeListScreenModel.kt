@@ -1,9 +1,9 @@
-package ink.pmc.essentials.screens.home
+package plutoproject.feature.paper.home.screens
 
-import ink.pmc.essentials.api.home.Home
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.framework.interactive.layout.list.ListMenuModel
 import org.bukkit.OfflinePlayer
+import plutoproject.feature.paper.api.home.Home
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.framework.paper.api.interactive.layout.list.ListMenuModel
 import kotlin.math.ceil
 
 private const val PAGE_SIZE = 28

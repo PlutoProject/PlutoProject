@@ -1,15 +1,15 @@
-package ink.pmc.essentials.api.home
+package plutoproject.feature.paper.api.home
 
 import com.google.common.collect.ListMultimap
-import ink.pmc.framework.inject.inlinedGet
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.World
+import plutoproject.framework.common.util.inject.Koin
 import java.util.*
 
 @Suppress("UNUSED")
 interface HomeManager {
-    companion object : HomeManager by inlinedGet()
+    companion object : HomeManager by Koin.get()
 
     val maxHomes: Int
     val nameLengthLimit: Int

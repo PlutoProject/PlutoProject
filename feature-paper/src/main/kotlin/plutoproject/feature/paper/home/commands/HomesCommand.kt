@@ -1,19 +1,19 @@
-package ink.pmc.essentials.commands.home
+package plutoproject.feature.paper.home.commands
 
-import ink.pmc.essentials.HOMES_OTHER
-import ink.pmc.essentials.api.home.HomeManager
-import ink.pmc.essentials.screens.home.HomeListScreen
-import ink.pmc.framework.startScreen
-import ink.pmc.framework.chat.NO_PERMISSON
-import ink.pmc.framework.chat.PLAYER_HAS_NO_HOME
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.command.ensurePlayer
-import ink.pmc.framework.command.selectPlayer
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotations.Argument
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.home.HomeManager
+import plutoproject.feature.paper.home.COMMAND_HOMES_PLAYER_HAS_NO_HOME
+import plutoproject.feature.paper.home.HOME_LOOKUP_OTHER_PERMISSION
+import plutoproject.feature.paper.home.screens.HomeListScreen
+import plutoproject.framework.common.util.chat.MessageConstants
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.paper.api.interactive.startScreen
+import plutoproject.framework.paper.util.command.ensurePlayer
+import plutoproject.framework.paper.util.command.selectPlayer
 
 @Suppress("UNUSED")
 object HomesCommand {
@@ -24,13 +24,13 @@ object HomesCommand {
     ) = ensurePlayer {
         val actualPlayer = selectPlayer(this, player)!!
         if (this != actualPlayer) {
-            if (!hasPermission(HOMES_OTHER)) {
-                sendMessage(NO_PERMISSON)
+            if (!hasPermission(HOME_LOOKUP_OTHER_PERMISSION)) {
+                sendMessage(MessageConstants.noPermission)
                 return
             }
             if (!HomeManager.hasHome(actualPlayer)) {
                 sendMessage(
-                    PLAYER_HAS_NO_HOME.replace(
+                    COMMAND_HOMES_PLAYER_HAS_NO_HOME.replace(
                         "<player>",
                         actualPlayer.name ?: actualPlayer.uniqueId
                     )

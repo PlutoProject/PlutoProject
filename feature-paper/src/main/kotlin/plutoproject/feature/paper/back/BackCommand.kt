@@ -1,12 +1,10 @@
-package ink.pmc.essentials.commands.back
+package plutoproject.feature.paper.back
 
-import ink.pmc.essentials.COMMAND_BACK_FAILED_NO_LOC
-import ink.pmc.essentials.COMMAND_BACK_SUCCEED
-import ink.pmc.essentials.api.back.BackManager
-import ink.pmc.framework.command.ensurePlayer
 import org.bukkit.command.CommandSender
 import org.incendo.cloud.annotations.Command
 import org.incendo.cloud.annotations.Permission
+import plutoproject.feature.paper.api.back.BackManager
+import plutoproject.framework.paper.util.command.ensurePlayer
 
 @Suppress("UNUSED")
 object BackCommand {
@@ -14,7 +12,7 @@ object BackCommand {
     @Permission("essentials.back")
     suspend fun CommandSender.back() = ensurePlayer {
         if (!BackManager.has(this)) {
-            sendMessage(COMMAND_BACK_FAILED_NO_LOC)
+            sendMessage(COMMAND_BACK_FAILED_NO_LOCATION)
             return@ensurePlayer
         }
         BackManager.backSuspend(this)

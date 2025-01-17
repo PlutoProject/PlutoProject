@@ -1,12 +1,11 @@
-package ink.pmc.essentials.api.teleport.random
+package plutoproject.feature.paper.api.randomTeleport
 
-import ink.pmc.essentials.api.teleport.TaskState
 import org.bukkit.Chunk
 import org.bukkit.World
+import plutoproject.feature.paper.api.teleport.TaskState
 import java.util.*
 
 interface CacheTask {
-
     val id: UUID
     val world: World
     val options: RandomTeleportOptions
@@ -20,5 +19,4 @@ interface CacheTask {
     suspend fun tick(): RandomTeleportCache?
 
     fun cancel()
-
 }

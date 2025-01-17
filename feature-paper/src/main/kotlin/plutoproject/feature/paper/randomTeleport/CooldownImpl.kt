@@ -1,10 +1,10 @@
-package ink.pmc.essentials.teleport.random
+package plutoproject.feature.paper.randomTeleport
 
-import ink.pmc.essentials.api.teleport.random.Cooldown
-import ink.pmc.framework.data.getValue
-import ink.pmc.framework.data.setValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import plutoproject.feature.paper.api.randomTeleport.Cooldown
+import plutoproject.framework.common.util.data.flow.getValue
+import plutoproject.framework.common.util.data.flow.setValue
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds

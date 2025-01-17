@@ -1,17 +1,15 @@
-package ink.pmc.essentials.teleport.random
+package plutoproject.feature.paper.randomTeleport
 
-import ink.pmc.essentials.api.teleport.TaskState
-import ink.pmc.essentials.api.teleport.TeleportManager
-import ink.pmc.essentials.api.teleport.random.CacheTask
-import ink.pmc.essentials.api.teleport.random.RandomTeleportCache
-import ink.pmc.essentials.api.teleport.random.RandomTeleportManager
-import ink.pmc.essentials.api.teleport.random.RandomTeleportOptions
 import kotlinx.coroutines.*
 import org.bukkit.Chunk
 import org.bukkit.World
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import org.koin.core.component.inject
+import plutoproject.feature.paper.api.randomTeleport.CacheTask
+import plutoproject.feature.paper.api.randomTeleport.RandomTeleportCache
+import plutoproject.feature.paper.api.randomTeleport.RandomTeleportManager
+import plutoproject.feature.paper.api.randomTeleport.RandomTeleportOptions
+import plutoproject.feature.paper.api.teleport.TaskState
+import plutoproject.feature.paper.api.teleport.TeleportManager
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -20,8 +18,6 @@ class CacheTaskImpl(
     override val options: RandomTeleportOptions,
 ) : CacheTask, KoinComponent {
     private var scope: CoroutineScope? = null
-    private var manager = get<RandomTeleportManager>() as RandomTeleportManagerImpl
-    private val teleport by inject<TeleportManager>()
 
     override val id: UUID = UUID.randomUUID()
     override var attempts: Int = 0
@@ -42,14 +38,16 @@ class CacheTaskImpl(
         return supervisorScope {
             state = TaskState.TICKING
             scope = this
-            val random = manager.random(world, options)
+            val random = RandomTeleportManager.random(world, options)
             val location = random.location ?: return@supervisorScope null
-            val chunks =
-                teleport.getRequiredChunks(location, manager.getRandomTeleportOptions(world).chunkPreserveRadius)
+            val chunks = TeleportManager.getRequiredChunks(
+                location,
+                RandomTeleportManager.getRandomTeleportOptions(world).chunkPreserveRadius
+            )
 
             chunks.forEach {
                 launch {
-                    val chunk = it.getChunkSuspend(location.world)
+                    val chunk = it.coordinateChunkIn(location.world)
                     chunk.addTeleportTicket()
                     cached.add(chunk)
                     yield()

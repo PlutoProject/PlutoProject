@@ -8,12 +8,12 @@ data class TeleportConfig(
     val request: Request,
     val queueProcessPerTick: Int = 1,
     val chunkPrepareMethod: ChunkPrepareMethod = ChunkPrepareMethod.ASYNC,
-    val default: TeleportOptions,
-    val worlds: Map<String, TeleportOptions>,
+    val default: Options,
+    val worlds: Map<String, Options>,
     val blacklistedWorlds: List<String>
 )
 
-data class TeleportOptions(
+data class Options(
     val avoidVoid: Boolean = true,
     val safeLocationSearchRadius: Int = 20,
     val chunkPrepareRadius: Int = 0,

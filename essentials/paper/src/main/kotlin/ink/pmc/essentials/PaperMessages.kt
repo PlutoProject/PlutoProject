@@ -20,105 +20,6 @@ import java.time.Duration
 import java.util.*
 import kotlin.time.toKotlinDuration
 
-val RANDOM_TELEPORT_SUCCEED = component {
-    text("已将你传送到 ") with mochaPink
-    text("<location>") with mochaText
-    newline()
-    text("本次传送尝试 ") with mochaSubtext0
-    text("<attempts> ") with mochaText
-    text("次，耗时 ") with mochaSubtext0
-    text("<lastLookupTime>") with mochaText
-}
-
-val RANDOM_TELEPORT_SUCCEED_COST = component {
-    raw(RANDOM_TELEPORT_SUCCEED)
-    text("，花费 ") with mochaSubtext0
-    text("<amount><symbol>") with mochaText
-}
-
-val RANDOM_TELEPORT_SEARCHING_TITLE = title {
-    times {
-        fadeIn(Ticks.duration(5))
-        stay(Duration.ofMinutes(1))
-        fadeOut(Duration.ZERO)
-    }
-    mainTitle {
-        text("传送中") with mochaPink
-    }
-    subTitle {
-        text("正在搜寻目的地") with mochaText
-    }
-}
-
-val RANDOM_TELEPORT_SEARCHING_SOUND = sound {
-    key(Key.key("entity.tnt.primed"))
-}
-
-val RANDOM_TELEPORT_SEARCHING_FAILED = component {
-    text("这次运气似乎不太好...") with mochaYellow
-    newline()
-    text("如果此问题总是发生，请报告给管理组") with mochaSubtext0
-}
-
-val RANDOM_TELEPORT_FAILED_IN_PROGRESS = component {
-    text("你已有一个正在处理的随机传送操作，请不要着急") with mochaYellow
-}
-
-val COMMAND_RTP_NOT_ENABLED = component {
-    text("该世界未启用随机传送") with mochaMaroon
-}
-
-val COMMAND_RTP_COOLDOWN = component {
-    text("传送冷却中...") with mochaSubtext0
-    newline()
-    text("请 ") with mochaSubtext0
-    text("<time> ") with mochaText
-    text("后再试") with mochaSubtext0
-}
-
-val COMMAND_ESS_RTP
-    get() = component {
-        val manager = RandomTeleportManager
-
-        text("随机传送状态：") with mochaFlamingo
-        newline()
-
-        text("  - ") with mochaSubtext0
-        text("已处理刻数：") with mochaText
-        text("${manager.tickCount}") with mochaLavender
-        newline()
-
-        text("  - ") with mochaSubtext0
-        text("上次刻处理用时：") with mochaText
-        raw(DURATION(Duration.ofMillis(manager.lastTickTime).toKotlinDuration())) with mochaLavender
-
-        newline()
-        empty()
-        newline()
-
-        text("世界缓存数：") with mochaFlamingo
-        newline()
-
-        val worlds = manager.enabledWorlds
-        worlds.forEach {
-            val caches = manager.getCaches(it).size
-            text("  - ") with mochaSubtext0
-            text("${it.name}：") with mochaText
-            text(caches) with mochaLavender
-            if (worlds.last() != it) {
-                newline()
-            }
-        }
-    }
-
-val COMMAND_ESS_RTP_PERF_START = component {
-    text("已开启性能测试，再次使用本指令以关闭") with mochaPink
-}
-
-val COMMAND_ESS_RTP_PERF_END = component {
-    text("已关闭性能测试") with mochaPink
-}
-
 val COMMAND_SETHOME_FAILED_REACH_LIMIT
     get() = component {
         text("你当前设置的家数量已经到达上限，请删除一些再试") with mochaMaroon
@@ -311,14 +212,6 @@ val COMMAND_BACK_SUCCEED = component {
 }
 
 const val DEFAULT_ECONOMY_SYMBOL = "\uD83C\uDF1F"
-
-val RANDOM_TELEPORT_BALANCE_NOT_ENOUGH = component {
-    text("货币不足，进行随机传送需要 ") with mochaMaroon
-    text("<amount> <symbol>") with mochaText
-    newline()
-    text("你当前拥有 ") with mochaSubtext0
-    text("<balance> <symbol>") with mochaText
-}
 
 val UI_VIEWER_LOADING_TITLE = component {
     text("正在加载数据")

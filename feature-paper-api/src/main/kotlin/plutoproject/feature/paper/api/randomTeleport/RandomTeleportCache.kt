@@ -1,4 +1,4 @@
-package ink.pmc.essentials.api.teleport.random
+package plutoproject.feature.paper.api.randomTeleport
 
 import org.bukkit.Chunk
 import org.bukkit.Location

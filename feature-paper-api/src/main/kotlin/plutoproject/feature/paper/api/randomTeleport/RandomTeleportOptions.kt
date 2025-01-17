@@ -1,10 +1,10 @@
-package ink.pmc.essentials.api.teleport.random
+package plutoproject.feature.paper.api.randomTeleport
 
-import ink.pmc.framework.world.Vec2
 import org.bukkit.block.Biome
+import plutoproject.framework.paper.util.world.location.Position2D
 
 data class RandomTeleportOptions(
-    val center: Vec2,
+    val center: Position2D,
     val spawnPointAsCenter: Boolean,
     val chunkPreserveRadius: Int,
     val cacheAmount: Int,

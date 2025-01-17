@@ -22,58 +22,6 @@ data class EssentialsConfig(
     val head: Head = Head(),
 )
 
-data class Teleport(
-    val enabled: Boolean,
-    val maxRequestsStored: Int = 50,
-    val request: Request,
-    val queueProcessPerTick: Int = 1,
-    val chunkPrepareMethod: ChunkPrepareMethod = ChunkPrepareMethod.ASYNC,
-    val default: TeleportOptions,
-    val worlds: Map<String, TeleportOptions>,
-    val blacklistedWorlds: List<String>
-)
-
-data class TeleportOptions(
-    val avoidVoid: Boolean = true,
-    val safeLocationSearchRadius: Int = 20,
-    val chunkPrepareRadius: Int = 0,
-    val blacklistedBlocks: List<Material> = listOf(Material.WATER, Material.LAVA)
-)
-
-data class Request(
-    val expireAfter: Duration = Duration.parse("1m"),
-    val removeAfter: Duration = Duration.parse("10m")
-)
-
-data class RandomTeleport(
-    val enabled: Boolean,
-    val cacheInterval: Int,
-    val cooldown: Duration = Duration.parse("60s"),
-    val default: RandomTeleportOptions,
-    val worlds: Map<String, RandomTeleportOptions>,
-    val enabledWorlds: List<String> = listOf("world")
-)
-
-data class RandomTeleportOptions(
-    val spawnpointAsCenter: Boolean = true,
-    val center: Center = Center(),
-    val cacheAmount: Int = 5,
-    val chunkPreserveRadius: Int = -1,
-    val startRadius: Int = 0,
-    val endRadius: Int = 10000,
-    val maxHeight: Int = -1,
-    val minHeight: Int = -1,
-    val noCover: Boolean = true,
-    val maxAttempts: Int = 5,
-    val cost: Double = 0.0,
-    val blacklistedBiomes: List<Biome> = emptyList(),
-)
-
-data class Center(
-    val x: Double = 0.0,
-    val z: Double = 0.0
-)
-
 data class Back(
     val enabled: Boolean,
     val blacklistedWorlds: List<String>

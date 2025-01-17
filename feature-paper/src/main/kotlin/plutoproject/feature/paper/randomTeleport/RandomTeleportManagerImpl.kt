@@ -1,25 +1,8 @@
-package ink.pmc.essentials.teleport.random
+package plutoproject.feature.paper.randomTeleport
 
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimaps
-import ink.pmc.essentials.*
-import ink.pmc.essentials.api.teleport.ManagerState
-import ink.pmc.essentials.api.teleport.TaskState.*
-import ink.pmc.essentials.api.teleport.TeleportManager
-import ink.pmc.essentials.api.teleport.random.*
-import ink.pmc.essentials.config.EssentialsConfig
-import ink.pmc.framework.chat.DURATION
-import ink.pmc.framework.chat.currencyFormat
-import ink.pmc.framework.chat.replace
-import ink.pmc.framework.concurrent.async
-import ink.pmc.framework.concurrent.submitAsync
-import ink.pmc.framework.datastructure.mapKv
-import ink.pmc.framework.platform.paper
-import ink.pmc.framework.trimmed
-import ink.pmc.framework.world.Vec2
-import ink.pmc.framework.world.addTicket
-import ink.pmc.framework.world.removeTicket
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import net.kyori.adventure.text.Component
@@ -32,6 +15,28 @@ import org.bukkit.World
 import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import plutoproject.feature.paper.api.randomTeleport.*
+import plutoproject.feature.paper.api.randomTeleport.events.RandomTeleportEvent
+import plutoproject.feature.paper.api.teleport.ManagerState
+import plutoproject.feature.paper.api.teleport.TaskState
+import plutoproject.feature.paper.api.teleport.TeleportManager
+import plutoproject.feature.paper.teleport.TELEPORT_FAILED_SOUND
+import plutoproject.feature.paper.teleport.TELEPORT_FAILED_TITLE
+import plutoproject.feature.paper.teleport.TeleportConfig
+import plutoproject.framework.common.util.chat.MessageConstants
+import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.chat.toCurrencyFormattedString
+import plutoproject.framework.common.util.chat.toFormattedComponent
+import plutoproject.framework.common.util.coroutine.runAsync
+import plutoproject.framework.common.util.coroutine.withDefault
+import plutoproject.framework.common.util.data.map.mapKeysAndValues
+import plutoproject.framework.common.util.trimmedString
+import plutoproject.framework.paper.util.hook.vaultHook
+import plutoproject.framework.paper.util.plugin
+import plutoproject.framework.paper.util.server
+import plutoproject.framework.paper.util.world.chunk.addTicket
+import plutoproject.framework.paper.util.world.chunk.removeTicket
+import plutoproject.framework.paper.util.world.location.Position2D
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.LinkedBlockingDeque
@@ -54,10 +59,8 @@ internal fun Chunk.hasTeleportTicket(): Boolean {
 }
 
 class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
-    private val baseConfig by inject<EssentialsConfig>()
-    private val config = baseConfig.randomTeleport
-    private val teleportConfig = baseConfig.teleport
-    private val teleport by inject<TeleportManager>()
+    private val config by inject<RandomTeleportConfig>()
+    private val teleportConfig by inject<TeleportConfig>()
     private var waitedTicks: Long = -1
     private var inTeleport = ConcurrentHashMap.newKeySet<Player>()
     private var cooldownMap = ConcurrentHashMap<Player, Cooldown>()
@@ -67,7 +70,7 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         Multimaps.synchronizedListMultimap(ArrayListMultimap.create())
     override val cooldown: Duration = config.cooldown
     override val defaultOptions: RandomTeleportOptions = RandomTeleportOptions(
-        center = Vec2(config.default.center.x, config.default.center.z),
+        center = Position2D(config.default.center.x, config.default.center.z),
         spawnPointAsCenter = config.default.spawnpointAsCenter,
         chunkPreserveRadius = if (config.default.chunkPreserveRadius >= 0) config.default.chunkPreserveRadius else teleportConfig.default.chunkPrepareRadius,
         cacheAmount = config.default.cacheAmount,
@@ -81,10 +84,10 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         blacklistedBiomes = config.default.blacklistedBiomes.toSet()
     )
     override val worldOptions: Map<World, RandomTeleportOptions> = config.worlds.filter { (key, _) ->
-        paper.worlds.any { it.name == key }
-    }.mapKv { (key, value) ->
-        paper.getWorld(key)!! to RandomTeleportOptions(
-            center = Vec2(value.center.x, value.center.z),
+        server.worlds.any { it.name == key }
+    }.mapKeysAndValues { (key, value) ->
+        server.getWorld(key)!! to RandomTeleportOptions(
+            center = Position2D(value.center.x, value.center.z),
             spawnPointAsCenter = value.spawnpointAsCenter,
             chunkPreserveRadius = if (value.chunkPreserveRadius >= 0) value.chunkPreserveRadius else defaultOptions.chunkPreserveRadius,
             cacheAmount = value.cacheAmount,
@@ -99,8 +102,8 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         )
     }
     override val enabledWorlds: Collection<World> = config.enabledWorlds
-        .filter { name -> paper.worlds.any { it.name == name } }
-        .map { paper.getWorld(it)!! }
+        .filter { name -> server.worlds.any { it.name == name } }
+        .map { server.getWorld(it)!! }
     override var tickCount: Long = 0L
     override var lastTickTime: Long = 0L
     override var state: ManagerState = ManagerState.IDLE
@@ -112,9 +115,9 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         return worldOptions[world] ?: defaultOptions
     }
 
-    override fun getCenterLocation(world: World, options: RandomTeleportOptions?): Vec2 {
+    override fun getCenterLocation(world: World, options: RandomTeleportOptions?): Position2D {
         val opt = options ?: getRandomTeleportOptions(world)
-        val spawnPoint = Vec2(world.spawnLocation)
+        val spawnPoint = Position2D(world.spawnLocation)
         val center = opt.center
         val spawnPointAsCenter = opt.spawnPointAsCenter
         return if (spawnPointAsCenter) spawnPoint else center
@@ -169,7 +172,7 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
 
                 if (!stand.block.type.isSolid) continue
                 if (biome(loc)) continue
-                if (!teleport.isSafe(loc)) continue
+                if (!TeleportManager.isSafe(loc)) continue
                 if (opt.noCover && cover(loc)) continue
 
                 return loc
@@ -184,19 +187,19 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
             return safeLocation(dx, dz)
         }
 
-        return async<Location?> { searchLocation() }
+        return withDefault { searchLocation() }
     }
 
     override suspend fun random(world: World, options: RandomTeleportOptions?): RandomResult {
         val opt = options ?: getRandomTeleportOptions(world)
-        return async<RandomResult> {
+        return withDefault<RandomResult> {
             var attempts = 0
             repeat(opt.maxAttempts) {
                 attempts++
                 val loc = randomOnce(world, opt)
-                if (loc != null) return@async RandomResult(attempts, loc)
+                if (loc != null) return@withDefault RandomResult(attempts, loc)
             }
-            return@async RandomResult(attempts, null)
+            return@withDefault RandomResult(attempts, null)
         }
     }
 
@@ -232,13 +235,12 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         options: RandomTeleportOptions?,
         prompt: Boolean
     ) {
-        submitAsync {
+        runAsync {
             launchSuspend(player, world, options, prompt)
         }
     }
 
     private class TeleportTimer {
-
         private val start: Long = System.currentTimeMillis()
         private var end: Long? = null
 
@@ -246,7 +248,6 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
             end = System.currentTimeMillis()
             return end!! - start
         }
-
     }
 
     private fun notifyPlayerOfTeleport(
@@ -269,10 +270,13 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
                     "<location>",
                     Component.text("${location.blockX}, ${location.blockY}, ${location.blockZ}")
                 )
-                .replace("<amount>", cost.trimmed())
+                .replace("<amount>", cost.trimmedString())
                 .replace("<symbol>", symbol)
                 .replace("<attempts>", Component.text(attempts))
-                .replace("<lastLookupTime>", DURATION(java.time.Duration.ofMillis(time).toKotlinDuration()))
+                .replace(
+                    "<lastLookupTime>",
+                    java.time.Duration.ofMillis(time).toKotlinDuration().toFormattedComponent()
+                )
         )
     }
 
@@ -282,35 +286,35 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         options: RandomTeleportOptions?,
         prompt: Boolean
     ) {
-        async {
+        withDefault {
             check(!isInCooldown(player)) { "Player ${player.name} is still in cooldown" }
             if (inTeleport.contains(player)) {
                 if (prompt) {
                     player.sendMessage(RANDOM_TELEPORT_FAILED_IN_PROGRESS)
                 }
-                return@async
+                return@withDefault
             }
 
             val defaultOpt = getRandomTeleportOptions(world)
             val opt = options ?: defaultOpt
 
-            val economy = economyHook?.economy
-            val plural = economy?.currencyNamePlural() ?: DEFAULT_ECONOMY_SYMBOL
-            val singular = economy?.currencyNameSingular() ?: DEFAULT_ECONOMY_SYMBOL
+            val economy = vaultHook?.economy
+            val plural = economy?.currencyNamePlural() ?: MessageConstants.ECONOMY_SYMBOL
+            val singular = economy?.currencyNameSingular() ?: MessageConstants.ECONOMY_SYMBOL
             val cost = opt.cost
             val symbol = if (cost <= 1) singular else plural
             var costed = false
 
-            if (economy != null && cost > 0.0 && !player.hasPermission(RANDOM_TELEPORT_COST_BYPASS)) {
+            if (economy != null && cost > 0.0 && !player.hasPermission(RANDOM_TELEPORT_COST_BYPASS_PERMISSION)) {
                 val balance = economy.getBalance(player)
                 if (balance < cost) {
                     player.sendMessage(
-                        RANDOM_TELEPORT_BALANCE_NOT_ENOUGH
-                            .replace("<amount>", cost.currencyFormat())
+                        RANDOM_TELEPORT_FAILED_BALANCE_NOT_ENOUGH
+                            .replace("<amount>", cost.toCurrencyFormattedString())
                             .replace("<symbol>", symbol)
-                            .replace("<balance>", balance.currencyFormat())
+                            .replace("<balance>", balance.toCurrencyFormattedString())
                     )
-                    return@async
+                    return@withDefault
                 }
                 economy.withdrawPlayer(player, cost)
                 costed = true
@@ -341,17 +345,17 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
                     player.sendMessage(RANDOM_TELEPORT_SEARCHING_FAILED)
                 }
                 inTeleport.remove(player)
-                return@async
+                return@withDefault
             }
 
             // 必须异步触发
             val event = RandomTeleportEvent(player, player.location, location).apply { callEvent() }
-            if (event.isCancelled) return@async
+            if (event.isCancelled) return@withDefault
 
-            teleport.teleportSuspend(player, location, prompt = prompt)
+            TeleportManager.teleportSuspend(player, location, prompt = prompt)
             val time = timer.end()
             notifyPlayerOfTeleport(player, location, attempts, time, costed, cost, symbol, prompt)
-            if (!player.hasPermission(COOLDOWN_BYPASS)) {
+            if (!player.hasPermission(RANDOM_TELEPORT_COOLDOWN_BYPASS_PERMISSION)) {
                 cooldownMap[player] = CooldownImpl(cooldown) {
                     cooldownMap.remove(player)
                 }
@@ -368,9 +372,9 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
         val task = cacheTasks.poll() ?: return
         val cache = task.tick()
         when (task.state) {
-            PENDING -> {}
-            TICKING -> {}
-            FINISHED -> {
+            TaskState.PENDING -> {}
+            TaskState.TICKING -> {}
+            TaskState.FINISHED -> {
                 if (cache != null) {
                     caches.put(cache.world, cache)
                 }
@@ -381,13 +385,14 @@ class RandomTeleportManagerImpl : RandomTeleportManager, KoinComponent {
     private suspend fun refreshChunkCache() = supervisorScope {
         caches.forEach { _, it ->
             val preserve =
-                teleport.getRequiredChunks(it.location, getRandomTeleportOptions(it.world).chunkPreserveRadius)
-            if (preserve.all { c -> c.isLoaded(it.world) && c.getChunk(it.world).hasTeleportTicket() }) {
-                return@forEach
+                TeleportManager.getRequiredChunks(it.location, getRandomTeleportOptions(it.world).chunkPreserveRadius)
+            val shouldRefresh = preserve.any { chunk ->
+                !chunk.isChunkLoaded(it.world) || !chunk.coordinateChunkInBlocking(it.world).hasTeleportTicket()
             }
+            if (!shouldRefresh) return@forEach
             launch {
-                teleport.prepareChunk(preserve, it.world)
-                preserve.forEach { c -> c.getChunk(it.world).addTeleportTicket() }
+                TeleportManager.prepareChunk(preserve, it.world)
+                preserve.forEach { chunk -> chunk.coordinateChunkIn(it.world).addTeleportTicket() }
             }
         }
     }

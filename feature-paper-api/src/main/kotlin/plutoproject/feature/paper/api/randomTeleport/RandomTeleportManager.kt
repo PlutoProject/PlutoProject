@@ -1,18 +1,18 @@
-package ink.pmc.essentials.api.teleport.random
+package plutoproject.feature.paper.api.randomTeleport
 
 import com.google.common.collect.Multimap
-import ink.pmc.essentials.api.teleport.ManagerState
-import ink.pmc.framework.inject.inlinedGet
-import ink.pmc.framework.world.Vec2
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Player
+import plutoproject.feature.paper.api.teleport.ManagerState
+import plutoproject.framework.common.util.inject.Koin
+import plutoproject.framework.paper.util.world.location.Position2D
 import java.util.*
 import kotlin.time.Duration
 
 @Suppress("UNUSED")
 interface RandomTeleportManager {
-    companion object : RandomTeleportManager by inlinedGet()
+    companion object : RandomTeleportManager by Koin.get()
 
     val cacheTasks: Queue<CacheTask>
     val caches: Multimap<World, RandomTeleportCache>
@@ -26,7 +26,7 @@ interface RandomTeleportManager {
 
     fun getRandomTeleportOptions(world: World): RandomTeleportOptions
 
-    fun getCenterLocation(world: World, options: RandomTeleportOptions? = null): Vec2
+    fun getCenterLocation(world: World, options: RandomTeleportOptions? = null): Position2D
 
     fun getCaches(world: World): Collection<RandomTeleportCache>
 

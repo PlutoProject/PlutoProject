@@ -1,6 +1,6 @@
 package plutoproject.framework.common.util.data.collection
 
-fun <T> Iterable<T>.safeSubList(fromIndex: Int, toIndex: Int): List<T> {
+fun <T> Iterable<T>.subListOrNull(fromIndex: Int, toIndex: Int): List<T> {
     require(fromIndex in 0..toIndex) { "Invalid indices" }
     require(fromIndex <= toIndex) { "fromIndex must less than toIndex" }
     val list = toList()

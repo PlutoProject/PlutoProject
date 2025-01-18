@@ -4,10 +4,10 @@ import org.bukkit.block.Biome
 import kotlin.time.Duration
 
 data class RandomTeleportConfig(
-    val cacheInterval: Int,
+    val cacheInterval: Int = 100,
     val cooldown: Duration = Duration.parse("60s"),
-    val default: Options,
-    val worlds: Map<String, Options>,
+    val default: Options = Options(),
+    val worlds: Map<String, Options> = emptyMap(),
     val enabledWorlds: List<String> = listOf("world")
 )
 

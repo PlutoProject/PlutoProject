@@ -5,12 +5,12 @@ import kotlin.time.Duration
 
 data class TeleportConfig(
     val maxRequestsStored: Int = 50,
-    val request: Request,
+    val request: Request = Request(),
     val queueProcessPerTick: Int = 1,
     val chunkPrepareMethod: ChunkPrepareMethod = ChunkPrepareMethod.ASYNC,
-    val default: Options,
-    val worlds: Map<String, Options>,
-    val blacklistedWorlds: List<String>
+    val default: Options = Options(),
+    val worlds: Map<String, Options> = emptyMap(),
+    val blacklistedWorlds: List<String> = emptyList(),
 )
 
 data class Options(

@@ -174,6 +174,8 @@ class HomeEditorScreen(private val home: Home) : InteractiveScreen() {
             lore = if (!succeed) UI_HOME_RENAME_LORE else emptyList(),
             enchantmentGlint = succeed,
             modifier = Modifier.clickable {
+                // TODO: 修复铁砧
+                return@clickable
                 if (!home.isLoaded) return@clickable
                 if (clickType != ClickType.LEFT) return@clickable
                 if (succeed) return@clickable

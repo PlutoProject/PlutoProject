@@ -1,5 +1,6 @@
 package plutoproject.feature.paper.daily
 
+import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import org.koin.core.component.KoinComponent
 import org.koin.dsl.module
 import plutoproject.feature.paper.api.daily.Daily
@@ -57,7 +58,7 @@ class DailyFeature : PaperFeature(), KoinComponent {
         if (isMenuAvailable) {
             MenuManager.registerButton(DailyButtonDescriptor) { Daily() }
         }
-        server.pluginManager.registerEvents(PlayerListener, plugin)
+        server.pluginManager.registerSuspendingEvents(PlayerListener, plugin)
     }
 
     override fun onDisable() {

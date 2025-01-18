@@ -16,12 +16,12 @@ object JoinQuitListener : KoinComponent {
     @Subscribe
     fun ServerPostConnectEvent.e() {
         if (previousServer != null) return
-        server.broadcast(config.join.replace("\$player", player.username))
+        server.broadcast(config.join.replace("<player>", player.username))
     }
 
     @Subscribe
     fun DisconnectEvent.e() {
         if (player.currentServer.isEmpty) return
-        server.broadcast(config.quit.replace("\$player", player.username))
+        server.broadcast(config.quit.replace("<player>", player.username))
     }
 }

@@ -118,7 +118,7 @@ class DailyCalenderScreen : InteractiveScreen() {
             itemStack = head.clone().apply {
                 amount = date.dayOfMonth
                 editMeta {
-                    it.itemName(CALENDAR_DAY.replace("<time>", date.formatDate()))
+                    it.displayName(CALENDAR_DAY.replace("<time>", date.formatDate()))
                     it.lore(
                         when {
                             state == 0 && date == now -> CALENDAR_DAY_LORE.replace(

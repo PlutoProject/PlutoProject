@@ -15,7 +15,7 @@ paperPluginYaml {
     name = "PlutoProject"
     main = "plutoproject.platform.paper.PlutoPaperPlatform"
     loader = "plutoproject.platform.paper.PlutoPaperLoader"
-    apiVersion = "1.21.1"
+    apiVersion = "1.21.4"
     authors = listOf("nostalfinals", "PlutoProject Contributors")
     dependencies {
         server(

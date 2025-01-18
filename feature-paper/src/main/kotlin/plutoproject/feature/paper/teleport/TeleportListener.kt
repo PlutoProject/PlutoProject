@@ -10,10 +10,12 @@ import plutoproject.framework.common.util.chat.component.replace
 import plutoproject.framework.common.util.coroutine.runAsync
 
 @Suppress("UNUSED", "UnusedReceiverParameter")
-object PlayerListener : Listener, KoinComponent {
+object TeleportListener : Listener, KoinComponent {
     @EventHandler
-    suspend fun ServerTickEndEvent.e() {
-        TeleportManager.tick()
+    fun ServerTickEndEvent.e() {
+        runAsync {
+            TeleportManager.tick()
+        }
     }
 
     @EventHandler

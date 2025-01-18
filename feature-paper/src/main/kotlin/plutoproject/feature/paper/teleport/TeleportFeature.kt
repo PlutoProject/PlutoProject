@@ -46,7 +46,7 @@ class TeleportFeature : PaperFeature() {
             TpaCommand,
             TpcancelCommand
         )
-        server.pluginManager.registerSuspendingEvents(PlayerListener, plugin)
+        server.pluginManager.registerSuspendingEvents(TeleportListener, plugin)
         if (isMenuAvailable) {
             MenuManager.registerButton(TeleportButtonDescriptor) { Teleport() }
         }

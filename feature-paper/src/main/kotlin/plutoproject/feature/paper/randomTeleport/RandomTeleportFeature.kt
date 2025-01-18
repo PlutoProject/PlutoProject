@@ -53,7 +53,7 @@ class RandomTeleportFeature : PaperFeature() {
             )
         }
         AnnotationParser.parse(RtpCommand)
-        server.pluginManager.registerSuspendingEvents(PlayerListener, plugin)
+        server.pluginManager.registerSuspendingEvents(RandomTeleportListener, plugin)
         if (isMenuAvailable) {
             MenuManager.registerButton(RandomTeleportButtonDescriptor) { RandomTeleport() }
         }

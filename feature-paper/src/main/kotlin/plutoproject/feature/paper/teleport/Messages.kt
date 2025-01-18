@@ -173,7 +173,7 @@ val TELEPORT_REQUEST_RECEIVED_SOUND = sound {
 }
 
 private val TELEPORT_REQUEST_OPERATION = component {
-    text("[× 取消]") with mochaYellow with showText { text("点击以取消") with mochaYellow } with runCommand("/plutoproject_essentials:tpcancel")
+    text("[× 取消]") with mochaYellow with showText { text("点击以取消") with mochaYellow } with runCommand("/plutoproject:tpcancel")
 }
 
 val COMMAND_TPA_SUCCEED = component {
@@ -284,6 +284,6 @@ val COMMAND_TPCANCEL_NO_REQUEST_OTHER = component {
 }
 
 fun getTeleportOperationMessage(request: TeleportRequest) = component {
-    text("[✔ 接受] ") with mochaGreen with showText { text("点击以接受") with mochaGreen } with runCommand("/plutoproject_essentials:tpaccept ${request.id}")
-    text("[❌ 拒绝] ") with mochaMaroon with showText { text("点击以拒绝") with mochaMaroon } with runCommand("/plutoproject_essentials:tpdeny ${request.id}")
+    text("[✔ 接受] ") with mochaGreen with showText { text("点击以接受") with mochaGreen } with runCommand("/plutoproject:tpaccept ${request.id}")
+    text("[❌ 拒绝] ") with mochaMaroon with showText { text("点击以拒绝") with mochaMaroon } with runCommand("/plutoproject:tpdeny ${request.id}")
 }

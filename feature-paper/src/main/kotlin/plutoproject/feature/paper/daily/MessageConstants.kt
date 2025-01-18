@@ -24,7 +24,7 @@ val PLAYER_NOT_CHECKED_IN = component {
     text("✨ 今日尚未到访，到访可获取货币奖励 ") with mochaText
     text("[打开礼记]") with mochaLavender with showText {
         text("点此打开礼记") with mochaText
-    } with runCommand("/plutoproject_daily:checkin gui")
+    } with runCommand("/plutoproject:checkin gui")
 }
 
 val CALENDAR_TITLE = component {

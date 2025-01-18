@@ -28,5 +28,10 @@ paperPluginYaml {
             load = Load.BEFORE,
             required = false, joinClasspath = true
         )
+        server(
+            name = "CoreProtect",
+            load = Load.BEFORE,
+            required = false, joinClasspath = true
+        )
     }
 }

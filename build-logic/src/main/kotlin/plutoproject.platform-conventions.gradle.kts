@@ -9,7 +9,8 @@ configurations.compileOnly {
     extendsFrom(configurations.getByName("runtimeDownload"))
 }
 
-tasks.withType<WriteDependencySet>() {
+tasks.withType<WriteDependencySet> {
+    relocate("com.google.protobuf", "libs.com.google.protobuf")
     outputFileName = when {
         withPaperEnvironment -> "paper-dependencies.txt"
         withVelocityEnvironment -> "velocity-dependencies.txt"

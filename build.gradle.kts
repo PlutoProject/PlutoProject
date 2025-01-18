@@ -13,4 +13,5 @@ dependencies {
 tasks.shadowJar {
     archiveClassifier.set(null as String?)
     mergeServiceFiles()
+    relocate("com.google.protobuf", "libs.com.google.protobuf")
 }

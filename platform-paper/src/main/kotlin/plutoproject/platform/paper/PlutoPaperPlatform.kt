@@ -1,6 +1,7 @@
 package plutoproject.platform.paper
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
+import io.papermc.paper.plugin.entrypoint.classloader.PaperPluginClassLoader
 import plutoproject.framework.common.FrameworkCommonModule
 import plutoproject.framework.common.api.feature.FeatureManager
 import plutoproject.framework.common.util.PlatformType
@@ -15,6 +16,7 @@ import plutoproject.framework.paper.disableFrameworkModules
 import plutoproject.framework.paper.enableFrameworkModules
 import plutoproject.framework.paper.loadFrameworkModules
 import plutoproject.framework.paper.util.plugin
+import java.net.URLClassLoader
 import kotlin.system.measureTimeMillis
 import plutoproject.framework.common.util.logger as utilLogger
 import plutoproject.framework.paper.util.server as utilServer
@@ -37,17 +39,29 @@ class PlutoPaperPlatform : SuspendingJavaPlugin() {
         FeatureManager.loadAll()
     }
 
+    private val PaperPluginClassLoader.libraryLoader: URLClassLoader
+        get() = PaperPluginClassLoader::class.java
+            .getDeclaredField("libraryLoader")
+            .apply { isAccessible = true }
+            .get(this) as URLClassLoader
+
     private fun preload() {
         logger.info("Preloading resources to improve runtime performance...")
+        val pluginClassLoader = PlutoPaperPlatform::class.java.classLoader as PaperPluginClassLoader
         val time = measureTimeMillis {
             loadClassesInPackages(
                 "androidx",
                 "cafe.adriel.voyager",
+                "libs.com.google.protobuf",
+                "io.grpc",
+                classLoader = pluginClassLoader.libraryLoader
+            )
+            loadClassesInPackages(
                 "plutoproject.framework.common",
                 "plutoproject.framework.paper",
                 "plutoproject.feature.common",
                 "plutoproject.feature.paper",
-                classLoader = PlutoPaperPlatform::class.java.classLoader
+                classLoader = pluginClassLoader
             )
         }
         logger.info("Resource preloaded in ${time}ms")

@@ -186,16 +186,10 @@ val UI_HOME_RENAME = component {
 
 val UI_HOME_RENAME_LORE = listOf(
     Component.empty(),
-    // TODO: 正确修复铁砧
-    component {
-        text("此功能暂时不可用") with mochaMaroon without italic()
-    }
-    /*
     component {
         text("左键 ") with mochaLavender without italic()
         text("重命名该家") with mochaText without italic()
     }
-    */
 )
 
 val UI_HOME_CHANGE_LOCATION = component {

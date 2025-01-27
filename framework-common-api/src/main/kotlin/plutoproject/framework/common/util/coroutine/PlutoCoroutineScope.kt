@@ -1,6 +1,6 @@
 package plutoproject.framework.common.util.coroutine
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
-object PlutoCoroutineScope : CoroutineScope by CoroutineScope(Dispatchers.Default)
+object PlutoCoroutineScope : CoroutineScope by CoroutineScope(SupervisorJob())

@@ -3,6 +3,8 @@ package plutoproject.feature.paper.home.screens
 import androidx.compose.runtime.*
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import ink.pmc.advkt.component.text
+import ink.pmc.advkt.send
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.wesjd.anvilgui.AnvilGUI.Slot.INPUT_LEFT
@@ -12,8 +14,10 @@ import plutoproject.feature.paper.api.home.Home
 import plutoproject.feature.paper.api.home.HomeManager
 import plutoproject.feature.paper.home.*
 import plutoproject.framework.common.util.chat.component.replace
+import plutoproject.framework.common.util.chat.palettes.mochaMaroon
 import plutoproject.framework.common.util.coroutine.runAsync
 import plutoproject.framework.paper.api.interactive.InteractiveScreen
+import plutoproject.framework.paper.api.interactive.LocalGuiScope
 import plutoproject.framework.paper.api.interactive.LocalPlayer
 import plutoproject.framework.paper.api.interactive.canvas.Anvil
 import plutoproject.framework.paper.util.dsl.ItemStack
@@ -30,6 +34,17 @@ class HomeEditorRenameScreen(private val home: Home) : InteractiveScreen() {
         val coroutineScope = rememberCoroutineScope()
         var state by remember { mutableStateOf(RenameState.NONE) }
         val navigator = LocalNavigator.currentOrThrow
+
+        val scope = LocalGuiScope.current
+        player.send {
+            text("该功能正在维护，请改用指令") with mochaMaroon
+        }
+        SideEffect {
+            scope.dispose()
+        }
+        return
+
+        // TODO: 修复铁砧
 
         fun stateTransition(newState: RenameState, pop: Boolean = false) {
             coroutineScope.launch {
